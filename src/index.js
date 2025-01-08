@@ -1,3 +1,33 @@
+document.getElementById("client").style.display = "block";
+
+let tabLinks = document.getElementsByClassName("tab-links");
+let tabClient = Array.from(tabLinks).find(
+  (tab) => tab.getAttribute("tab-name") == "client"
+);
+tabClient.className += " active";
+
+const tabs = document.querySelectorAll(".tab-links");
+tabs.forEach((tab) => {
+  tab.addEventListener("click", showTabContent);
+});
+
+function showTabContent(event) {
+  const tabName = event.currentTarget.getAttribute("tab-name");
+
+  let tabsContent = document.getElementsByClassName("tab-content");
+  for (let tab of tabsContent) {
+    tab.style.display = "none";
+  }
+
+  let tabLinks = document.getElementsByClassName("tab-links");
+  for (let tab of tabLinks) {
+    tab.className = tab.className.replace(" active", "");
+  }
+
+  document.getElementById(tabName).style.display = "block";
+  event.currentTarget.className += " active";
+}
+
 let btnShowLocation = document.getElementById("location");
 btnShowLocation.addEventListener("click", showLocation);
 

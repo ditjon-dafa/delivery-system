@@ -8,7 +8,15 @@
   </head>
   <body>
     <h1>Delivery System</h1>
-    <div class="tabcontent">
+
+    <div class="tab">
+      <button class="tab-links" tab-name="client">Client</button>
+      <button class="tab-links" tab-name="receptionist">Receptionist</button>
+      <button class="tab-links" tab-name="chef">Chef</button>
+      <button class="tab-links" tab-name="delivery-man">Delivery man</button>
+    </div>
+
+    <div id="client" class="tab-content">
       <div id="client-registration-content">
         <h3>Register Client</h3>
         <label for="name">Name:</label>
@@ -71,6 +79,12 @@
         <input class="button" id="register" type="button" value="Register" />
       </div>
     </div>
+
+    <div id="receptionist" class="tab-content"></div>
+
+    <div id="chef" class="tab-content"></div>
+
+    <div id="delivery-man" class="tab-content"></div>
     <script src="./index.js"></script>
   </body>
 </html>
