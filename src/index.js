@@ -1,10 +1,12 @@
-document.getElementById("client").style.display = "block";
-
-let tabLinks = document.getElementsByClassName("tab-links");
-let tabClient = Array.from(tabLinks).find(
-  (tab) => tab.getAttribute("tab-name") == "client"
-);
-tabClient.className += " active";
+const tabLinks = document.getElementsByClassName("tab-links");
+Array.from(tabLinks).forEach((tab) => {
+  if (tab.getAttribute("tab-name") == "client") {
+    tab.classList.add("active");
+  } else {
+    const tabContent = document.getElementById(tab.getAttribute("tab-name"));
+    tabContent.classList.add("hide");
+  }
+});
 
 const tabs = document.querySelectorAll(".tab-links");
 tabs.forEach((tab) => {
@@ -12,23 +14,29 @@ tabs.forEach((tab) => {
 });
 
 function showTabContent(event) {
-  const tabName = event.currentTarget.getAttribute("tab-name");
+  //remove class "active" from active tab
+  const tabToDeactivate = Array.from(tabLinks).find((tab) =>
+    tab.classList.contains("active")
+  );
+  tabToDeactivate.classList.remove("active");
 
-  let tabsContent = document.getElementsByClassName("tab-content");
-  for (let tab of tabsContent) {
-    tab.style.display = "none";
-  }
+  //hide content of previous active tab
+  const tabContentToHide = document.getElementById(
+    tabToDeactivate.getAttribute("tab-name")
+  );
+  tabContentToHide.classList.add("hide");
 
-  let tabLinks = document.getElementsByClassName("tab-links");
-  for (let tab of tabLinks) {
-    tab.className = tab.className.replace(" active", "");
-  }
+  //add class "active" to current tab
+  const activeTab = event.currentTarget;
+  activeTab.classList.add("active");
 
-  document.getElementById(tabName).style.display = "block";
-  event.currentTarget.className += " active";
+  //show content of current tab
+  const activeTabName = event.currentTarget.getAttribute("tab-name");
+  const tabContentToDisplay = document.getElementById(activeTabName);
+  tabContentToDisplay.classList.remove("hide");
 }
 
-let btnShowLocation = document.getElementById("location");
+const btnShowLocation = document.getElementById("location");
 btnShowLocation.addEventListener("click", showLocation);
 
 function showLocation() {
@@ -40,10 +48,10 @@ function showLocation() {
 }
 
 function showPosition(position) {
-  let latitudeInput = document.getElementById("lat");
+  const latitudeInput = document.getElementById("lat");
   latitudeInput.value = position.coords.latitude;
 
-  let longituteInput = document.getElementById("long");
+  const longituteInput = document.getElementById("long");
   longituteInput.value = position.coords.longitude;
 }
 
