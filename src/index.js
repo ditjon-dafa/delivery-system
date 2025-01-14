@@ -1,3 +1,6 @@
+import { Client } from "./components/client/client.js";
+let client = null;
+
 const tabLinks = document.getElementsByClassName("tab-links");
 Array.from(tabLinks).forEach((tab) => {
   if (tab.getAttribute("tab-name") == "client") {
@@ -72,7 +75,6 @@ const btnRegisterClient = document.getElementById("register");
 btnRegisterClient.addEventListener("click", registerClient);
 
 function registerClient() {
-  console.log("button clicked");
   const clientName = document.getElementById("name").value;
 
   const clientPhoneNumber = document.getElementById("phoneNumber").value;
@@ -127,8 +129,7 @@ function registerClient() {
     return;
   }
 
-  console.log(
-    "Values",
+  client = new Client(
     clientName,
     clientPhoneNumber,
     clientAddress,
