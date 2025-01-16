@@ -17,66 +17,71 @@
     </div>
 
     <div id="client" class="tab-content">
-      <div id="client-registration-content">
-        <h3>Register Client</h3>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required />
+      <div id="client-registration">
+        <div class="content">
+          <h3>Register Client</h3>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
 
-        <label for="phoneNumber">Phone Number:</label>
-        <input
-          type="tel"
-          id="phoneNumber"
-          name="phoneNumber"
-          pattern="00355[0-9]{9}"
-          placeholder="003556XXXXXXXX"
-          required
-        />
-
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" required />
-
-        <input
-          title="Click to give location (latitude/longitude)"
-          class="button"
-          id="location"
-          type="button"
-          value="Show location"
-          style="margin: 10px auto"
-        />
-
-        <label for="lat">Latitude:</label>
-        <input
-          title="Hover over the button 'Show location' to understand what to fill"
-          type="text"
-          id="lat"
-          name="lat"
-          required
-        />
-
-        <label for="long">Longitude:</label>
-        <input
-          title="Hover over the button 'Show location' to understand what to fill"
-          type="text"
-          id="long"
-          name="long"
-          required
-        />
-
-        <label>Payment Method:</label><br />
-        <div id="paymentMethods">
+          <label for="phoneNumber">Phone Number:</label>
           <input
-            type="radio"
-            id="cash"
-            name="paymentMethod"
-            value="cash"
-            checked
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            pattern="00355[0-9]{9}"
+            placeholder="003556XXXXXXXX"
+            required
           />
-          <label for="cash">Cash</label><br />
-          <input type="radio" id="card" name="paymentMethod" value="card" />
-          <label for="card">Card</label><br /><br />
-        </div>
 
-        <input class="button" id="register" type="button" value="Register" />
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <input
+            title="Click to give location (latitude/longitude)"
+            class="button"
+            id="location"
+            type="button"
+            value="Show location"
+            style="margin: 10px auto"
+          />
+
+          <label for="lat">Latitude:</label>
+          <input
+            title="Hover over the button 'Show location' to understand what to fill"
+            type="text"
+            id="lat"
+            name="lat"
+            required
+          />
+
+          <label for="long">Longitude:</label>
+          <input
+            title="Hover over the button 'Show location' to understand what to fill"
+            type="text"
+            id="long"
+            name="long"
+            required
+          />
+
+          <label>Payment Method:</label><br />
+          <div id="paymentMethods">
+            <input
+              type="radio"
+              id="cash"
+              name="paymentMethod"
+              value="cash"
+              checked
+            />
+            <label for="cash">Cash</label><br />
+            <input type="radio" id="card" name="paymentMethod" value="card" />
+            <label for="card">Card</label><br /><br />
+          </div>
+
+          <input class="button" id="register" type="button" value="Register" />
+        </div>
+      </div>
+      <div id="client-session">
+        <div id="menu"></div>
       </div>
     </div>
 

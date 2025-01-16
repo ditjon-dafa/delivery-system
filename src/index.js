@@ -1,42 +1,52 @@
 import { Client } from "./components/client/client.js";
+import { MENU } from "./components/order/menu.js";
+import { generateMenuHeader, generateMenuItem } from "./lib/helper.js";
+
 let client = null;
 
-const tabLinks = document.getElementsByClassName("tab-links");
-Array.from(tabLinks).forEach((tab) => {
-  if (tab.getAttribute("tab-name") == "client") {
-    tab.classList.add("active");
-  } else {
-    const tabContent = document.getElementById(tab.getAttribute("tab-name"));
-    tabContent.classList.add("hide");
+const TAB_LINKS = document.getElementsByClassName("tab-links");
+
+const TAB_CLIENT = Array.from(TAB_LINKS).find(
+  (tab) => tab.getAttribute("tab-name") == "client"
+);
+TAB_CLIENT.classList.add("active");
+
+const CLIENT_SESSION = document.getElementById("client-session");
+CLIENT_SESSION.classList.add("hide");
+
+Array.from(TAB_LINKS).forEach((tab) => {
+  const TAB_CONTENT = document.getElementById(tab.getAttribute("tab-name"));
+  if (tab.getAttribute("tab-name") != "client") {
+    TAB_CONTENT.classList.add("hide");
   }
 });
 
-const tabs = document.querySelectorAll(".tab-links");
-tabs.forEach((tab) => {
+const TABS = document.querySelectorAll(".tab-links");
+TABS.forEach((tab) => {
   tab.addEventListener("click", showTabContent);
 });
 
 function showTabContent(event) {
-  const tabToDeactivate = Array.from(tabLinks).find((tab) =>
+  const TAB_TO_DEACTIVATE = Array.from(TAB_LINKS).find((tab) =>
     tab.classList.contains("active")
   );
-  tabToDeactivate.classList.remove("active");
+  TAB_TO_DEACTIVATE.classList.remove("active");
 
-  const tabContentToHide = document.getElementById(
-    tabToDeactivate.getAttribute("tab-name")
+  const TAB_CONTENT_TO_HIDE = document.getElementById(
+    TAB_TO_DEACTIVATE.getAttribute("tab-name")
   );
-  tabContentToHide.classList.add("hide");
+  TAB_CONTENT_TO_HIDE.classList.add("hide");
 
-  const activeTab = event.currentTarget;
-  activeTab.classList.add("active");
+  const ACTIVE_TAB = event.currentTarget;
+  ACTIVE_TAB.classList.add("active");
 
-  const activeTabName = event.currentTarget.getAttribute("tab-name");
-  const tabContentToDisplay = document.getElementById(activeTabName);
-  tabContentToDisplay.classList.remove("hide");
+  const ACTIVE_TAB_NAME = event.currentTarget.getAttribute("tab-name");
+  const TAB_CONTENT_TO_DISPLAY = document.getElementById(ACTIVE_TAB_NAME);
+  TAB_CONTENT_TO_DISPLAY.classList.remove("hide");
 }
 
-const btnShowLocation = document.getElementById("location");
-btnShowLocation.addEventListener("click", showLocation);
+const BTN_SHOW_LOCATION = document.getElementById("location");
+BTN_SHOW_LOCATION.addEventListener("click", showLocation);
 
 function showLocation() {
   if (navigator.geolocation) {
@@ -47,11 +57,11 @@ function showLocation() {
 }
 
 function showPosition(position) {
-  const latitudeInput = document.getElementById("lat");
-  latitudeInput.value = position.coords.latitude;
+  const LATITUDE_INPUT = document.getElementById("lat");
+  LATITUDE_INPUT.value = position.coords.latitude;
 
-  const longituteInput = document.getElementById("long");
-  longituteInput.value = position.coords.longitude;
+  const LONGITUDE_INPUT = document.getElementById("long");
+  LONGITUDE_INPUT.value = position.coords.longitude;
 }
 
 function showError(error) {
@@ -71,70 +81,88 @@ function showError(error) {
   }
 }
 
-const btnRegisterClient = document.getElementById("register");
-btnRegisterClient.addEventListener("click", registerClient);
+const BTN_REGISTER_CLIENT = document.getElementById("register");
+BTN_REGISTER_CLIENT.addEventListener("click", registerClient);
 
 function registerClient() {
-  const clientName = document.getElementById("name").value;
+  const CLIENT_NAME = document.getElementById("name").value;
 
-  const clientPhoneNumber = document.getElementById("phoneNumber").value;
+  const CLIENT_PHONE_NUMBER = document.getElementById("phoneNumber").value;
 
-  const clientAddress = document.getElementById("address").value;
-  const clientLatitudePosition = document.getElementById("lat").value;
-  const clientLongitudePosition = document.getElementById("long").value;
+  const CLIENT_ADDRESS = document.getElementById("address").value;
+  const CLIENT_LATITUDE_POSITION = document.getElementById("lat").value;
+  const CLIENT_LONGITUDE_POSITION = document.getElementById("long").value;
 
-  const clientPaymentMethod = document.querySelector(
+  const CLIENT_PAYMENT_METHOD = document.querySelector(
     "#paymentMethods > input:checked"
   ).value;
 
-  if (!clientName) {
+  if (!CLIENT_NAME) {
     alert("Fill the input with name!");
     return;
   }
-  if (!clientPhoneNumber) {
+  if (!CLIENT_PHONE_NUMBER) {
     alert("Fill the input with phone number!");
     return;
   }
-  if (isNaN(clientPhoneNumber)) {
+  if (isNaN(CLIENT_PHONE_NUMBER)) {
     alert("Incorrect phone number input!");
     return;
   }
 
   const regexp = /^003556[0-9]{8}$/;
 
-  if (!regexp.test(clientPhoneNumber)) {
+  if (!regexp.test(CLIENT_PHONE_NUMBER)) {
     alert("Incorrect phone number format (format: 003556XXXXXXXX) !");
     return;
   }
 
-  if (!clientAddress) {
+  if (!CLIENT_ADDRESS) {
     alert("Fill the input with address !");
     return;
   }
 
-  if (!clientLatitudePosition) {
+  if (!CLIENT_LATITUDE_POSITION) {
     alert("Fill the input with latitude number !");
     return;
   }
-  if (isNaN(clientLatitudePosition)) {
+  if (isNaN(CLIENT_LATITUDE_POSITION)) {
     alert("Incorrect Lattitude input !");
     return;
   }
-  if (!clientLongitudePosition) {
+  if (!CLIENT_LONGITUDE_POSITION) {
     alert("Fill the input with longtitude number !");
     return;
   }
-  if (isNaN(clientLongitudePosition)) {
+  if (isNaN(CLIENT_LONGITUDE_POSITION)) {
     alert("Incorrect longtitude number !");
     return;
   }
 
   client = new Client(
-    clientName,
-    clientPhoneNumber,
-    clientAddress,
-    clientLatitudePosition,
-    clientLongitudePosition,
-    clientPaymentMethod
+    CLIENT_NAME,
+    CLIENT_PHONE_NUMBER,
+    CLIENT_ADDRESS,
+    CLIENT_LATITUDE_POSITION,
+    CLIENT_LONGITUDE_POSITION,
+    CLIENT_PAYMENT_METHOD
   );
+
+  const CLIENT_REGISTRATION = document.getElementById("client-registration");
+  CLIENT_REGISTRATION.classList.add("hide");
+
+  const CLIENT_SESSION = document.getElementById("client-session");
+  CLIENT_SESSION.classList.remove("hide");
+
+  displayMenu(MENU);
+}
+
+function displayMenu(MENU) {
+  const MENU_CONTAINER = document.getElementById("menu");
+  let menuHTML = generateMenuHeader();
+  MENU.forEach((item) => {
+    menuHTML += generateMenuItem(item);
+  });
+
+  MENU_CONTAINER.innerHTML = menuHTML;
 }

@@ -39,7 +39,9 @@ body {
   background-color: rgb(221, 221, 221);
 }
 
-#client-registration-content {
+/* .content is about:
+-client registration form*/
+.content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,4 +68,22 @@ input[type="tel"] {
   cursor: pointer;
   border-radius: 4px;
   margin-bottom: 30px;
+}
+
+.menu-item {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px;
+  margin-left: 32%;
+  margin-right: 32%;
+  background-color: #f9f9f9;
+}
+
+.menu-item h2 {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.menu-item p {
+  margin: 4px 0;
 }
