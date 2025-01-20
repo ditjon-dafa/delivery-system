@@ -17,3 +17,7 @@ export function generateMenuItem(item) {
         </div>
       `;
 }
+
+export function findMenuItem(MENU, ID) {
+  return MENU.find((item) => item.id == ID);
+}

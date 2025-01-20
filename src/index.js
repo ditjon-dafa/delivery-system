@@ -1,9 +1,14 @@
 import { Client } from "./components/client/client.js";
 import { MENU } from "./components/order/menu.js";
-import { generateMenuHeader, generateMenuItem } from "./lib/helper.js";
+import { ShoppingCart } from "./components/order/order.js";
+import {
+  findMenuItem,
+  generateMenuHeader,
+  generateMenuItem,
+} from "./lib/helper.js";
 
 let client = null;
-
+let shoppingCart = new ShoppingCart();
 const TAB_LINKS = document.getElementsByClassName("tab-links");
 
 const TAB_CLIENT = Array.from(TAB_LINKS).find(
@@ -153,8 +158,12 @@ function registerClient() {
 
   const CLIENT_SESSION = document.getElementById("client-session");
   CLIENT_SESSION.classList.remove("hide");
-
   displayMenu(MENU);
+
+  const BUTTONS = document.querySelectorAll(".order-now");
+  BUTTONS.forEach((button) => {
+    button.addEventListener("click", orderNow);
+  });
 }
 
 function displayMenu(MENU) {
@@ -165,4 +174,13 @@ function displayMenu(MENU) {
   });
 
   MENU_CONTAINER.innerHTML = menuHTML;
+}
+
+function orderNow(event) {
+  const BUTTON = event.currentTarget;
+  const ID = BUTTON.parentNode.getAttribute("id");
+
+  let menuItem = findMenuItem(MENU, ID);
+  menuItem = { ...menuItem, quantity: 1 };
+  shoppingCart.addItem(menuItem);
 }
