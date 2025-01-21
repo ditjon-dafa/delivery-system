@@ -87,3 +87,7 @@ input[type="tel"] {
 .menu-item p {
   margin: 4px 0;
 }
+
+.alert-success {
+  background-color: rgb(103, 199, 107);
+}

@@ -5,6 +5,7 @@ import {
   findMenuItem,
   generateMenuHeader,
   generateMenuItem,
+  generateShoppingCart,
 } from "./lib/helper.js";
 
 let client = null;
@@ -183,4 +184,18 @@ function orderNow(event) {
   let menuItem = findMenuItem(MENU, ID);
   menuItem = { ...menuItem, quantity: 1 };
   shoppingCart.addItem(menuItem);
+
+  let alertAddedItem = document.getElementById(`alert-${ID}`);
+
+  alertAddedItem.classList.remove("hide");
+  setTimeout(function () {
+    alertAddedItem.classList.add("hide");
+  }, 1000);
+
+  let shoppingCartContainer = document.getElementById("shopping-cart");
+  shoppingCartContainer.innerHTML = "";
+
+  const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
+
+  shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
 }
