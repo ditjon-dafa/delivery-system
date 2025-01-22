@@ -29,20 +29,23 @@ export function findMenuItem(MENU, ID) {
 export function generateShoppingCart(shoppingCart) {
   const SHOPPING_CART_HEADER = `<h3> Shopping cart </h3>`;
   let cartTable = `
+    <div class="vertically-directed-center-aligned-content">
     <table>
-      <tr> 
-          <th> No. </th>
-          <th> Name </th> 
-          <th>Type</th>
-          <th> Price per unit </th>
-          <th> Quantity </th>
-          <th> Price </th>
-      </tr>
+      <thead>
+        <tr> 
+            <th> No. </th>
+            <th> Name </th> 
+            <th>Type</th>
+            <th> Unit price </th>
+            <th> Quantity </th>
+            <th> Total price </th>
+        </tr>
+      </thead>
     `;
 
   const CART_ITEMS = shoppingCart.items;
   let articleNumber = 1;
-
+  cartTable += `<tbody>`;
   CART_ITEMS.forEach((nextItem) => {
     nextItem.total = nextItem.price.toFixed(2) * nextItem.quantity;
 
@@ -52,21 +55,25 @@ export function generateShoppingCart(shoppingCart) {
                     <td>${nextItem.name}</td>
 	                  <td> ${nextItem.type} </td>
 	                  <td>$${nextItem.price.toFixed(2)}</td>
-                    <td> ${nextItem.quantity} </td>
+                    <td class="item-quantity"> ${nextItem.quantity} </td>
                     <td> $${nextItem.total}</td>
                   </tr>`;
     articleNumber++;
   });
-
-  cartTable += `</table>`;
-
+  cartTable += `</tbody>`;
   const DELIVERY_MAN_TIP = shoppingCart.deliveryManTipTotal.toFixed(2);
   const TRANSPORT_FEE = shoppingCart.transportFee;
+  cartTable += `<tfoot>
+                    <tr>
+                      <td colspan="3"><b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP}</td>
+                       <td colspan="3"><b> Transport fee: </b> $${TRANSPORT_FEE}</td>
+                    </tr>
+                </tfoot>`;
+  cartTable += `</table></div>`;
+
   const ORDER_TOTAL = shoppingCart.orderTotal.toFixed(2);
 
-  const SHOPPING_CART_FOOTER = `<p><b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP} </p>
-                                <p><b> Transport fee: </b> $${TRANSPORT_FEE}</p>
-                                <p><b> Order total: </b> $${ORDER_TOTAL} </p>`;
+  const SHOPPING_CART_FOOTER = `<p><b> Total: </b> $${ORDER_TOTAL} </p>`;
 
   return SHOPPING_CART_HEADER + cartTable + SHOPPING_CART_FOOTER;
 }

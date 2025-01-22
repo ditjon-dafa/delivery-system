@@ -39,9 +39,7 @@ body {
   background-color: rgb(221, 221, 221);
 }
 
-/* .content is about:
--client registration form*/
-.content {
+.vertically-directed-center-aligned-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,4 +88,53 @@ input[type="tel"] {
 
 .alert-success {
   background-color: rgb(103, 199, 107);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+
+tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+tfoot tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+tfoot tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+th {
+  padding: 12px 8px;
+  background-color: #999999;
+  color: white;
+}
+
+th,
+tbody tr td {
+  text-align: left;
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+tbody tr td,
+tfoot tr td {
+  padding: 8px;
+}
+
+tbody tr td {
+  background-color: white;
+}
+
+tfoot tr td {
+  text-align: center;
+  background-color: rgb(240, 240, 240);
+}
+
+.item-quantity {
+  text-align: center;
 }
