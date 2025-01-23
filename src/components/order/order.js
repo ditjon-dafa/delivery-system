@@ -25,6 +25,27 @@ export class ShoppingCart {
     this.updateOrderTotal();
   }
 
+  increaseItemQuantity(ITEM_ID) {
+    let item = this.items.find((item) => item.id == ITEM_ID);
+    item.quantity += 1;
+
+    this.itemsTotal += item.price;
+    this.updateOrderTotal();
+  }
+
+  getItemQuantity(ITEM_ID) {
+    const ITEM = this.items.find((item) => item.id == ITEM_ID);
+    return ITEM.quantity;
+  }
+
+  decreaseItemQuantity(ITEM_ID) {
+    let item = this.items.find((item) => item.id == ITEM_ID);
+    item.quantity -= 1;
+
+    this.itemsTotal -= item.price;
+    this.updateOrderTotal();
+  }
+
   updateOrderTotal() {
     this.orderTotal = this.itemsTotal;
 

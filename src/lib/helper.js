@@ -55,7 +55,11 @@ export function generateShoppingCart(shoppingCart) {
                     <td>${nextItem.name}</td>
 	                  <td> ${nextItem.type} </td>
 	                  <td>$${nextItem.price.toFixed(2)}</td>
-                    <td class="item-quantity"> ${nextItem.quantity} </td>
+                    <td class="item-quantity">
+                    <button id="-" class="decrease-quantity"> - </button>
+                    ${nextItem.quantity} 
+                    <button id="+" class="increase-quantity"> + </button>
+                    </td>
                     <td> $${nextItem.total}</td>
                   </tr>`;
     articleNumber++;

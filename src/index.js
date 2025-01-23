@@ -198,4 +198,45 @@ function orderNow(event) {
   const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
 
   shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
+
+  itemBtnsAction();
+}
+
+function itemBtnsAction() {
+  const BTN_INCREASE_QUANTITY = document.querySelectorAll(".increase-quantity");
+  BTN_INCREASE_QUANTITY.forEach((button) => {
+    button.addEventListener("click", modifyItemQuantity);
+  });
+
+  const BTN_DECREASE_QUANTITY = document.querySelectorAll(".decrease-quantity");
+  BTN_DECREASE_QUANTITY.forEach((button) => {
+    const ITEM_ID = button.parentNode.parentNode.getAttribute("id");
+    const ITEM_QUANTITY = shoppingCart.getItemQuantity(ITEM_ID);
+
+    button.classList.toggle("hide", ITEM_QUANTITY === 1);
+    button.addEventListener("click", modifyItemQuantity);
+  });
+}
+
+function modifyItemQuantity(event) {
+  const BUTTON = event.currentTarget;
+  const ID = BUTTON.parentNode.parentNode.getAttribute("id");
+  const ACTION = BUTTON.getAttribute("id");
+
+  switch (ACTION) {
+    case "+":
+      shoppingCart.increaseItemQuantity(ID);
+      break;
+
+    case "-":
+      shoppingCart.decreaseItemQuantity(ID);
+      break;
+  }
+
+  let shoppingCartContainer = document.getElementById("shopping-cart");
+  shoppingCartContainer.innerHTML = "";
+  const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
+  shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
+
+  itemBtnsAction();
 }
