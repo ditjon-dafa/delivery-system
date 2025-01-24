@@ -126,7 +126,8 @@ tfoot tr td {
   padding: 8px;
 }
 
-tbody tr td {
+tbody tr:nth-child(odd),
+tbody tr:nth-child(even) {
   background-color: white;
 }
 
@@ -135,6 +136,27 @@ tfoot tr td {
   background-color: rgb(240, 240, 240);
 }
 
+tbody tr:hover {
+  background-color: #ddd;
+}
+
 .item-quantity {
   text-align: right;
+}
+
+.decrease-quantity,
+.increase-quantity,
+.remove-item {
+  border-radius: 5px;
+}
+
+.decrease-quantity:hover,
+.increase-quantity:hover {
+  color: white;
+  background-color: #007bff;
+}
+
+.remove-item:hover {
+  color: white;
+  background-color: red;
 }

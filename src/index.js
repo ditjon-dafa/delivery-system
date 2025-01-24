@@ -216,6 +216,11 @@ function itemBtnsAction() {
     button.classList.toggle("hide", ITEM_QUANTITY === 1);
     button.addEventListener("click", modifyItemQuantity);
   });
+
+  const BTN_REMOVE_ITEM = document.querySelectorAll(".remove-item");
+  BTN_REMOVE_ITEM.forEach((button) => {
+    button.addEventListener("click", modifyItemQuantity);
+  });
 }
 
 function modifyItemQuantity(event) {
@@ -231,12 +236,19 @@ function modifyItemQuantity(event) {
     case "-":
       shoppingCart.decreaseItemQuantity(ID);
       break;
+
+    case "x":
+      shoppingCart.removeItem(ID);
+      break;
   }
 
   let shoppingCartContainer = document.getElementById("shopping-cart");
   shoppingCartContainer.innerHTML = "";
-  const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
-  shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
+
+  if (shoppingCart.items.length >= 1) {
+    const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
+    shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
+  }
 
   itemBtnsAction();
 }

@@ -46,6 +46,14 @@ export class ShoppingCart {
     this.updateOrderTotal();
   }
 
+  removeItem(ITEM_ID) {
+    let item = this.items.find((item) => item.id == ITEM_ID);
+    this.items = this.items.filter((item) => item.id != ITEM_ID);
+
+    this.itemsTotal -= item.price * item.quantity;
+    this.updateOrderTotal();
+  }
+
   updateOrderTotal() {
     this.orderTotal = this.itemsTotal;
 

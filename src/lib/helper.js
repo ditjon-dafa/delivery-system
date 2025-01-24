@@ -39,6 +39,7 @@ export function generateShoppingCart(shoppingCart) {
             <th> Unit price </th>
             <th> Quantity </th>
             <th> Total price </th>
+            <th></th>
         </tr>
       </thead>
     `;
@@ -61,6 +62,7 @@ export function generateShoppingCart(shoppingCart) {
                     <button id="+" class="increase-quantity"> + </button>
                     </td>
                     <td> $${nextItem.total}</td>
+                    <td><button id="x" class="remove-item">x</button></td>
                   </tr>`;
     articleNumber++;
   });
@@ -69,7 +71,7 @@ export function generateShoppingCart(shoppingCart) {
   const TRANSPORT_FEE = shoppingCart.transportFee;
   cartTable += `<tfoot>
                     <tr>
-                      <td colspan="3"><b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP}</td>
+                      <td colspan="4"><b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP}</td>
                        <td colspan="3"><b> Transport fee: </b> $${TRANSPORT_FEE}</td>
                     </tr>
                 </tfoot>`;
