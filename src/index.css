@@ -160,3 +160,7 @@ tbody tr:hover {
   color: white;
   background-color: red;
 }
+
+.money-font-color {
+  color: #007bff;
+}

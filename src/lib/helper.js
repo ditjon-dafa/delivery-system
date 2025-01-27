@@ -77,9 +77,15 @@ export function generateShoppingCart(shoppingCart) {
                 </tfoot>`;
   cartTable += `</table></div>`;
 
+  return SHOPPING_CART_HEADER + cartTable;
+}
+
+export function generateCheckout(shoppingCart) {
   const ORDER_TOTAL = shoppingCart.orderTotal.toFixed(2);
-
-  const SHOPPING_CART_FOOTER = `<p><b> Total: </b> $${ORDER_TOTAL} </p>`;
-
-  return SHOPPING_CART_HEADER + cartTable + SHOPPING_CART_FOOTER;
+  return `
+        <div style="margin-top: 30px" id="checkout">
+           <p> <b> Total: </b> <span class="money-font-color" style="font-size:1.5em;">$${ORDER_TOTAL}</span></p>
+          <button class="button"> Checkout </button>   
+        </div>
+      `;
 }

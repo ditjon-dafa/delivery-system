@@ -6,6 +6,7 @@ import {
   generateMenuHeader,
   generateMenuItem,
   generateShoppingCart,
+  generateCheckout,
 } from "./lib/helper.js";
 
 let client = null;
@@ -194,10 +195,11 @@ function orderNow(event) {
 
   let shoppingCartContainer = document.getElementById("shopping-cart");
   shoppingCartContainer.innerHTML = "";
-
   const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
-
   shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
+
+  const CHECKOUT_CONTAINER = document.getElementById("checkout");
+  CHECKOUT_CONTAINER.innerHTML = generateCheckout(shoppingCart);
 
   itemBtnsAction();
 }
@@ -225,20 +227,20 @@ function itemBtnsAction() {
 
 function modifyItemQuantity(event) {
   const BUTTON = event.currentTarget;
-  const ID = BUTTON.parentNode.parentNode.getAttribute("id");
+  const ITEM_ID = BUTTON.parentNode.parentNode.getAttribute("id");
   const ACTION = BUTTON.getAttribute("id");
 
   switch (ACTION) {
     case "+":
-      shoppingCart.increaseItemQuantity(ID);
+      shoppingCart.increaseItemQuantity(ITEM_ID);
       break;
 
     case "-":
-      shoppingCart.decreaseItemQuantity(ID);
+      shoppingCart.decreaseItemQuantity(ITEM_ID);
       break;
 
     case "x":
-      shoppingCart.removeItem(ID);
+      shoppingCart.removeItem(ITEM_ID);
       break;
   }
 
@@ -248,6 +250,9 @@ function modifyItemQuantity(event) {
   if (shoppingCart.items.length >= 1) {
     const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
     shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
+
+    const CHECKOUT_CONTAINER = document.getElementById("checkout");
+    CHECKOUT_CONTAINER.innerHTML = generateCheckout(shoppingCart);
   }
 
   itemBtnsAction();

@@ -64,3 +64,26 @@ export class ShoppingCart {
     this.orderTotal += this.transportFee;
   }
 }
+
+export class Order {
+  constructor(
+    id,
+    shoppingCart,
+    clientName,
+    clientPhoneNumber,
+    clientLocation,
+    clientPaymentMethod
+  ) {
+    this.id = id;
+    this.shoppingCart = shoppingCart;
+    this.clientName = clientName;
+    this.clientPhoneNumber = clientPhoneNumber;
+    this.clientLocation = clientLocation;
+    this.clientPaymentMethod = clientPaymentMethod;
+
+    this.status = "SENT";
+
+    this.deliveryManTipTotal = shoppingCart.deliveryManTipTotal;
+    this.total = shoppingCart.orderTotal;
+  }
+}
