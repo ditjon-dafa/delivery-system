@@ -1,6 +1,7 @@
 import { Client } from "./components/client/client.js";
 import { MENU } from "./components/order/menu.js";
-import { ShoppingCart } from "./components/order/order.js";
+import { ShoppingCart, Order } from "./components/order/order.js";
+
 import {
   findMenuItem,
   generateMenuHeader,
@@ -10,7 +11,11 @@ import {
 } from "./lib/helper.js";
 
 let client = null;
+
 let shoppingCart = new ShoppingCart();
+
+let generalOrderId = 0;
+
 const TAB_LINKS = document.getElementsByClassName("tab-links");
 
 const TAB_CLIENT = Array.from(TAB_LINKS).find(
@@ -198,9 +203,13 @@ function orderNow(event) {
   const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
   shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
 
-  const CHECKOUT_CONTAINER = document.getElementById("checkout");
-  CHECKOUT_CONTAINER.innerHTML = generateCheckout(shoppingCart);
+  if (shoppingCart.items.length == 1) {
+    const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
+    CHECKOUT_CONTAINER.innerHTML = generateCheckout();
 
+    const BTN_CHECKOUT = document.getElementById("checkout");
+    BTN_CHECKOUT.addEventListener("click", registerOrder);
+  }
   itemBtnsAction();
 }
 
@@ -247,13 +256,34 @@ function modifyItemQuantity(event) {
   let shoppingCartContainer = document.getElementById("shopping-cart");
   shoppingCartContainer.innerHTML = "";
 
-  if (shoppingCart.items.length >= 1) {
+  if (shoppingCart.items.length == 0) {
+    const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
+    CHECKOUT_CONTAINER.innerHTML = "";
+  } else {
     const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
     shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
-
-    const CHECKOUT_CONTAINER = document.getElementById("checkout");
-    CHECKOUT_CONTAINER.innerHTML = generateCheckout(shoppingCart);
   }
 
   itemBtnsAction();
+}
+
+function registerOrder() {
+  const SHOPPING_CART_CONTAINER = document.getElementById("shopping-cart");
+  SHOPPING_CART_CONTAINER.innerHTML = "";
+
+  const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
+  CHECKOUT_CONTAINER.innerHTML = "";
+
+  generalOrderId++;
+
+  let order = new Order(
+    generalOrderId,
+    shoppingCart,
+    client.name,
+    client.phoneNumber,
+    client.location,
+    client.paymentMethod
+  );
+
+  shoppingCart = new ShoppingCart();
 }
