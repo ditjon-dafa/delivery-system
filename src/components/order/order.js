@@ -1,5 +1,6 @@
 export class ShoppingCart {
   constructor() {
+    this.itemsQuantity = 0;
     this.items = [];
     this.itemsTotal = 0;
     this.deliveryManTipPercentage = 7;
@@ -14,11 +15,13 @@ export class ShoppingCart {
     let item = this.items.find((itemsEl) => itemsEl.id == menuItem.id);
     if (item != null) {
       item.quantity += menuItem.quantity;
+      this.itemsQuantity += menuItem.quantity;
       existItem = true;
     }
 
     if (existItem == false) {
       this.items.push(menuItem);
+      this.itemsQuantity += menuItem.quantity;
     }
 
     this.itemsTotal += menuItem.price;
@@ -28,6 +31,7 @@ export class ShoppingCart {
   increaseItemQuantity(ITEM_ID) {
     let item = this.items.find((item) => item.id == ITEM_ID);
     item.quantity += 1;
+    this.itemsQuantity += 1;
 
     this.itemsTotal += item.price;
     this.updateOrderTotal();
@@ -41,6 +45,7 @@ export class ShoppingCart {
   decreaseItemQuantity(ITEM_ID) {
     let item = this.items.find((item) => item.id == ITEM_ID);
     item.quantity -= 1;
+    this.itemsQuantity -= 1;
 
     this.itemsTotal -= item.price;
     this.updateOrderTotal();
@@ -49,6 +54,7 @@ export class ShoppingCart {
   removeItem(ITEM_ID) {
     let item = this.items.find((item) => item.id == ITEM_ID);
     this.items = this.items.filter((item) => item.id != ITEM_ID);
+    this.itemsQuantity -= item.quantity;
 
     this.itemsTotal -= item.price * item.quantity;
     this.updateOrderTotal();

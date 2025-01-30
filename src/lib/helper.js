@@ -26,6 +26,12 @@ export function findMenuItem(MENU, ID) {
   return MENU.find((item) => item.id == ID);
 }
 
+export function generateCartButton(articlesQuantity) {
+  return `
+  <button id="cart-button" class="button">  Cart <span id="articles-quantity" >${articlesQuantity}</span></button>
+  `;
+}
+
 export function generateShoppingCart(shoppingCart) {
   const SHOPPING_CART_HEADER = `<h3> Shopping cart </h3>`;
   let cartTable = `

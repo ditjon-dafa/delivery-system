@@ -65,29 +65,31 @@ input[type="tel"] {
   font-size: 1em;
   cursor: pointer;
   border-radius: 4px;
-  margin-bottom: 30px;
 }
 
-.menu-item {
-  border: 1px solid #ddd;
-  padding: 16px;
+#client-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#cart-button-div {
+  margin-right: 16px;
+}
+
+#client-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 16px;
-  margin-left: 32%;
-  margin-right: 32%;
-  background-color: #f9f9f9;
+  padding: 14px;
+  background-color: #f1f1f1;
 }
 
-.menu-item h2 {
-  font-size: 1.2em;
-  margin-bottom: 8px;
-}
-
-.menu-item p {
-  margin: 4px 0;
-}
-
-.alert-success {
-  background-color: rgb(103, 199, 107);
+#articles-quantity {
+  background-color: white;
+  color: #007bff;
+  padding: 0 0.15em;
+  border-radius: 0.75em;
 }
 
 table {
@@ -163,4 +165,26 @@ tbody tr:hover {
 
 .money-font-color {
   color: #007bff;
+}
+
+.menu-item {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px;
+  margin-left: 32%;
+  margin-right: 32%;
+  background-color: #f9f9f9;
+}
+
+.menu-item h2 {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.menu-item p {
+  margin: 4px 0;
+}
+
+.alert-success {
+  background-color: rgb(103, 199, 107);
 }
