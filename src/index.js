@@ -190,6 +190,9 @@ function registerClient() {
   BUTTONS.forEach((button) => {
     button.addEventListener("click", orderNow);
   });
+
+  const BTN_LOG_OUT = document.getElementById("log-out");
+  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
 }
 
 function displayMenu(MENU) {
@@ -200,6 +203,34 @@ function displayMenu(MENU) {
   });
 
   MENU_CONTAINER.innerHTML = menuHTML;
+}
+
+function confirmLogOut() {
+  if (confirm("Are you sure you want to log out?") == true) logOut();
+}
+
+function logOut() {
+  client = null;
+
+  const CLIENT_SESSION = document.getElementById("client-session");
+  CLIENT_SESSION.classList.add("hide");
+
+  const CLIENT_REGISTRATION = document.getElementById("client-registration");
+  CLIENT_REGISTRATION.classList.remove("hide");
+
+  const CLIENT_NAME = document.getElementById("name");
+  const CLIENT_PHONE_NUMBER = document.getElementById("phoneNumber");
+  const CLIENT_ADDRESS = document.getElementById("address");
+  const CLIENT_LATITUDE_POSITION = document.getElementById("lat");
+  const CLIENT_LONGITUDE_POSITION = document.getElementById("long");
+
+  CLIENT_NAME.value = "";
+  CLIENT_PHONE_NUMBER.value = "";
+  CLIENT_ADDRESS.value = "";
+  CLIENT_LATITUDE_POSITION.value = "";
+  CLIENT_LONGITUDE_POSITION.value = "";
+
+  isShownCart = false;
 }
 
 function orderNow(event) {
@@ -236,7 +267,7 @@ function cartBtnAct() {
 
   const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
 
-  if (shoppingCart.items.length == 1) {
+  if (shoppingCart.items.length >= 1) {
     CHECKOUT_CONTAINER.innerHTML = generateCheckout();
 
     const BTN_CHECKOUT = document.getElementById("checkout");
