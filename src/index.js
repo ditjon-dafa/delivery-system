@@ -241,11 +241,11 @@ function orderNow(event) {
   menuItem = { ...menuItem, quantity: 1 };
   shoppingCart.addItem(menuItem);
 
-  let alertAddedItem = document.getElementById(`alert-${ID}`);
+  const ALERT_ADDED_ITEM = document.getElementById(`alert-${ID}`);
 
-  alertAddedItem.classList.remove("hide");
+  ALERT_ADDED_ITEM.classList.remove("hide");
   setTimeout(function () {
-    alertAddedItem.classList.add("hide");
+    ALERT_ADDED_ITEM.classList.add("hide");
   }, 1000);
 
   generateAndClickCartBtn();
@@ -345,11 +345,20 @@ function modifyItemQuantity(event) {
 }
 
 function registerOrder() {
-  const SHOPPING_CART_CONTAINER = document.getElementById("shopping-cart");
-  SHOPPING_CART_CONTAINER.innerHTML = "";
+  const ALERT_ORDER = document.getElementById("alert-order");
 
-  const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
-  CHECKOUT_CONTAINER.innerHTML = "";
+  ALERT_ORDER.classList.remove("hide");
+  setTimeout(function () {
+    ALERT_ORDER.classList.add("hide");
+  }, 1000);
+
+  setTimeout(function () {
+    const SHOPPING_CART_CONTAINER = document.getElementById("shopping-cart");
+    SHOPPING_CART_CONTAINER.innerHTML = "";
+
+    const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
+    CHECKOUT_CONTAINER.innerHTML = "";
+  }, 1000);
 
   generalOrderId++;
 
@@ -364,8 +373,9 @@ function registerOrder() {
 
   shoppingCart = new ShoppingCart();
 
-  displayCartButton();
-
-  isShownCart = false;
-  showHideMenu();
+  setTimeout(function () {
+    displayCartButton();
+    isShownCart = false;
+    showHideMenu();
+  }, 1000);
 }

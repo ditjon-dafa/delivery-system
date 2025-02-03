@@ -84,15 +84,18 @@ export function generateShoppingCart(shoppingCart) {
   cartTable += `</table></div>`;
 
   const ORDER_TOTAL = shoppingCart.orderTotal.toFixed(2);
-  const SHOPPING_CART_FOOTER = `<p> <b> Total: </b> <span class="money-font-color" style="font-size:1.5em;">$${ORDER_TOTAL}</span></p>`;
+  const SHOPPING_CART_FOOTER = `<p> <b> Total: </b> <span class="money-font-color">$${ORDER_TOTAL}</span></p>`;
 
   return SHOPPING_CART_HEADER + cartTable + SHOPPING_CART_FOOTER;
 }
 
 export function generateCheckout() {
   return `
-        <div style="margin-top: 30px" id="checkout-container">
-          <button id="checkout" class="button"> Checkout </button>   
+        <div id="checkout-container">
+          <button id="checkout" class="button"> Checkout </button> 
+          <div id="alert-order" class="alert-success hide">
+            Order successfully sent!
+          </div>  
         </div>
       `;
 }
