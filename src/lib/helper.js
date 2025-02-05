@@ -26,9 +26,14 @@ export function findMenuItem(MENU, ID) {
   return MENU.find((item) => item.id == ID);
 }
 
-export function generateCartButton(articlesQuantity) {
-  return `
+export function generateCartButton(isShownCart, articlesQuantity) {
+  if (isShownCart === false)
+    return `
   <button id="cart-button" class="button">  Cart <span id="articles-quantity" >${articlesQuantity}</span></button>
+  `;
+  else
+    return `
+  <button id="cart-button" class="button">  Menu </button>
   `;
 }
 
@@ -98,4 +103,18 @@ export function generateCheckout() {
           </div>  
         </div>
       `;
+}
+
+export function generateReceptionistDashboard(
+  successfulOrders,
+  failedOrders,
+  cashDeskStatus
+) {
+  return `
+    <div><h3>Receptionist</h3></div>
+    <div><p>Successfully processed orders: <span style="color: green;"> ${successfulOrders} </span> </p></div>
+    <div> <p>Failed  orders: <span style="color: red;" > ${failedOrders} </span> </p></div>
+    <div><p>Cash desk status: <span class="money-font-color"> $ ${cashDeskStatus.toFixed(
+      2
+    )} </span> </p></div>`;
 }

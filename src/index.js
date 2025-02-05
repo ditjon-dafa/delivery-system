@@ -1,3 +1,4 @@
+import { Receptionist } from "./components/business-staff/receptionist.js";
 import { Client } from "./components/client/client.js";
 import { MENU } from "./components/order/menu.js";
 import { ShoppingCart, Order } from "./components/order/order.js";
@@ -9,15 +10,20 @@ import {
   generateCartButton,
   generateShoppingCart,
   generateCheckout,
+  generateReceptionistDashboard,
 } from "./lib/helper.js";
 
 let client = null;
+
+let receptionist = new Receptionist("Receptionist", "00355691111111");
 
 let shoppingCart = new ShoppingCart();
 
 let generalOrderId = 0;
 
 let isShownCart = false;
+
+let isFirstClickCartBtn = false;
 
 const TAB_LINKS = document.getElementsByClassName("tab-links");
 
@@ -60,6 +66,15 @@ function showTabContent(event) {
   TAB_CONTENT_TO_DISPLAY.classList.remove("hide");
 }
 
+const RECEPTIONIST_DASHBOARD = document.getElementById(
+  "receptionist-dashboard"
+);
+RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+  receptionist.generalSuccessfulOrders,
+  receptionist.generalFailedOrders,
+  receptionist.cashDeskStatus
+);
+
 const BTN_SHOW_LOCATION = document.getElementById("location");
 BTN_SHOW_LOCATION.addEventListener("click", showLocation);
 
@@ -98,7 +113,10 @@ function showError(error) {
 
 function displayCartButton() {
   const CART_BUTTON_DIV = document.getElementById("cart-button-div");
-  CART_BUTTON_DIV.innerHTML = generateCartButton(shoppingCart.itemsQuantity);
+  CART_BUTTON_DIV.innerHTML = generateCartButton(
+    isShownCart,
+    shoppingCart.itemsQuantity
+  );
 }
 
 function showHideMenu() {
@@ -184,25 +202,15 @@ function registerClient() {
 
   displayCartButton();
 
+  const BTN_LOG_OUT = document.getElementById("log-out");
+  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
+
   displayMenu(MENU);
 
   const BUTTONS = document.querySelectorAll(".order-now");
   BUTTONS.forEach((button) => {
     button.addEventListener("click", orderNow);
   });
-
-  const BTN_LOG_OUT = document.getElementById("log-out");
-  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
-}
-
-function displayMenu(MENU) {
-  const MENU_CONTAINER = document.getElementById("menu");
-  let menuHTML = generateMenuHeader();
-  MENU.forEach((item) => {
-    menuHTML += generateMenuItem(item);
-  });
-
-  MENU_CONTAINER.innerHTML = menuHTML;
 }
 
 function confirmLogOut() {
@@ -211,7 +219,7 @@ function confirmLogOut() {
 
 function logOut() {
   client = null;
-
+  shoppingCart = new ShoppingCart();
   const CLIENT_SESSION = document.getElementById("client-session");
   CLIENT_SESSION.classList.add("hide");
 
@@ -231,6 +239,17 @@ function logOut() {
   CLIENT_LONGITUDE_POSITION.value = "";
 
   isShownCart = false;
+  isFirstClickCartBtn = false;
+}
+
+function displayMenu(MENU) {
+  const MENU_CONTAINER = document.getElementById("menu");
+  let menuHTML = generateMenuHeader();
+  MENU.forEach((item) => {
+    menuHTML += generateMenuItem(item);
+  });
+
+  MENU_CONTAINER.innerHTML = menuHTML;
 }
 
 function orderNow(event) {
@@ -249,7 +268,6 @@ function orderNow(event) {
   }, 1000);
 
   generateAndClickCartBtn();
-  itemBtnsAct();
 }
 
 function generateAndClickCartBtn() {
@@ -261,20 +279,22 @@ function generateAndClickCartBtn() {
 
 function cartBtnAct() {
   let shoppingCartContainer = document.getElementById("shopping-cart");
-  shoppingCartContainer.innerHTML = "";
-  const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
-  shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
-
   const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
 
-  if (shoppingCart.items.length >= 1) {
-    CHECKOUT_CONTAINER.innerHTML = generateCheckout();
+  if (isShownCart === false) {
+    shoppingCartContainer.innerHTML = "";
+    const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
+    shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
 
-    const BTN_CHECKOUT = document.getElementById("checkout");
-    BTN_CHECKOUT.addEventListener("click", registerOrder);
+    if (isFirstClickCartBtn === false) {
+      CHECKOUT_CONTAINER.innerHTML = generateCheckout();
+
+      const BTN_CHECKOUT = document.getElementById("checkout");
+      BTN_CHECKOUT.addEventListener("click", registerOrder);
+      isFirstClickCartBtn = true;
+    }
+    itemBtnsAct();
   }
-
-  itemBtnsAct();
 
   if (shoppingCart.items.length >= 1) {
     isShownCart = !isShownCart;
@@ -282,8 +302,9 @@ function cartBtnAct() {
 
   shoppingCartContainer.classList.toggle("hide", isShownCart === false);
   CHECKOUT_CONTAINER.classList.toggle("hide", isShownCart === false);
-
   showHideMenu();
+
+  generateAndClickCartBtn();
 }
 
 function itemBtnsAct() {
@@ -333,15 +354,16 @@ function modifyItemQuantity(event) {
     const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
     CHECKOUT_CONTAINER.innerHTML = "";
 
-    isShownCart = !isShownCart;
+    isShownCart = false;
+    displayCartButton();
     showHideMenu();
   } else {
     const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
     shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
-  }
 
-  itemBtnsAct();
-  generateAndClickCartBtn();
+    itemBtnsAct();
+    generateAndClickCartBtn();
+  }
 }
 
 function registerOrder() {
@@ -374,8 +396,9 @@ function registerOrder() {
   shoppingCart = new ShoppingCart();
 
   setTimeout(function () {
-    displayCartButton();
     isShownCart = false;
+    isFirstClickCartBtn = false;
+    displayCartButton();
     showHideMenu();
   }, 1000);
 }

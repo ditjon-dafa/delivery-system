@@ -67,6 +67,15 @@ input[type="tel"] {
   border-radius: 4px;
 }
 
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px;
+  padding: 14px;
+  background-color: #f1f1f1;
+}
+
 #client-buttons {
   display: flex;
   justify-content: space-between;
@@ -74,15 +83,6 @@ input[type="tel"] {
 
 #cart-button-div {
   margin-right: 16px;
-}
-
-#client-dashboard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 16px;
-  padding: 14px;
-  background-color: #f1f1f1;
 }
 
 #articles-quantity {
@@ -128,8 +128,7 @@ tfoot tr td {
   padding: 8px;
 }
 
-tbody tr:nth-child(odd),
-tbody tr:nth-child(even) {
+tbody tr {
   background-color: white;
 }
 
