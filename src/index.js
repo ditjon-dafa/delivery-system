@@ -393,6 +393,8 @@ function registerOrder() {
     client.paymentMethod
   );
 
+  receptionist.registerNewOrder(order);
+
   shoppingCart = new ShoppingCart();
 
   setTimeout(function () {

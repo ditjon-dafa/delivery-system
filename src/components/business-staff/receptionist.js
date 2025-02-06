@@ -7,4 +7,9 @@ export class Receptionist {
     this.generalFailedOrders = 0;
     this.cashDeskStatus = 0;
   }
+
+  registerNewOrder(order) {
+    order.status = "RECEIVED";
+    this.orders.push(order);
+  }
 }

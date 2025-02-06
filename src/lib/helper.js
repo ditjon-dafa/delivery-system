@@ -118,3 +118,53 @@ export function generateReceptionistDashboard(
       2
     )} </span> </p></div>`;
 }
+
+export function generateReceptionistOrder(order) {
+  const ORDER_BEGIN = `<div>`;
+
+  const ORDER_DETAILS = `
+    
+      <div>
+      <p>  <b> Order id: </b> ${order.id} </p>
+      
+       <p><b> Order total:</b> $${order.total.toFixed(2)} </p>
+       
+       <p><b> Client name:</b> ${order.clientName} </p>
+    
+      <p> <b> Client tel.:</b>   ${order.clientPhoneNumber} </p>
+      </div>
+    `;
+
+  let cartItems = `
+  <div>
+  <table>
+		 <tr> 
+        <th> No. </th>
+		     <th> Name </th> 
+		     <th> Unit price </th>
+		    <th> Quantity </th>
+  		  <th> Total price</th>
+ 		</tr>`;
+  let count = 1;
+  order.shoppingCart.items.forEach((item) => {
+    cartItems += generateCartItem(item, count);
+    count++;
+  });
+
+  cartItems += `</table></div>`;
+
+  const ORDER_END = `</div>`;
+
+  return ORDER_BEGIN + ORDER_DETAILS + cartItems + ORDER_END;
+}
+
+function generateCartItem(item, count) {
+  return `
+  <tr> 
+      <td> ${count} </td>
+      <td> ${item.name} </td> 
+      <td> $${item.price.toFixed(2)} </td>
+      <td> ${item.quantity} </td>
+      <td>$${item.total.toFixed(2)}  </td>
+  </tr>`;
+}
