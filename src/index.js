@@ -257,7 +257,7 @@ function orderNow(event) {
   const ID = BUTTON.parentNode.getAttribute("id");
 
   let menuItem = findMenuItem(MENU, ID);
-  menuItem = { ...menuItem, quantity: 1 };
+  menuItem = { ...menuItem, quantity: 1, total: menuItem.price };
   shoppingCart.addItem(menuItem);
 
   const ALERT_ADDED_ITEM = document.getElementById(`alert-${ID}`);
@@ -394,6 +394,7 @@ function registerOrder() {
   );
 
   receptionist.registerNewOrder(order);
+  receptionist.displayOrders();
 
   shoppingCart = new ShoppingCart();
 

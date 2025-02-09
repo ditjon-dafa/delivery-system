@@ -15,7 +15,10 @@ export class ShoppingCart {
     let item = this.items.find((itemsEl) => itemsEl.id == menuItem.id);
     if (item != null) {
       item.quantity += menuItem.quantity;
+      item.total += menuItem.price;
+
       this.itemsQuantity += menuItem.quantity;
+
       existItem = true;
     }
 
@@ -31,8 +34,9 @@ export class ShoppingCart {
   increaseItemQuantity(ITEM_ID) {
     let item = this.items.find((item) => item.id == ITEM_ID);
     item.quantity += 1;
-    this.itemsQuantity += 1;
+    item.total += item.price;
 
+    this.itemsQuantity += 1;
     this.itemsTotal += item.price;
     this.updateOrderTotal();
   }
@@ -45,8 +49,9 @@ export class ShoppingCart {
   decreaseItemQuantity(ITEM_ID) {
     let item = this.items.find((item) => item.id == ITEM_ID);
     item.quantity -= 1;
-    this.itemsQuantity -= 1;
+    item.total -= item.price;
 
+    this.itemsQuantity -= 1;
     this.itemsTotal -= item.price;
     this.updateOrderTotal();
   }

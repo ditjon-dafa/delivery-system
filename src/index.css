@@ -67,12 +67,16 @@ input[type="tel"] {
   border-radius: 4px;
 }
 
-.dashboard {
+.dashboard,
+.order {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 16px;
   padding: 14px;
+}
+
+.dashboard {
   background-color: #f1f1f1;
 }
 
@@ -190,4 +194,13 @@ tbody tr:hover {
 
 .alert-success {
   background-color: rgb(103, 199, 107);
+}
+
+.order {
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
+.order div p {
+  text-align: left;
 }

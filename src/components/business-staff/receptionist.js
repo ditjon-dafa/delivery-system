@@ -1,3 +1,5 @@
+import { generateReceptionistOrder } from "../../lib/helper.js";
+
 export class Receptionist {
   constructor(name, phoneNumber) {
     this.name = name;
@@ -11,5 +13,18 @@ export class Receptionist {
   registerNewOrder(order) {
     order.status = "RECEIVED";
     this.orders.push(order);
+  }
+
+  displayOrders() {
+    let orderContainer = document.getElementById("receptionist-orders");
+    orderContainer.innerHTML = "";
+
+    let dynamicOrders = `<div>`;
+    this.orders.forEach((order) => {
+      dynamicOrders += generateReceptionistOrder(order);
+    });
+    dynamicOrders += `</div>`;
+
+    orderContainer.innerHTML = dynamicOrders;
   }
 }

@@ -59,8 +59,6 @@ export function generateShoppingCart(shoppingCart) {
   let articleNumber = 1;
   cartTable += `<tbody>`;
   CART_ITEMS.forEach((nextItem) => {
-    nextItem.total = nextItem.price.toFixed(2) * nextItem.quantity;
-
     cartTable += `<tr id="${nextItem.id}">`;
     cartTable += `
                     <td> ${articleNumber} </td>
@@ -72,7 +70,7 @@ export function generateShoppingCart(shoppingCart) {
                     ${nextItem.quantity} 
                     <button id="+" class="increase-quantity"> + </button>
                     </td>
-                    <td> $${nextItem.total}</td>
+                    <td> $${nextItem.total.toFixed(2)}</td>
                     <td><button id="x" class="remove-item">x</button></td>
                   </tr>`;
     articleNumber++;
@@ -120,37 +118,45 @@ export function generateReceptionistDashboard(
 }
 
 export function generateReceptionistOrder(order) {
-  const ORDER_BEGIN = `<div>`;
+  const ORDER_BEGIN = `<div class="order">`;
 
   const ORDER_DETAILS = `
-    
-      <div>
-      <p>  <b> Order id: </b> ${order.id} </p>
-      
-       <p><b> Order total:</b> $${order.total.toFixed(2)} </p>
-       
-       <p><b> Client name:</b> ${order.clientName} </p>
-    
-      <p> <b> Client tel.:</b>   ${order.clientPhoneNumber} </p>
-      </div>
-    `;
+  <div>
+    <p>  <b> Order id: </b> ${order.id} <br/>
+    <b> Order total:</b> $${order.total.toFixed(2)} <br/>
+    <b> Client name:</b> ${order.clientName} <br/>
+    <b> Client tel.:</b>   ${order.clientPhoneNumber} </p>
+  </div>
+  `;
 
   let cartItems = `
   <div>
   <table>
-		 <tr> 
-        <th> No. </th>
-		     <th> Name </th> 
-		     <th> Unit price </th>
-		    <th> Quantity </th>
-  		  <th> Total price</th>
- 		</tr>`;
+		<thead>
+        <tr> 
+            <th> No. </th>
+            <th> Name </th> 
+            <th>Type</th>
+            <th> Unit price </th>
+            <th> Quantity </th>
+            <th> Total price </th>
+        </tr>
+      </thead>`;
+  cartItems += `<tbody>`;
   let count = 1;
   order.shoppingCart.items.forEach((item) => {
     cartItems += generateCartItem(item, count);
     count++;
   });
 
+  cartItems += `</tbody>`;
+  const DELIVERY_MAN_TIP = order.shoppingCart.deliveryManTipTotal.toFixed(2);
+  const TRANSPORT_FEE = order.shoppingCart.transportFee;
+  cartItems += `<tfoot>
+                  <tr>
+                    <td colspan="4"> <b> Delivery man tip (7%): </b> ${DELIVERY_MAN_TIP} </td>
+                    <td colspan= "2"> <b> Transport fee: </b> ${TRANSPORT_FEE}</td>
+                </tfoot> `;
   cartItems += `</table></div>`;
 
   const ORDER_END = `</div>`;
@@ -163,8 +169,9 @@ function generateCartItem(item, count) {
   <tr> 
       <td> ${count} </td>
       <td> ${item.name} </td> 
+      <td> ${item.type} </td>
       <td> $${item.price.toFixed(2)} </td>
-      <td> ${item.quantity} </td>
+      <td style="text-align:center;"> ${item.quantity} </td>
       <td>$${item.total.toFixed(2)}  </td>
   </tr>`;
 }
