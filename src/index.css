@@ -80,6 +80,11 @@ input[type="tel"] {
   background-color: #f1f1f1;
 }
 
+.order {
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
 #client-buttons {
   display: flex;
   justify-content: space-between;
@@ -194,11 +199,6 @@ tbody tr:hover {
 
 .alert-success {
   background-color: rgb(103, 199, 107);
-}
-
-.order {
-  border: 3px solid white;
-  border-radius: 10px;
 }
 
 .order div p {

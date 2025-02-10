@@ -94,12 +94,10 @@ export function generateShoppingCart(shoppingCart) {
 
 export function generateCheckout() {
   return `
-        <div id="checkout-container">
           <button id="checkout" class="button"> Checkout </button> 
           <div id="alert-order" class="alert-success hide">
             Order successfully sent!
           </div>  
-        </div>
       `;
 }
 
@@ -162,6 +160,14 @@ export function generateReceptionistOrder(order) {
   const ORDER_END = `</div>`;
 
   return ORDER_BEGIN + ORDER_DETAILS + cartItems + ORDER_END;
+}
+
+export function generateOrdersFooter() {
+  return `
+  <div>
+   <button id="proceed-orders" class="button">Proceed all orders </button>
+   </div>
+   `;
 }
 
 function generateCartItem(item, count) {

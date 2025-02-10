@@ -396,6 +396,9 @@ function registerOrder() {
   receptionist.registerNewOrder(order);
   receptionist.displayOrders();
 
+  const BTN_PROCEED_ORDERS = document.getElementById("proceed-orders");
+  BTN_PROCEED_ORDERS.addEventListener("click", proceedOrders);
+
   shoppingCart = new ShoppingCart();
 
   setTimeout(function () {
@@ -404,4 +407,23 @@ function registerOrder() {
     displayCartButton();
     showHideMenu();
   }, 1000);
+}
+
+function proceedOrders() {
+  while (receptionist.orders.length >= 1) {
+    let nextOrder = receptionist.orders.shift();
+    receptionist.generalSuccessfulOrders += 1;
+    receptionist.cashDeskStatus += nextOrder.total;
+  }
+
+  const RECEPTIONIST_DASHBOARD = document.getElementById(
+    "receptionist-dashboard"
+  );
+  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+    receptionist.generalSuccessfulOrders,
+    receptionist.generalFailedOrders,
+    receptionist.cashDeskStatus
+  );
+
+  receptionist.displayOrders();
 }

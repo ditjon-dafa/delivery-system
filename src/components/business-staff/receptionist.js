@@ -1,4 +1,7 @@
-import { generateReceptionistOrder } from "../../lib/helper.js";
+import {
+  generateOrdersFooter,
+  generateReceptionistOrder,
+} from "../../lib/helper.js";
 
 export class Receptionist {
   constructor(name, phoneNumber) {
@@ -23,6 +26,10 @@ export class Receptionist {
     this.orders.forEach((order) => {
       dynamicOrders += generateReceptionistOrder(order);
     });
+
+    if (this.orders.length >= 1) {
+      dynamicOrders += generateOrdersFooter();
+    }
     dynamicOrders += `</div>`;
 
     orderContainer.innerHTML = dynamicOrders;
