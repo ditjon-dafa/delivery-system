@@ -396,6 +396,13 @@ function registerOrder() {
   receptionist.registerNewOrder(order);
   receptionist.displayOrders();
 
+  const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(
+    ".high-priority-order"
+  );
+  BTNS_HIGH_PRIORITY_ORDER.forEach((button) => {
+    button.addEventListener("click", proceedHighPriorityOrder);
+  });
+
   const BTN_PROCEED_ORDERS = document.getElementById("proceed-orders");
   BTN_PROCEED_ORDERS.addEventListener("click", proceedOrders);
 
@@ -407,6 +414,42 @@ function registerOrder() {
     displayCartButton();
     showHideMenu();
   }, 1000);
+}
+
+function proceedHighPriorityOrder(event) {
+  const BUTTON = event.currentTarget;
+
+  const ORDER_ID = BUTTON.parentNode.parentNode.getAttribute("id");
+
+  const ORDER = receptionist.proceedOrder(ORDER_ID);
+
+  receptionist.generalSuccessfulOrders += 1;
+  receptionist.cashDeskStatus += ORDER.total;
+
+  const RECEPTIONIST_DASHBOARD = document.getElementById(
+    "receptionist-dashboard"
+  );
+  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+    receptionist.generalSuccessfulOrders,
+    receptionist.generalFailedOrders,
+    receptionist.cashDeskStatus
+  );
+
+  const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
+  if (receptionist.orders.length == 0) {
+    RECEPTIONIST_ORDERS.innerHTML = "";
+  } else {
+    receptionist.displayOrders();
+    const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(
+      ".high-priority-order"
+    );
+    BTNS_HIGH_PRIORITY_ORDER.forEach((button) => {
+      button.addEventListener("click", proceedHighPriorityOrder);
+    });
+
+    const BTN_PROCEED_ORDERS = document.getElementById("proceed-orders");
+    BTN_PROCEED_ORDERS.addEventListener("click", proceedOrders);
+  }
 }
 
 function proceedOrders() {

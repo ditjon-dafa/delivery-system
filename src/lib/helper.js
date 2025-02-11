@@ -116,14 +116,20 @@ export function generateReceptionistDashboard(
 }
 
 export function generateReceptionistOrder(order) {
-  const ORDER_BEGIN = `<div class="order">`;
+  const ORDER_BEGIN = `<div id="${order.id}" class="order">`;
+
+  const PRIORITY_ORDER = `
+  <div>
+    <button class="button high-priority-order" style="background-color:red;"> Proceed now </button>
+  </div>
+  `;
 
   const ORDER_DETAILS = `
   <div>
-    <p>  <b> Order id: </b> ${order.id} <br/>
-    <b> Order total:</b> $${order.total.toFixed(2)} <br/>
-    <b> Client name:</b> ${order.clientName} <br/>
-    <b> Client tel.:</b>   ${order.clientPhoneNumber} </p>
+    <p>  <b> Order id: </b> ${order.id} </p>
+    <p>  <b> Order total:</b> $${order.total.toFixed(2)} </p>
+    <p>  <b> Client name:</b> ${order.clientName} </p>
+    <p>  <b> Client tel.:</b>   ${order.clientPhoneNumber} </p>
   </div>
   `;
 
@@ -159,7 +165,7 @@ export function generateReceptionistOrder(order) {
 
   const ORDER_END = `</div>`;
 
-  return ORDER_BEGIN + ORDER_DETAILS + cartItems + ORDER_END;
+  return ORDER_BEGIN + PRIORITY_ORDER + ORDER_DETAILS + cartItems + ORDER_END;
 }
 
 export function generateOrdersFooter() {

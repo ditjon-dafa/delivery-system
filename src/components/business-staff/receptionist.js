@@ -18,6 +18,13 @@ export class Receptionist {
     this.orders.push(order);
   }
 
+  proceedOrder(ORDER_ID) {
+    const ORDER = this.orders.find((order) => order.id == ORDER_ID);
+    this.orders = this.orders.filter((order) => order.id != ORDER_ID);
+
+    return ORDER;
+  }
+
   displayOrders() {
     let orderContainer = document.getElementById("receptionist-orders");
     orderContainer.innerHTML = "";
