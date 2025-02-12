@@ -158,8 +158,8 @@ export function generateReceptionistOrder(order) {
   const TRANSPORT_FEE = order.shoppingCart.transportFee;
   cartItems += `<tfoot>
                   <tr>
-                    <td colspan="4"> <b> Delivery man tip (7%): </b> ${DELIVERY_MAN_TIP} </td>
-                    <td colspan= "2"> <b> Transport fee: </b> ${TRANSPORT_FEE}</td>
+                    <td colspan="4"> <b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP} </td>
+                    <td colspan= "2"> <b> Transport fee: </b> $${TRANSPORT_FEE}</td>
                 </tfoot> `;
   cartItems += `</table></div>`;
 

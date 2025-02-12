@@ -18,11 +18,16 @@ export class Receptionist {
     this.orders.push(order);
   }
 
-  proceedOrder(ORDER_ID) {
-    const ORDER = this.orders.find((order) => order.id == ORDER_ID);
-    this.orders = this.orders.filter((order) => order.id != ORDER_ID);
+  getHighPriorityOrder(ORDER_ID) {
+    const HIGH_PRIORITY_ORDER = this.orders.find(
+      (order) => order.id == ORDER_ID
+    );
 
-    return ORDER;
+    return HIGH_PRIORITY_ORDER;
+  }
+
+  removeOrder(orderToRemove) {
+    this.orders = this.orders.filter((order) => order.id != orderToRemove.id);
   }
 
   displayOrders() {

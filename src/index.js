@@ -1,3 +1,4 @@
+import { Chef } from "./components/business-staff/chef.js";
 import { Receptionist } from "./components/business-staff/receptionist.js";
 import { Client } from "./components/client/client.js";
 import { MENU } from "./components/order/menu.js";
@@ -16,6 +17,8 @@ import {
 let client = null;
 
 let receptionist = new Receptionist("Receptionist", "00355691111111");
+
+let chef = new Chef();
 
 let shoppingCart = new ShoppingCart();
 
@@ -421,25 +424,24 @@ function proceedHighPriorityOrder(event) {
 
   const ORDER_ID = BUTTON.parentNode.parentNode.getAttribute("id");
 
-  const ORDER = receptionist.proceedOrder(ORDER_ID);
+  let highPriorityOrder = receptionist.getHighPriorityOrder(ORDER_ID);
 
-  receptionist.generalSuccessfulOrders += 1;
-  receptionist.cashDeskStatus += ORDER.total;
+  chef.orders.push(highPriorityOrder);
+  receptionist.removeOrder(highPriorityOrder);
 
-  const RECEPTIONIST_DASHBOARD = document.getElementById(
-    "receptionist-dashboard"
-  );
-  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
-    receptionist.generalSuccessfulOrders,
-    receptionist.generalFailedOrders,
-    receptionist.cashDeskStatus
-  );
+  if (chef.orders.length == 1) {
+    chef.prepareOrder(highPriorityOrder);
+  } else {
+    chef.queueOrder(highPriorityOrder);
+  }
 
   const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
+
   if (receptionist.orders.length == 0) {
     RECEPTIONIST_ORDERS.innerHTML = "";
   } else {
     receptionist.displayOrders();
+
     const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(
       ".high-priority-order"
     );
@@ -453,20 +455,13 @@ function proceedHighPriorityOrder(event) {
 }
 
 function proceedOrders() {
-  while (receptionist.orders.length >= 1) {
-    let nextOrder = receptionist.orders.shift();
-    receptionist.generalSuccessfulOrders += 1;
-    receptionist.cashDeskStatus += nextOrder.total;
-  }
+  receptionist.orders.forEach((order) => {
+    chef.orders.push(order);
+    receptionist.removeOrder(order);
+    if (chef.orders.length == 1) chef.prepareOrder(order);
+    else chef.queueOrder(order);
+  });
 
-  const RECEPTIONIST_DASHBOARD = document.getElementById(
-    "receptionist-dashboard"
-  );
-  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
-    receptionist.generalSuccessfulOrders,
-    receptionist.generalFailedOrders,
-    receptionist.cashDeskStatus
-  );
-
-  receptionist.displayOrders();
+  const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
+  RECEPTIONIST_ORDERS.innerHTML = "";
 }
