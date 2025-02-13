@@ -150,7 +150,7 @@ tbody tr:hover {
   background-color: #ddd;
 }
 
-.item-quantity {
+.cart-item-quantity {
   text-align: right;
 }
 
@@ -201,6 +201,18 @@ tbody tr:hover {
   background-color: rgb(103, 199, 107);
 }
 
-.order div p {
+.business-staff-order-item-quantity {
+  text-align: center;
+}
+
+.receptionist-order-detail p {
   text-align: left;
+}
+
+.chef-order-tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.chef-order-tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
 }

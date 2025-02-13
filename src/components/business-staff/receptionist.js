@@ -1,5 +1,5 @@
 import {
-  generateOrdersFooter,
+  generateReceptionistOrdersFooter,
   generateReceptionistOrder,
 } from "../../lib/helper.js";
 
@@ -40,7 +40,7 @@ export class Receptionist {
     });
 
     if (this.orders.length >= 1) {
-      dynamicOrders += generateOrdersFooter();
+      dynamicOrders += generateReceptionistOrdersFooter();
     }
     dynamicOrders += `</div>`;
 

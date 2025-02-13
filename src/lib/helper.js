@@ -65,7 +65,7 @@ export function generateShoppingCart(shoppingCart) {
                     <td>${nextItem.name}</td>
 	                  <td> ${nextItem.type} </td>
 	                  <td>$${nextItem.price.toFixed(2)}</td>
-                    <td class="item-quantity">
+                    <td class="cart-item-quantity">
                     <button id="-" class="decrease-quantity"> - </button>
                     ${nextItem.quantity} 
                     <button id="+" class="increase-quantity"> + </button>
@@ -125,7 +125,7 @@ export function generateReceptionistOrder(order) {
   `;
 
   const ORDER_DETAILS = `
-  <div>
+  <div class="receptionist-order-detail">
     <p>  <b> Order id: </b> ${order.id} </p>
     <p>  <b> Order total:</b> $${order.total.toFixed(2)} </p>
     <p>  <b> Client name:</b> ${order.clientName} </p>
@@ -168,12 +168,81 @@ export function generateReceptionistOrder(order) {
   return ORDER_BEGIN + PRIORITY_ORDER + ORDER_DETAILS + cartItems + ORDER_END;
 }
 
-export function generateOrdersFooter() {
+export function generateReceptionistOrdersFooter() {
   return `
   <div>
    <button id="proceed-orders" class="button">Proceed all orders </button>
    </div>
    `;
+}
+
+export function generateChefOrder(chefOrders, currentChefOrder) {
+  const BEGINNING_CHEF_ORDER_DIV = `<div class="order">`;
+
+  const CHEF_ORDERS_BROWSING = `
+    <div>
+       <p>  Order id: <b> ${chefOrders[currentChefOrder].id} </b> </p>
+        <button class="button"style="text-decoration: underline;"><b> Current</b></button>
+    </div>       
+    `;
+
+  const CHEF_ORDER_STATUS = ` 
+    <div>
+     <p style="color: orange;"> ${chefOrders[currentChefOrder].status} </p>
+     <button class="button" style="background-color: green;"> Package </button>
+     <button class="button" style="background-color: red;"> Burned out </button>
+    </div>
+    `;
+
+  const CHEF_ORDER_ITEMS = generateChefOrderItems(chefOrders[currentChefOrder]);
+
+  const ENDING_CHEF_ORDER_DIV = `</div>`;
+
+  return (
+    BEGINNING_CHEF_ORDER_DIV +
+    CHEF_ORDERS_BROWSING +
+    CHEF_ORDER_STATUS +
+    CHEF_ORDER_ITEMS +
+    ENDING_CHEF_ORDER_DIV
+  );
+}
+
+function generateChefOrderItems(order) {
+  const BEGIN_CHEF_ORDER_ITEMS = `<div>`;
+  let orderItems = `
+    <table>
+		  <thead>
+          <tr> 
+            <th> No. </th>
+            <th> Name </th> 
+            <th>Type</th>
+            <th> Quantity </th>
+          </tr>
+      </thead>
+      `;
+
+  orderItems += `<tbody class="chef-order-tbody">`;
+
+  let articleNumber = 1;
+  order.shoppingCart.items.forEach((item) => {
+    orderItems += generateChefOrderItem(item, articleNumber);
+    articleNumber++;
+  });
+
+  orderItems += `</tbody> </table>`;
+
+  const END_CHEF_ORDER_ITEMS = `</div>`;
+
+  return BEGIN_CHEF_ORDER_ITEMS + orderItems + END_CHEF_ORDER_ITEMS;
+}
+
+function generateChefOrderItem(item, articleNumber) {
+  return `<tr>
+            <td> ${articleNumber} </td>
+            <td> ${item.name} </td>
+            <td> ${item.type} </td>
+            <td class="business-staff-order-item-quantity"> ${item.quantity} </td>
+          </tr>`;
 }
 
 function generateCartItem(item, count) {
@@ -183,7 +252,7 @@ function generateCartItem(item, count) {
       <td> ${item.name} </td> 
       <td> ${item.type} </td>
       <td> $${item.price.toFixed(2)} </td>
-      <td style="text-align:center;"> ${item.quantity} </td>
+      <td class="business-staff-order-item-quantity"> ${item.quantity} </td>
       <td>$${item.total.toFixed(2)}  </td>
   </tr>`;
 }
