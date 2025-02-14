@@ -13,9 +13,9 @@ export class Chef {
     order.status = "PENDING";
   }
 
-  displayOrders(orders, currentOrder) {
+  displayOrders(orders, orderPosition) {
     let chefOrder = document.getElementById("chef-order");
     chefOrder.innerHTML = "";
-    chefOrder.innerHTML = generateChefOrder(orders, currentOrder);
+    chefOrder.innerHTML = generateChefOrder(orders, orderPosition);
   }
 }

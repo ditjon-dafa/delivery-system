@@ -176,32 +176,84 @@ export function generateReceptionistOrdersFooter() {
    `;
 }
 
-export function generateChefOrder(chefOrders, currentChefOrder) {
+export function generateChefOrder(chefOrders, chefOrderPosition) {
   const BEGINNING_CHEF_ORDER_DIV = `<div class="order">`;
 
-  const CHEF_ORDERS_BROWSING = `
-    <div>
-       <p>  Order id: <b> ${chefOrders[currentChefOrder].id} </b> </p>
-        <button class="button"style="text-decoration: underline;"><b> Current</b></button>
-    </div>       
-    `;
+  let chefOrdersBrowsing = ``;
 
-  const CHEF_ORDER_STATUS = ` 
+  if (chefOrderPosition == chefOrders.length - 1 && chefOrderPosition == 0) {
+    chefOrdersBrowsing = `
+      <div id="${chefOrderPosition}">
+        <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
+  
+        <button class="button" style="text-decoration: underline;"><b> Current</b></button>
+        <button class="button" id="next-chef-order" style="background-color: rgb(106, 177, 255);" disabled>  <img src="./images/next-chef-order-disabled.png"/> </button>
+        </div>
+        `;
+  }
+  //the case where the current order is the order to be processed (the first order in the list of pizzaman orders)
+  //and there is at least 1 other order left in the list of pizzaman orders
+  else if (chefOrderPosition == 0) {
+    chefOrdersBrowsing = `
+      <div id="${chefOrderPosition}">
+        <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
+  
+        <button class="button" style="text-decoration: underline;"><b> Current </b> </button>
+        <button class="button" id="next-chef-order"><img src="./images/next-chef-order.png"/></button>
+        </div>
+        `;
+  }
+  //the case of the last order in the list of pizzaman orders,
+  //but with previous orders to be processed
+  else if (chefOrderPosition == chefOrders.length - 1) {
+    chefOrdersBrowsing = `
+      <div id="${chefOrderPosition}">
+        <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
+  
+        <button class="button">Current</button>
+        <button class="button" id="next-chef-order" style="background-color: rgb(106, 177, 255);" disabled>  <img src="./images/next-chef-order-disabled.png"/> </button>
+        </div>
+        `;
+  }
+  //the case where there are orders before and after the current order
+  else {
+    chefOrdersBrowsing = `
+      
+      <div id="${chefOrderPosition}">
+        <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
+  
+        <button class="button">Current</button>
+        <button class="button" id="next-chef-order"><img src="./images/next-chef-order.png"/></button>
+        </div>
+      `;
+  }
+  let chefOrderStatus = ``;
+  if (chefOrders[chefOrderPosition].status == "PREPARING") {
+    chefOrderStatus = ` 
     <div>
-     <p style="color: orange;"> ${chefOrders[currentChefOrder].status} </p>
+     <p style="color: orange;"> ${chefOrders[chefOrderPosition].status} </p>
      <button class="button" style="background-color: green;"> Package </button>
      <button class="button" style="background-color: red;"> Burned out </button>
     </div>
     `;
-
-  const CHEF_ORDER_ITEMS = generateChefOrderItems(chefOrders[currentChefOrder]);
+  } else if (chefOrders[chefOrderPosition].status == "PENDING") {
+    chefOrderStatus = ` 
+    <div>
+     <p style="color: rgb(45, 166, 241);"> ${chefOrders[chefOrderPosition].status} </p>
+     
+    </div>
+    `;
+  }
+  const CHEF_ORDER_ITEMS = generateChefOrderItems(
+    chefOrders[chefOrderPosition]
+  );
 
   const ENDING_CHEF_ORDER_DIV = `</div>`;
 
   return (
     BEGINNING_CHEF_ORDER_DIV +
-    CHEF_ORDERS_BROWSING +
-    CHEF_ORDER_STATUS +
+    chefOrdersBrowsing +
+    chefOrderStatus +
     CHEF_ORDER_ITEMS +
     ENDING_CHEF_ORDER_DIV
   );

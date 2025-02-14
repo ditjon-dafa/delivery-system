@@ -454,6 +454,9 @@ function proceedHighPriorityOrder(event) {
   }
 
   chef.displayOrders(chef.orders, 0);
+
+  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
 }
 
 function proceedOrders() {
@@ -468,4 +471,19 @@ function proceedOrders() {
   RECEPTIONIST_ORDERS.innerHTML = "";
 
   chef.displayOrders(chef.orders, 0);
+
+  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+}
+
+function goToNextChefOrder(event) {
+  const BTN = event.currentTarget;
+
+  const CURRENT_CHEF_ORDER_POSITION = BTN.parentNode.getAttribute("id");
+  const NEXT_CHEF_ORDER_POSITION = parseInt(CURRENT_CHEF_ORDER_POSITION) + 1;
+
+  chef.displayOrders(chef.orders, NEXT_CHEF_ORDER_POSITION);
+
+  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
 }
