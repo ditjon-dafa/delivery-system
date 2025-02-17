@@ -186,43 +186,35 @@ export function generateChefOrder(chefOrders, chefOrderPosition) {
       <div id="${chefOrderPosition}">
         <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
   
-        <button class="button" style="text-decoration: underline;"><b> Current</b></button>
+        <button class="button" id="current-chef-order" style="text-decoration: underline;"><b> Current</b></button>
         <button class="button" id="next-chef-order" style="background-color: rgb(106, 177, 255);" disabled>  <img src="./images/next-chef-order-disabled.png"/> </button>
         </div>
         `;
-  }
-  //the case where the current order is the order to be processed (the first order in the list of pizzaman orders)
-  //and there is at least 1 other order left in the list of pizzaman orders
-  else if (chefOrderPosition == 0) {
+  } else if (chefOrderPosition == 0) {
     chefOrdersBrowsing = `
       <div id="${chefOrderPosition}">
         <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
   
-        <button class="button" style="text-decoration: underline;"><b> Current </b> </button>
+        <button class="button" id="current-chef-order" style="text-decoration: underline;"><b> Current </b> </button>
         <button class="button" id="next-chef-order"><img src="./images/next-chef-order.png"/></button>
         </div>
         `;
-  }
-  //the case of the last order in the list of pizzaman orders,
-  //but with previous orders to be processed
-  else if (chefOrderPosition == chefOrders.length - 1) {
+  } else if (chefOrderPosition == chefOrders.length - 1) {
     chefOrdersBrowsing = `
       <div id="${chefOrderPosition}">
         <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
   
-        <button class="button">Current</button>
+        <button class="button" id="current-chef-order">Current</button>
         <button class="button" id="next-chef-order" style="background-color: rgb(106, 177, 255);" disabled>  <img src="./images/next-chef-order-disabled.png"/> </button>
         </div>
         `;
-  }
-  //the case where there are orders before and after the current order
-  else {
+  } else {
     chefOrdersBrowsing = `
       
       <div id="${chefOrderPosition}">
         <p>  Order id: <b> ${chefOrders[chefOrderPosition].id} </b> </p>
   
-        <button class="button">Current</button>
+        <button class="button" id="current-chef-order">Current</button>
         <button class="button" id="next-chef-order"><img src="./images/next-chef-order.png"/></button>
         </div>
       `;

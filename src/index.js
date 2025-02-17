@@ -479,10 +479,20 @@ function proceedOrders() {
 function goToNextChefOrder(event) {
   const BTN = event.currentTarget;
 
-  const CURRENT_CHEF_ORDER_POSITION = BTN.parentNode.getAttribute("id");
-  const NEXT_CHEF_ORDER_POSITION = parseInt(CURRENT_CHEF_ORDER_POSITION) + 1;
+  const ACTUAL_CHEF_ORDER_POSITION = BTN.parentNode.getAttribute("id");
+  const NEXT_CHEF_ORDER_POSITION = parseInt(ACTUAL_CHEF_ORDER_POSITION) + 1;
 
   chef.displayOrders(chef.orders, NEXT_CHEF_ORDER_POSITION);
+
+  const BTN_CURRENT_CHEF_ORDER = document.getElementById("current-chef-order");
+  BTN_CURRENT_CHEF_ORDER.addEventListener("click", goToCurrentChefOrder);
+
+  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+}
+
+function goToCurrentChefOrder() {
+  chef.displayOrders(chef.orders, 0);
 
   const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
   BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
