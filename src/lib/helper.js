@@ -219,23 +219,33 @@ export function generateChefOrder(chefOrders, chefOrderPosition) {
         </div>
       `;
   }
+
   let chefOrderStatus = ``;
+  let color = "";
+
+  if (chefOrders[chefOrderPosition].status == "PENDING")
+    color = "rgb(45, 166, 241)";
+  else if (chefOrders[chefOrderPosition].status == "PREPARING")
+    color = "orange";
+  else if (chefOrders[chefOrderPosition].status == "PACKAGED") color = "green";
+
   if (chefOrders[chefOrderPosition].status == "PREPARING") {
     chefOrderStatus = ` 
-    <div>
-     <p style="color: orange;"> ${chefOrders[chefOrderPosition].status} </p>
-     <button class="button" style="background-color: green;"> Package </button>
+    <div id="${chefOrders[chefOrderPosition].id}">
+     <p style="color: ${color};"> ${chefOrders[chefOrderPosition].status} </p>
+     <button class="button" id="package-chef-order" style="background-color: green;"> Package </button>
      <button class="button" style="background-color: red;"> Burned out </button>
     </div>
     `;
-  } else if (chefOrders[chefOrderPosition].status == "PENDING") {
+  } else {
     chefOrderStatus = ` 
     <div>
-     <p style="color: rgb(45, 166, 241);"> ${chefOrders[chefOrderPosition].status} </p>
+     <p style="color: ${color};"> ${chefOrders[chefOrderPosition].status} </p>
      
     </div>
     `;
   }
+
   const CHEF_ORDER_ITEMS = generateChefOrderItems(
     chefOrders[chefOrderPosition]
   );

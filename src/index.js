@@ -455,6 +455,9 @@ function proceedHighPriorityOrder(event) {
 
   chef.displayOrders(chef.orders, 0);
 
+  const BTN_PACKAGE_ORDER = document.getElementById("package-chef-order");
+  BTN_PACKAGE_ORDER.addEventListener("click", packageChefOrder);
+
   const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
   BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
 }
@@ -471,6 +474,9 @@ function proceedOrders() {
   RECEPTIONIST_ORDERS.innerHTML = "";
 
   chef.displayOrders(chef.orders, 0);
+
+  const BTN_PACKAGE_ORDER = document.getElementById("package-chef-order");
+  BTN_PACKAGE_ORDER.addEventListener("click", packageChefOrder);
 
   const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
   BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
@@ -496,4 +502,36 @@ function goToCurrentChefOrder() {
 
   const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
   BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+}
+
+function packageChefOrder(event) {
+  const BTN = event.currentTarget;
+
+  const ORDER_ID = BTN.parentNode.getAttribute("id");
+
+  let order = chef.orders.find((order) => order.id == ORDER_ID);
+  chef.packageOrder(order);
+
+  chef.packagedOrders += 1;
+
+  chef.displayOrders(chef.orders, 0);
+  chef.removeOrder(order);
+
+  if (chef.orders.length >= 1) {
+    setTimeout(function () {
+      chef.prepareOrder(chef.orders[0]);
+      chef.displayOrders(chef.orders, 0);
+
+      const BTN_PACKAGE_ORDER = document.getElementById("package-chef-order");
+      BTN_PACKAGE_ORDER.addEventListener("click", packageChefOrder);
+
+      const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+      BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+    }, 3000);
+  } else {
+    setTimeout(function () {
+      const CHEF_ORDER = document.getElementById("chef-order");
+      CHEF_ORDER.innerHTML = "";
+    }, 3000);
+  }
 }
