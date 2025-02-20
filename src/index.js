@@ -127,6 +127,17 @@ function showHideMenu() {
   MENU_CONTAINER.classList.toggle("hide", isShownCart === true);
 }
 
+function currentChefOrderBtnsAct() {
+  const BTN_PACKAGE_CHEF_ORDER = document.getElementById("package-chef-order");
+  BTN_PACKAGE_CHEF_ORDER.addEventListener("click", packageChefOrder);
+
+  const BTN_FAIL_CHEF_ORDER = document.getElementById("fail-chef-order");
+  BTN_FAIL_CHEF_ORDER.addEventListener("click", failChefOrder);
+
+  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+}
+
 const BTN_REGISTER_CLIENT = document.getElementById("register");
 BTN_REGISTER_CLIENT.addEventListener("click", registerClient);
 
@@ -455,11 +466,7 @@ function proceedHighPriorityOrder(event) {
 
   chef.displayOrders(chef.orders, 0);
 
-  const BTN_PACKAGE_ORDER = document.getElementById("package-chef-order");
-  BTN_PACKAGE_ORDER.addEventListener("click", packageChefOrder);
-
-  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
-  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+  currentChefOrderBtnsAct();
 }
 
 function proceedOrders() {
@@ -475,11 +482,7 @@ function proceedOrders() {
 
   chef.displayOrders(chef.orders, 0);
 
-  const BTN_PACKAGE_ORDER = document.getElementById("package-chef-order");
-  BTN_PACKAGE_ORDER.addEventListener("click", packageChefOrder);
-
-  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
-  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+  currentChefOrderBtnsAct();
 }
 
 function goToNextChefOrder(event) {
@@ -500,8 +503,7 @@ function goToNextChefOrder(event) {
 function goToCurrentChefOrder() {
   chef.displayOrders(chef.orders, 0);
 
-  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
-  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+  currentChefOrderBtnsAct();
 }
 
 function packageChefOrder(event) {
@@ -522,11 +524,35 @@ function packageChefOrder(event) {
       chef.prepareOrder(chef.orders[0]);
       chef.displayOrders(chef.orders, 0);
 
-      const BTN_PACKAGE_ORDER = document.getElementById("package-chef-order");
-      BTN_PACKAGE_ORDER.addEventListener("click", packageChefOrder);
+      currentChefOrderBtnsAct();
+    }, 3000);
+  } else {
+    setTimeout(function () {
+      const CHEF_ORDER = document.getElementById("chef-order");
+      CHEF_ORDER.innerHTML = "";
+    }, 3000);
+  }
+}
 
-      const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
-      BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+function failChefOrder(event) {
+  const BTN = event.currentTarget;
+
+  const ORDER_ID = BTN.parentNode.getAttribute("id");
+
+  let order = chef.orders.find((order) => order.id == ORDER_ID);
+
+  chef.failOrder(order);
+  chef.failedOrders += 1;
+
+  chef.displayOrders(chef.orders, 0);
+  chef.removeOrder(order);
+
+  if (chef.orders.length >= 1) {
+    setTimeout(function () {
+      chef.prepareOrder(chef.orders[0]);
+      chef.displayOrders(chef.orders, 0);
+
+      currentChefOrderBtnsAct();
     }, 3000);
   } else {
     setTimeout(function () {

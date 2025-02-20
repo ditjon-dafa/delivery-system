@@ -228,13 +228,14 @@ export function generateChefOrder(chefOrders, chefOrderPosition) {
   else if (chefOrders[chefOrderPosition].status == "PREPARING")
     color = "orange";
   else if (chefOrders[chefOrderPosition].status == "PACKAGED") color = "green";
+  else if (chefOrders[chefOrderPosition].status == "BURNED OUT") color = "red";
 
   if (chefOrders[chefOrderPosition].status == "PREPARING") {
     chefOrderStatus = ` 
     <div id="${chefOrders[chefOrderPosition].id}">
      <p style="color: ${color};"> ${chefOrders[chefOrderPosition].status} </p>
      <button class="button" id="package-chef-order" style="background-color: green;"> Package </button>
-     <button class="button" style="background-color: red;"> Burned out </button>
+     <button class="button" id="fail-chef-order" style="background-color: red;"> Burned out </button>
     </div>
     `;
   } else {

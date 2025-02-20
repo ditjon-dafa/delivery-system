@@ -4,6 +4,7 @@ export class Chef {
   constructor() {
     this.orders = [];
     this.packagedOrders = 0;
+    this.failedOrders = 0;
   }
 
   prepareOrder(order) {
@@ -22,6 +23,10 @@ export class Chef {
 
   packageOrder(order) {
     order.status = "PACKAGED";
+  }
+
+  failOrder(order) {
+    order.status = "BURNED OUT";
   }
 
   removeOrder(orderToRemove) {
