@@ -12,6 +12,7 @@ import {
   generateShoppingCart,
   generateCheckout,
   generateReceptionistDashboard,
+  generateChefDashboard,
 } from "./lib/helper.js";
 
 let client = null;
@@ -76,6 +77,12 @@ RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
   receptionist.generalSuccessfulOrders,
   receptionist.generalFailedOrders,
   receptionist.cashDeskStatus
+);
+
+const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
+CHEF_DASHBOARD.innerHTML = generateChefDashboard(
+  chef.packagedOrders,
+  chef.failedOrders
 );
 
 const BTN_SHOW_LOCATION = document.getElementById("location");
@@ -439,22 +446,33 @@ function proceedHighPriorityOrder(event) {
 
   receptionist.removeOrder(highPriorityOrder);
 
-  if (receptionist.orders.length == 0) {
-    const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
-    RECEPTIONIST_ORDERS.innerHTML = "";
-  } else {
-    receptionist.displayOrders();
+  const RECEPTIONIST_ORDER_ALERT = document.getElementById(
+    `receptionist-order-${ORDER_ID}-alert`
+  );
+  RECEPTIONIST_ORDER_ALERT.classList.remove("hide");
 
-    const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(
-      ".high-priority-order"
-    );
-    BTNS_HIGH_PRIORITY_ORDER.forEach((button) => {
-      button.addEventListener("click", proceedHighPriorityOrder);
-    });
+  setTimeout(function () {
+    RECEPTIONIST_ORDER_ALERT.classList.add("hide");
 
-    const BTN_PROCEED_ORDERS = document.getElementById("proceed-orders");
-    BTN_PROCEED_ORDERS.addEventListener("click", proceedOrders);
-  }
+    if (receptionist.orders.length == 0) {
+      const RECEPTIONIST_ORDERS = document.getElementById(
+        "receptionist-orders"
+      );
+      RECEPTIONIST_ORDERS.innerHTML = "";
+    } else {
+      receptionist.displayOrders();
+
+      const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(
+        ".high-priority-order"
+      );
+      BTNS_HIGH_PRIORITY_ORDER.forEach((button) => {
+        button.addEventListener("click", proceedHighPriorityOrder);
+      });
+
+      const BTN_PROCEED_ORDERS = document.getElementById("proceed-orders");
+      BTN_PROCEED_ORDERS.addEventListener("click", proceedOrders);
+    }
+  }, 3000);
 
   chef.orders.push(highPriorityOrder);
 
@@ -477,8 +495,16 @@ function proceedOrders() {
     else chef.queueOrder(order);
   });
 
-  const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
-  RECEPTIONIST_ORDERS.innerHTML = "";
+  const RECEPTIONIST_ORDERS_ALERT = document.getElementById(
+    "receptionist-orders-alert"
+  );
+  RECEPTIONIST_ORDERS_ALERT.classList.remove("hide");
+
+  setTimeout(function () {
+    RECEPTIONIST_ORDERS_ALERT.classList.add("hide");
+    const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
+    RECEPTIONIST_ORDERS.innerHTML = "";
+  }, 3000);
 
   chef.displayOrders(chef.orders, 0);
 
@@ -516,6 +542,12 @@ function packageChefOrder(event) {
 
   chef.packagedOrders += 1;
 
+  const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
+  CHEF_DASHBOARD.innerHTML = generateChefDashboard(
+    chef.packagedOrders,
+    chef.failedOrders
+  );
+
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);
 
@@ -543,6 +575,12 @@ function failChefOrder(event) {
 
   chef.failOrder(order);
   chef.failedOrders += 1;
+
+  const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
+  CHEF_DASHBOARD.innerHTML = generateChefDashboard(
+    chef.packagedOrders,
+    chef.failedOrders
+  );
 
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);

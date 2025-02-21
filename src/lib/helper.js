@@ -14,9 +14,9 @@ export function generateMenuItem(item) {
           <p>Price: $${item.price.toFixed(2)}</p>
           <button class="button order-now"> Order Now </button>
           
-        <div id="alert-${item.id}" class="alert-success hide">
-          Product added to cart!
-        </div>
+          <div id="alert-${item.id}" class="alert-success hide">
+            <p> Product added to cart! </p>
+          </div>
 
         </div>
       `;
@@ -96,7 +96,7 @@ export function generateCheckout() {
   return `
           <button id="checkout" class="button"> Checkout </button> 
           <div id="alert-order" class="alert-success hide">
-            Order successfully sent!
+            <p> Order successfully sent! </p>
           </div>  
       `;
 }
@@ -163,17 +163,41 @@ export function generateReceptionistOrder(order) {
                 </tfoot> `;
   cartItems += `</table></div>`;
 
+  const ALERT_ORDER = `
+                <div id="receptionist-order-${order.id}-alert" class="alert-pending hide" style="margin: 0 16px;">
+                  <p> Order is queued up to be prepared! </p>
+                </div>`;
+
   const ORDER_END = `</div>`;
 
-  return ORDER_BEGIN + PRIORITY_ORDER + ORDER_DETAILS + cartItems + ORDER_END;
+  return (
+    ORDER_BEGIN +
+    PRIORITY_ORDER +
+    ORDER_DETAILS +
+    cartItems +
+    ORDER_END +
+    ALERT_ORDER
+  );
 }
 
 export function generateReceptionistOrdersFooter() {
   return `
   <div>
    <button id="proceed-orders" class="button">Proceed all orders </button>
-   </div>
+  </div>
+  
+  <div id="receptionist-orders-alert" class="alert-pending hide" style="margin: 0 16px;">
+    <p> Orders are queued up to be prepared! </p>
+  </div>
    `;
+}
+
+export function generateChefDashboard(packagedOrders, failedOrders) {
+  return `
+    <div><h3>Chef</h3></div>
+    <div><p> Packaged orders: <span style="color:green;"> ${packagedOrders} </span> </p> </div>
+    <div><p> Failed orders: <span style="color:red;"> ${failedOrders} </span> </p> </div>
+  `;
 }
 
 export function generateChefOrder(chefOrders, chefOrderPosition) {
@@ -223,12 +247,11 @@ export function generateChefOrder(chefOrders, chefOrderPosition) {
   let chefOrderStatus = ``;
   let color = "";
 
-  if (chefOrders[chefOrderPosition].status == "PENDING")
-    color = "rgb(45, 166, 241)";
-  else if (chefOrders[chefOrderPosition].status == "PREPARING")
-    color = "orange";
+  if (chefOrders[chefOrderPosition].status == "PREPARING") color = "orange";
   else if (chefOrders[chefOrderPosition].status == "PACKAGED") color = "green";
   else if (chefOrders[chefOrderPosition].status == "BURNED OUT") color = "red";
+  else if (chefOrders[chefOrderPosition].status == "PENDING")
+    color = "rgb(45, 166, 241)";
 
   if (chefOrders[chefOrderPosition].status == "PREPARING") {
     chefOrderStatus = ` 
