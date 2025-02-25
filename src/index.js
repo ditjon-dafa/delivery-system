@@ -1,4 +1,5 @@
 import { Chef } from "./components/business-staff/chef.js";
+import { DeliveryMan } from "./components/business-staff/delivery-man.js";
 import { Receptionist } from "./components/business-staff/receptionist.js";
 import { Client } from "./components/client/client.js";
 import { MENU } from "./components/order/menu.js";
@@ -20,6 +21,8 @@ let client = null;
 let receptionist = new Receptionist("Receptionist", "00355691111111");
 
 let chef = new Chef();
+
+let deliveryMan = new DeliveryMan();
 
 let shoppingCart = new ShoppingCart();
 
@@ -550,6 +553,9 @@ function packageChefOrder(event) {
 
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);
+
+  deliveryMan.orders.push(order);
+  deliveryMan.displayOrders();
 
   if (chef.orders.length >= 1) {
     setTimeout(function () {

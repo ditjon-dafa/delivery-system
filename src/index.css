@@ -57,7 +57,9 @@ input[type="tel"] {
   box-sizing: border-box;
 }
 
-.button {
+.button,
+.success-button,
+.fail-button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -65,6 +67,14 @@ input[type="tel"] {
   font-size: 1em;
   cursor: pointer;
   border-radius: 4px;
+}
+
+.success-button {
+  background-color: green;
+}
+
+.fail-button {
+  background-color: red;
 }
 
 .dashboard,
@@ -83,6 +93,10 @@ input[type="tel"] {
 .order {
   border: 3px solid white;
   border-radius: 10px;
+}
+
+.order div {
+  margin: 0 12px;
 }
 
 #client-buttons {
@@ -147,7 +161,7 @@ tfoot tr td {
 }
 
 tbody tr:hover {
-  background-color: #ddd;
+  background-color: rgb(158, 238, 158);
 }
 
 .cart-item-quantity {
@@ -205,7 +219,7 @@ tbody tr:hover {
   text-align: center;
 }
 
-.receptionist-order-detail p {
+.business-staff-order-detail p {
   text-align: left;
 }
 

@@ -31,8 +31,8 @@ export class Receptionist {
   }
 
   displayOrders() {
-    let orderContainer = document.getElementById("receptionist-orders");
-    orderContainer.innerHTML = "";
+    const RECEPTIONIST_ORDERS = document.getElementById("receptionist-orders");
+    RECEPTIONIST_ORDERS.innerHTML = "";
 
     let dynamicOrders = `<div>`;
     this.orders.forEach((order) => {
@@ -44,6 +44,6 @@ export class Receptionist {
     }
     dynamicOrders += `</div>`;
 
-    orderContainer.innerHTML = dynamicOrders;
+    RECEPTIONIST_ORDERS.innerHTML = dynamicOrders;
   }
 }

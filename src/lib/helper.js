@@ -125,7 +125,7 @@ export function generateReceptionistOrder(order) {
   `;
 
   const ORDER_DETAILS = `
-  <div class="receptionist-order-detail">
+  <div class="business-staff-order-detail">
     <p>  <b> Order id: </b> ${order.id} </p>
     <p>  <b> Order total:</b> $${order.total.toFixed(2)} </p>
     <p>  <b> Client name:</b> ${order.clientName} </p>
@@ -257,8 +257,8 @@ export function generateChefOrder(chefOrders, chefOrderPosition) {
     chefOrderStatus = ` 
     <div id="${chefOrders[chefOrderPosition].id}">
      <p style="color: ${color};"> ${chefOrders[chefOrderPosition].status} </p>
-     <button class="button" id="package-chef-order" style="background-color: green;"> Package </button>
-     <button class="button" id="fail-chef-order" style="background-color: red;"> Burned out </button>
+     <button class="success-button" id="package-chef-order"> Package </button>
+     <button class="fail-button" id="fail-chef-order"> Burned out </button>
     </div>
     `;
   } else {
@@ -323,10 +323,76 @@ function generateChefOrderItem(item, articleNumber) {
           </tr>`;
 }
 
-function generateCartItem(item, count) {
+export function generateDeliveryManOrder(order) {
+  const BEGIN_DELIVERY_MAN_ORDER = `<div class="order" id="${order.id}">`;
+
+  const ORDER_DETAILS = `
+      <div class="business-staff-order-detail">
+        <p> <b> Order id: </b> ${order.id} </p>
+        <p> <b> Order total: </b> $${order.total.toFixed(2)} </p>
+        <p> <b> Client name: </b> ${order.clientName} </p>
+        <p> <b> Client tel.: </b> ${order.clientPhoneNumber} </p>
+        <p> <b> Client address: </b> ${order.clientLocation.streetName} </p>
+        <p> <a href="${order.clientLocation.getExactAddress()}">Client location on Google Maps</a></p>
+        <p> <b> Client payment method: </b> ${order.clientPaymentMethod} </p>
+      </div>`;
+
+  const DELIVERY_MAN_ORDER_STATUS = `
+      <div>
+        <p style="color: green;"> ${order.status} </p>
+        <button class="button"> Deliver order </button>
+      </div>`;
+
+  let cartItems = `
+      <div>
+      <table>
+        <thead>
+            <tr> 
+                <th> No. </th>
+                <th> Name </th> 
+                <th>Type</th>
+                <th> Unit price </th>
+                <th> Quantity </th>
+                <th> Total price </th>
+            </tr>
+          </thead>`;
+  cartItems += `<tbody>`;
+
+  let articleNumber = 1;
+  order.shoppingCart.items.forEach((item) => {
+    cartItems += generateCartItem(item, articleNumber);
+    articleNumber++;
+  });
+
+  cartItems += `</tbody>`;
+
+  const DELIVERY_MAN_TIP = order.deliveryManTipTotal.toFixed(2);
+  const TRANSPORT_FEE = order.shoppingCart.transportFee;
+
+  cartItems += `<tfoot>
+                  <tr>
+                    <td colspan="4"> <b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP}</td>
+                    <td colspan="2"> <b> Transport fee: </b> $${TRANSPORT_FEE} </td>
+                  </tr>
+                </tfoot>`;
+
+  cartItems += `</table></div>`;
+
+  const END_DELIVERY_MAN_ORDER = `</div>`;
+
+  return (
+    BEGIN_DELIVERY_MAN_ORDER +
+    ORDER_DETAILS +
+    DELIVERY_MAN_ORDER_STATUS +
+    cartItems +
+    END_DELIVERY_MAN_ORDER
+  );
+}
+
+function generateCartItem(item, articleNumber) {
   return `
   <tr> 
-      <td> ${count} </td>
+      <td> ${articleNumber} </td>
       <td> ${item.name} </td> 
       <td> ${item.type} </td>
       <td> $${item.price.toFixed(2)} </td>
