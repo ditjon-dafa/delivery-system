@@ -18,4 +18,9 @@ export class DeliveryMan {
 
     DELIVERY_MAN_ORDERS.innerHTML = dynamicOrders;
   }
+
+  deliverOrder(ORDER_ID) {
+    let order = this.orders.find((order) => order.id == ORDER_ID);
+    order.status = "ON THE WAY";
+  }
 }

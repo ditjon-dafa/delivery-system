@@ -337,11 +337,34 @@ export function generateDeliveryManOrder(order) {
         <p> <b> Client payment method: </b> ${order.clientPaymentMethod} </p>
       </div>`;
 
-  const DELIVERY_MAN_ORDER_STATUS = `
+  let color = "";
+
+  if (order.status == "PACKAGED") {
+    color = "green";
+  } else if (order.status == "ON THE WAY") {
+    color = "rgb(45, 166, 241)";
+  }
+
+  let deliveryManOrderStatus = ``;
+
+  if (order.status == "PACKAGED") {
+    deliveryManOrderStatus = `
       <div>
-        <p style="color: green;"> ${order.status} </p>
-        <button class="button"> Deliver order </button>
+        <p style="color: ${color};"> ${order.status} </p>
+        <button class="button deliver-order"> Deliver order </button>
       </div>`;
+  } else if (order.status == "ON THE WAY") {
+    deliveryManOrderStatus = `
+      <div>
+        <p style="color: ${color};"> ${order.status} </p>
+        <div style="margin-bottom: 12px;">
+          <button class="success-button"> Delivered </button>
+        </div>
+        <div>
+          <button class="fail-button"> Rejected </button>
+        </div>
+      </div>`;
+  }
 
   let cartItems = `
       <div>
@@ -383,7 +406,7 @@ export function generateDeliveryManOrder(order) {
   return (
     BEGIN_DELIVERY_MAN_ORDER +
     ORDER_DETAILS +
-    DELIVERY_MAN_ORDER_STATUS +
+    deliveryManOrderStatus +
     cartItems +
     END_DELIVERY_MAN_ORDER
   );

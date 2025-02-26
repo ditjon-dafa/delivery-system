@@ -557,6 +557,11 @@ function packageChefOrder(event) {
   deliveryMan.orders.push(order);
   deliveryMan.displayOrders();
 
+  const BTN_DELIVER_ORDER = document.querySelectorAll(".deliver-order");
+  BTN_DELIVER_ORDER.forEach((button) => {
+    button.addEventListener("click", deliveryManDeliverOrder);
+  });
+
   if (chef.orders.length >= 1) {
     setTimeout(function () {
       chef.prepareOrder(chef.orders[0]);
@@ -604,4 +609,14 @@ function failChefOrder(event) {
       CHEF_ORDER.innerHTML = "";
     }, 3000);
   }
+}
+
+function deliveryManDeliverOrder(event) {
+  const BTN = event.currentTarget;
+
+  const ORDER_ID = BTN.parentNode.parentNode.getAttribute("id");
+
+  deliveryMan.deliverOrder(ORDER_ID);
+
+  deliveryMan.displayOrders();
 }
