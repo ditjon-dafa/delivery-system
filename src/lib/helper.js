@@ -339,7 +339,7 @@ export function generateDeliveryManOrder(order) {
 
   let color = "";
 
-  if (order.status == "PACKAGED") {
+  if (order.status == "PACKAGED" || order.status == "DELIVERED") {
     color = "green";
   } else if (order.status == "ON THE WAY") {
     color = "rgb(45, 166, 241)";
@@ -358,11 +358,16 @@ export function generateDeliveryManOrder(order) {
       <div>
         <p style="color: ${color};"> ${order.status} </p>
         <div style="margin-bottom: 12px;">
-          <button class="success-button"> Delivered </button>
+          <button class="success-button succeed-delivering-order"> Delivered </button>
         </div>
         <div>
           <button class="fail-button"> Rejected </button>
         </div>
+      </div>`;
+  } else {
+    deliveryManOrderStatus = `
+      <div>
+        <p style="color: ${color};"> ${order.status} </p>
       </div>`;
   }
 

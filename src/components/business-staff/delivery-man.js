@@ -3,6 +3,7 @@ import { generateDeliveryManOrder } from "../../lib/helper.js";
 export class DeliveryMan {
   constructor() {
     this.orders = [];
+    this.deliveredOrders = 0;
   }
 
   displayOrders() {
@@ -22,5 +23,14 @@ export class DeliveryMan {
   deliverOrder(ORDER_ID) {
     let order = this.orders.find((order) => order.id == ORDER_ID);
     order.status = "ON THE WAY";
+  }
+
+  succeedDeliveringOrder(ORDER_ID) {
+    let order = this.orders.find((order) => order.id == ORDER_ID);
+    order.status = "DELIVERED";
+  }
+
+  removeOrder(ORDER_ID) {
+    this.orders = this.orders.filter((order) => order.id != ORDER_ID);
   }
 }
