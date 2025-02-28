@@ -343,6 +343,8 @@ export function generateDeliveryManOrder(order) {
     color = "green";
   } else if (order.status == "ON THE WAY") {
     color = "rgb(45, 166, 241)";
+  } else if (order.status == "REJECTED") {
+    color = "red";
   }
 
   let deliveryManOrderStatus = ``;
@@ -361,7 +363,7 @@ export function generateDeliveryManOrder(order) {
           <button class="success-button succeed-delivering-order"> Delivered </button>
         </div>
         <div>
-          <button class="fail-button"> Rejected </button>
+          <button class="fail-button fail-delivering-order"> Rejected </button>
         </div>
       </div>`;
   } else {

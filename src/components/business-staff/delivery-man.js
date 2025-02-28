@@ -4,6 +4,7 @@ export class DeliveryMan {
   constructor() {
     this.orders = [];
     this.deliveredOrders = 0;
+    this.rejectedOrders = 0;
   }
 
   displayOrders() {
@@ -28,6 +29,11 @@ export class DeliveryMan {
   succeedDeliveringOrder(ORDER_ID) {
     let order = this.orders.find((order) => order.id == ORDER_ID);
     order.status = "DELIVERED";
+  }
+
+  failDeliveringOrder(ORDER_ID) {
+    let order = this.orders.find((order) => order.id == ORDER_ID);
+    order.status = "REJECTED";
   }
 
   removeOrder(ORDER_ID) {

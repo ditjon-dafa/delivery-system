@@ -162,6 +162,13 @@ function deliveryManOnTheWayBtnsAct() {
   BTNS_SUCCEED_DELIVERING_ORDER.forEach((button) => {
     button.addEventListener("click", deliveryManSucceedDeliveringOrder);
   });
+
+  const BTNS_FAIL_DELIVERING_ORDER = document.querySelectorAll(
+    ".fail-delivering-order"
+  );
+  BTNS_FAIL_DELIVERING_ORDER.forEach((button) => {
+    button.addEventListener("click", deliveryManFailDeliveringOrder);
+  });
 }
 
 const BTN_REGISTER_CLIENT = document.getElementById("register");
@@ -662,9 +669,41 @@ function deliveryManSucceedDeliveringOrder(event) {
 
       if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
         deliveryManDeliverOrderBtnsAct();
-      } else if (
-        deliveryMan.orders.some((order) => order.status == "ON THE WAY")
-      ) {
+      }
+      if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
+        deliveryManOnTheWayBtnsAct();
+      }
+    }, 3000);
+  } else {
+    setTimeout(function () {
+      const DELIVERY_MAN_ORDERS = document.getElementById(
+        "delivery-man-orders"
+      );
+      DELIVERY_MAN_ORDERS.innerHTML = "";
+    }, 3000);
+  }
+}
+
+function deliveryManFailDeliveringOrder(event) {
+  const BTN = event.currentTarget;
+
+  const ORDER_ID = BTN.parentNode.parentNode.parentNode.getAttribute("id");
+
+  deliveryMan.failDeliveringOrder(ORDER_ID);
+  deliveryMan.rejectedOrders += 1;
+
+  deliveryMan.displayOrders();
+
+  deliveryMan.removeOrder(ORDER_ID);
+
+  if (deliveryMan.orders.length >= 1) {
+    setTimeout(function () {
+      deliveryMan.displayOrders();
+      if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
+        deliveryManDeliverOrderBtnsAct();
+      }
+
+      if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
         deliveryManOnTheWayBtnsAct();
       }
     }, 3000);
