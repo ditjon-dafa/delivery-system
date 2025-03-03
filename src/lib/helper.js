@@ -323,6 +323,25 @@ function generateChefOrderItem(item, articleNumber) {
           </tr>`;
 }
 
+export function generateDeliveryManDashboard(
+  deliveredOrders,
+  rejectedOrders,
+  deliveryManTips,
+  deliveryManIncomeStatus
+) {
+  return `
+      <div> <h3> Delivery man </h3> </div>
+      <div> <p> Successfully delivered orders: <span style="color: green;"> ${deliveredOrders} </span> </p> </div>
+      <div> <p> Rejected orders: <span style="color: red;"> ${rejectedOrders} </span> </p> </div>
+      <div> <p> Tips: <span class="money-font-color"> $${deliveryManTips.toFixed(
+        2
+      )} </span> </p> </div>
+      <div> <p> Income status: <span class="money-font-color"> $${deliveryManIncomeStatus.toFixed(
+        2
+      )} </span> </p> </div>
+      `;
+}
+
 export function generateDeliveryManOrder(order) {
   const BEGIN_DELIVERY_MAN_ORDER = `<div class="order" id="${order.id}">`;
 

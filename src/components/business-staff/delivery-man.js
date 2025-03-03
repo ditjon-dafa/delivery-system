@@ -5,6 +5,8 @@ export class DeliveryMan {
     this.orders = [];
     this.deliveredOrders = 0;
     this.rejectedOrders = 0;
+    this.tips = 0;
+    this.incomeStatus = 0;
   }
 
   displayOrders() {
@@ -29,6 +31,7 @@ export class DeliveryMan {
   succeedDeliveringOrder(ORDER_ID) {
     let order = this.orders.find((order) => order.id == ORDER_ID);
     order.status = "DELIVERED";
+    return order;
   }
 
   failDeliveringOrder(ORDER_ID) {

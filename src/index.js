@@ -14,6 +14,7 @@ import {
   generateCheckout,
   generateReceptionistDashboard,
   generateChefDashboard,
+  generateDeliveryManDashboard,
 } from "./lib/helper.js";
 
 let client = null;
@@ -86,6 +87,16 @@ const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
 CHEF_DASHBOARD.innerHTML = generateChefDashboard(
   chef.packagedOrders,
   chef.failedOrders
+);
+
+const DELIVERY_MAN_DASHBOARD = document.getElementById(
+  "delivery-man-dashboard"
+);
+DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
+  deliveryMan.deliveredOrders,
+  deliveryMan.rejectedOrders,
+  deliveryMan.tips,
+  deliveryMan.incomeStatus
 );
 
 const BTN_SHOW_LOCATION = document.getElementById("location");
@@ -617,6 +628,17 @@ function failChefOrder(event) {
     chef.failedOrders
   );
 
+  receptionist.generalFailedOrders += 1;
+
+  const RECEPTIONIST_DASHBOARD = document.getElementById(
+    "receptionist-dashboard"
+  );
+  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+    receptionist.generalSuccessfulOrders,
+    receptionist.generalFailedOrders,
+    receptionist.cashDeskStatus
+  );
+
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);
 
@@ -656,8 +678,32 @@ function deliveryManSucceedDeliveringOrder(event) {
 
   const ORDER_ID = BTN.parentNode.parentNode.parentNode.getAttribute("id");
 
-  deliveryMan.succeedDeliveringOrder(ORDER_ID);
+  let order = deliveryMan.succeedDeliveringOrder(ORDER_ID);
   deliveryMan.deliveredOrders += 1;
+  deliveryMan.tips += order.deliveryManTipTotal;
+  deliveryMan.incomeStatus += order.total;
+
+  const DELIVERY_MAN_DASHBOARD = document.getElementById(
+    "delivery-man-dashboard"
+  );
+  DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
+    deliveryMan.deliveredOrders,
+    deliveryMan.rejectedOrders,
+    deliveryMan.tips,
+    deliveryMan.incomeStatus
+  );
+
+  receptionist.generalSuccessfulOrders += 1;
+  receptionist.cashDeskStatus += order.total;
+
+  const RECEPTIONIST_DASHBOARD = document.getElementById(
+    "receptionist-dashboard"
+  );
+  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+    receptionist.generalSuccessfulOrders,
+    receptionist.generalFailedOrders,
+    receptionist.cashDeskStatus
+  );
 
   deliveryMan.displayOrders();
 
@@ -691,6 +737,27 @@ function deliveryManFailDeliveringOrder(event) {
 
   deliveryMan.failDeliveringOrder(ORDER_ID);
   deliveryMan.rejectedOrders += 1;
+
+  const DELIVERY_MAN_DASHBOARD = document.getElementById(
+    "delivery-man-dashboard"
+  );
+  DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
+    deliveryMan.deliveredOrders,
+    deliveryMan.rejectedOrders,
+    deliveryMan.tips,
+    deliveryMan.incomeStatus
+  );
+
+  receptionist.generalFailedOrders += 1;
+
+  const RECEPTIONIST_DASHBOARD = document.getElementById(
+    "receptionist-dashboard"
+  );
+  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+    receptionist.generalSuccessfulOrders,
+    receptionist.generalFailedOrders,
+    receptionist.cashDeskStatus
+  );
 
   deliveryMan.displayOrders();
 
