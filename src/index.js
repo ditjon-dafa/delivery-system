@@ -593,6 +593,14 @@ function packageChefOrder(event) {
 
   deliveryManDeliverOrderBtnsAct();
 
+  const PACKAGED_ORDERS = deliveryMan.orders.filter(
+    (order) => order.status == "PACKAGED"
+  );
+  if (PACKAGED_ORDERS.length >= 2) {
+    const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
+    BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
+  }
+
   if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
     deliveryManOnTheWayBtnsAct();
   }
@@ -666,10 +674,23 @@ function deliveryManDeliverOrder(event) {
 
   deliveryMan.displayOrders();
 
-  if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
-    deliveryManDeliverOrderBtnsAct();
-  }
+  deliveryManOnTheWayBtnsAct();
 
+  const PACKAGED_ORDERS = deliveryMan.orders.filter(
+    (order) => order.status == "PACKAGED"
+  );
+
+  if (PACKAGED_ORDERS.length >= 1) deliveryManDeliverOrderBtnsAct();
+
+  if (PACKAGED_ORDERS.length >= 2) {
+    const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
+    BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
+  }
+}
+
+function deliveryManDeliverAllOrders() {
+  deliveryMan.deliverAllOrders();
+  deliveryMan.displayOrders();
   deliveryManOnTheWayBtnsAct();
 }
 
@@ -713,9 +734,19 @@ function deliveryManSucceedDeliveringOrder(event) {
     setTimeout(function () {
       deliveryMan.displayOrders();
 
-      if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
-        deliveryManDeliverOrderBtnsAct();
+      const PACKAGED_ORDERS = deliveryMan.orders.filter(
+        (order) => order.status == "PACKAGED"
+      );
+      if (PACKAGED_ORDERS.length >= 1) deliveryManDeliverOrderBtnsAct();
+
+      if (PACKAGED_ORDERS.length >= 2) {
+        const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
+        BTN_DELIVER_ORDERS.addEventListener(
+          "click",
+          deliveryManDeliverAllOrders
+        );
       }
+
       if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
         deliveryManOnTheWayBtnsAct();
       }
@@ -766,8 +797,19 @@ function deliveryManFailDeliveringOrder(event) {
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
       deliveryMan.displayOrders();
-      if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
-        deliveryManDeliverOrderBtnsAct();
+
+      const PACKAGED_ORDERS = deliveryMan.orders.filter(
+        (order) => order.status == "PACKAGED"
+      );
+
+      if (PACKAGED_ORDERS.length >= 1) deliveryManDeliverOrderBtnsAct();
+
+      if (PACKAGED_ORDERS.length >= 2) {
+        const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
+        BTN_DELIVER_ORDERS.addEventListener(
+          "click",
+          deliveryManDeliverAllOrders
+        );
       }
 
       if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {

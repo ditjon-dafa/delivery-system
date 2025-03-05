@@ -449,3 +449,10 @@ function generateCartItem(item, articleNumber) {
       <td>$${item.total.toFixed(2)}  </td>
   </tr>`;
 }
+
+export function generateDeliveryManOrdersFooter() {
+  return `
+      <div>
+        <button id="deliver-orders" class="button">Deliver all orders </button>
+      </div>`;
+}
