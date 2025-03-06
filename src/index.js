@@ -33,6 +33,95 @@ let isShownCart = false;
 
 let isFirstClickCartBtn = false;
 
+function createOrUpdateReceptionistDashboard() {
+  const RECEPTIONIST_DASHBOARD = document.getElementById(
+    "receptionist-dashboard"
+  );
+  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
+    receptionist.generalSuccessfulOrders,
+    receptionist.generalFailedOrders,
+    receptionist.cashDeskStatus
+  );
+}
+
+function createOrUpdateChefDashboard() {
+  const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
+  CHEF_DASHBOARD.innerHTML = generateChefDashboard(
+    chef.packagedOrders,
+    chef.failedOrders
+  );
+}
+
+function createOrUpdateDeliveryManDashboard() {
+  const DELIVERY_MAN_DASHBOARD = document.getElementById(
+    "delivery-man-dashboard"
+  );
+  DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
+    deliveryMan.deliveredOrders,
+    deliveryMan.rejectedOrders,
+    deliveryMan.tips,
+    deliveryMan.incomeStatus
+  );
+}
+
+function displayCartButton() {
+  const CART_BUTTON_DIV = document.getElementById("cart-button-div");
+  CART_BUTTON_DIV.innerHTML = generateCartButton(
+    isShownCart,
+    shoppingCart.itemsQuantity
+  );
+}
+
+function showHideMenu() {
+  const MENU_CONTAINER = document.getElementById("menu");
+  MENU_CONTAINER.classList.toggle("hide", isShownCart === true);
+}
+
+function currentChefOrderBtnsAct() {
+  const BTN_PACKAGE_CHEF_ORDER = document.getElementById("package-chef-order");
+  BTN_PACKAGE_CHEF_ORDER.addEventListener("click", packageChefOrder);
+
+  const BTN_FAIL_CHEF_ORDER = document.getElementById("fail-chef-order");
+  BTN_FAIL_CHEF_ORDER.addEventListener("click", failChefOrder);
+
+  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
+  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
+}
+
+function deliveryManDeliverOrderBtnsAct() {
+  const BTNS_DELIVER_ORDER = document.querySelectorAll(".deliver-order");
+  BTNS_DELIVER_ORDER.forEach((button) => {
+    button.addEventListener("click", deliveryManDeliverOrder);
+  });
+}
+
+function deliveryManDeliverAllOrdersBtnAct() {
+  const PACKAGED_ORDERS = deliveryMan.orders.filter(
+    (order) => order.status == "PACKAGED"
+  );
+
+  if (PACKAGED_ORDERS.length >= 2) {
+    const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
+    BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
+  }
+}
+
+function deliveryManOnTheWayBtnsAct() {
+  const BTNS_SUCCEED_DELIVERING_ORDER = document.querySelectorAll(
+    ".succeed-delivering-order"
+  );
+  BTNS_SUCCEED_DELIVERING_ORDER.forEach((button) => {
+    button.addEventListener("click", deliveryManSucceedDeliveringOrder);
+  });
+
+  const BTNS_FAIL_DELIVERING_ORDER = document.querySelectorAll(
+    ".fail-delivering-order"
+  );
+  BTNS_FAIL_DELIVERING_ORDER.forEach((button) => {
+    button.addEventListener("click", deliveryManFailDeliveringOrder);
+  });
+}
+
 const TAB_LINKS = document.getElementsByClassName("tab-links");
 
 const TAB_CLIENT = Array.from(TAB_LINKS).find(
@@ -74,30 +163,9 @@ function showTabContent(event) {
   TAB_CONTENT_TO_DISPLAY.classList.remove("hide");
 }
 
-const RECEPTIONIST_DASHBOARD = document.getElementById(
-  "receptionist-dashboard"
-);
-RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
-  receptionist.generalSuccessfulOrders,
-  receptionist.generalFailedOrders,
-  receptionist.cashDeskStatus
-);
-
-const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
-CHEF_DASHBOARD.innerHTML = generateChefDashboard(
-  chef.packagedOrders,
-  chef.failedOrders
-);
-
-const DELIVERY_MAN_DASHBOARD = document.getElementById(
-  "delivery-man-dashboard"
-);
-DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
-  deliveryMan.deliveredOrders,
-  deliveryMan.rejectedOrders,
-  deliveryMan.tips,
-  deliveryMan.incomeStatus
-);
+createOrUpdateReceptionistDashboard();
+createOrUpdateChefDashboard();
+createOrUpdateDeliveryManDashboard();
 
 const BTN_SHOW_LOCATION = document.getElementById("location");
 BTN_SHOW_LOCATION.addEventListener("click", showLocation);
@@ -133,53 +201,6 @@ function showError(error) {
       alert("An unknown error occurred.");
       break;
   }
-}
-
-function displayCartButton() {
-  const CART_BUTTON_DIV = document.getElementById("cart-button-div");
-  CART_BUTTON_DIV.innerHTML = generateCartButton(
-    isShownCart,
-    shoppingCart.itemsQuantity
-  );
-}
-
-function showHideMenu() {
-  const MENU_CONTAINER = document.getElementById("menu");
-  MENU_CONTAINER.classList.toggle("hide", isShownCart === true);
-}
-
-function currentChefOrderBtnsAct() {
-  const BTN_PACKAGE_CHEF_ORDER = document.getElementById("package-chef-order");
-  BTN_PACKAGE_CHEF_ORDER.addEventListener("click", packageChefOrder);
-
-  const BTN_FAIL_CHEF_ORDER = document.getElementById("fail-chef-order");
-  BTN_FAIL_CHEF_ORDER.addEventListener("click", failChefOrder);
-
-  const BTN_NEXT_CHEF_ORDER = document.getElementById("next-chef-order");
-  BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
-}
-
-function deliveryManDeliverOrderBtnsAct() {
-  const BTNS_DELIVER_ORDER = document.querySelectorAll(".deliver-order");
-  BTNS_DELIVER_ORDER.forEach((button) => {
-    button.addEventListener("click", deliveryManDeliverOrder);
-  });
-}
-
-function deliveryManOnTheWayBtnsAct() {
-  const BTNS_SUCCEED_DELIVERING_ORDER = document.querySelectorAll(
-    ".succeed-delivering-order"
-  );
-  BTNS_SUCCEED_DELIVERING_ORDER.forEach((button) => {
-    button.addEventListener("click", deliveryManSucceedDeliveringOrder);
-  });
-
-  const BTNS_FAIL_DELIVERING_ORDER = document.querySelectorAll(
-    ".fail-delivering-order"
-  );
-  BTNS_FAIL_DELIVERING_ORDER.forEach((button) => {
-    button.addEventListener("click", deliveryManFailDeliveringOrder);
-  });
 }
 
 const BTN_REGISTER_CLIENT = document.getElementById("register");
@@ -578,12 +599,7 @@ function packageChefOrder(event) {
   chef.packageOrder(order);
 
   chef.packagedOrders += 1;
-
-  const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
-  CHEF_DASHBOARD.innerHTML = generateChefDashboard(
-    chef.packagedOrders,
-    chef.failedOrders
-  );
+  createOrUpdateChefDashboard();
 
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);
@@ -593,13 +609,7 @@ function packageChefOrder(event) {
 
   deliveryManDeliverOrderBtnsAct();
 
-  const PACKAGED_ORDERS = deliveryMan.orders.filter(
-    (order) => order.status == "PACKAGED"
-  );
-  if (PACKAGED_ORDERS.length >= 2) {
-    const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
-    BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
-  }
+  deliveryManDeliverAllOrdersBtnAct();
 
   if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
     deliveryManOnTheWayBtnsAct();
@@ -629,23 +639,10 @@ function failChefOrder(event) {
 
   chef.failOrder(order);
   chef.failedOrders += 1;
-
-  const CHEF_DASHBOARD = document.getElementById("chef-dashboard");
-  CHEF_DASHBOARD.innerHTML = generateChefDashboard(
-    chef.packagedOrders,
-    chef.failedOrders
-  );
+  createOrUpdateChefDashboard();
 
   receptionist.generalFailedOrders += 1;
-
-  const RECEPTIONIST_DASHBOARD = document.getElementById(
-    "receptionist-dashboard"
-  );
-  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
-    receptionist.generalSuccessfulOrders,
-    receptionist.generalFailedOrders,
-    receptionist.cashDeskStatus
-  );
+  createOrUpdateReceptionistDashboard();
 
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);
@@ -676,16 +673,10 @@ function deliveryManDeliverOrder(event) {
 
   deliveryManOnTheWayBtnsAct();
 
-  const PACKAGED_ORDERS = deliveryMan.orders.filter(
-    (order) => order.status == "PACKAGED"
-  );
+  deliveryManDeliverAllOrdersBtnAct();
 
-  if (PACKAGED_ORDERS.length >= 1) deliveryManDeliverOrderBtnsAct();
-
-  if (PACKAGED_ORDERS.length >= 2) {
-    const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
-    BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
-  }
+  if (deliveryMan.orders.some((order) => order.status == "PACKAGED"))
+    deliveryManDeliverOrderBtnsAct();
 }
 
 function deliveryManDeliverAllOrders() {
@@ -703,28 +694,11 @@ function deliveryManSucceedDeliveringOrder(event) {
   deliveryMan.deliveredOrders += 1;
   deliveryMan.tips += order.deliveryManTipTotal;
   deliveryMan.incomeStatus += order.total;
-
-  const DELIVERY_MAN_DASHBOARD = document.getElementById(
-    "delivery-man-dashboard"
-  );
-  DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
-    deliveryMan.deliveredOrders,
-    deliveryMan.rejectedOrders,
-    deliveryMan.tips,
-    deliveryMan.incomeStatus
-  );
+  createOrUpdateDeliveryManDashboard();
 
   receptionist.generalSuccessfulOrders += 1;
   receptionist.cashDeskStatus += order.total;
-
-  const RECEPTIONIST_DASHBOARD = document.getElementById(
-    "receptionist-dashboard"
-  );
-  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
-    receptionist.generalSuccessfulOrders,
-    receptionist.generalFailedOrders,
-    receptionist.cashDeskStatus
-  );
+  createOrUpdateReceptionistDashboard();
 
   deliveryMan.displayOrders();
 
@@ -734,18 +708,10 @@ function deliveryManSucceedDeliveringOrder(event) {
     setTimeout(function () {
       deliveryMan.displayOrders();
 
-      const PACKAGED_ORDERS = deliveryMan.orders.filter(
-        (order) => order.status == "PACKAGED"
-      );
-      if (PACKAGED_ORDERS.length >= 1) deliveryManDeliverOrderBtnsAct();
+      deliveryManDeliverAllOrdersBtnAct();
 
-      if (PACKAGED_ORDERS.length >= 2) {
-        const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
-        BTN_DELIVER_ORDERS.addEventListener(
-          "click",
-          deliveryManDeliverAllOrders
-        );
-      }
+      if (deliveryMan.orders.some((order) => order.status == "PACKAGED"))
+        deliveryManDeliverOrderBtnsAct();
 
       if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
         deliveryManOnTheWayBtnsAct();
@@ -768,27 +734,10 @@ function deliveryManFailDeliveringOrder(event) {
 
   deliveryMan.failDeliveringOrder(ORDER_ID);
   deliveryMan.rejectedOrders += 1;
-
-  const DELIVERY_MAN_DASHBOARD = document.getElementById(
-    "delivery-man-dashboard"
-  );
-  DELIVERY_MAN_DASHBOARD.innerHTML = generateDeliveryManDashboard(
-    deliveryMan.deliveredOrders,
-    deliveryMan.rejectedOrders,
-    deliveryMan.tips,
-    deliveryMan.incomeStatus
-  );
+  createOrUpdateDeliveryManDashboard();
 
   receptionist.generalFailedOrders += 1;
-
-  const RECEPTIONIST_DASHBOARD = document.getElementById(
-    "receptionist-dashboard"
-  );
-  RECEPTIONIST_DASHBOARD.innerHTML = generateReceptionistDashboard(
-    receptionist.generalSuccessfulOrders,
-    receptionist.generalFailedOrders,
-    receptionist.cashDeskStatus
-  );
+  createOrUpdateReceptionistDashboard();
 
   deliveryMan.displayOrders();
 
@@ -798,19 +747,10 @@ function deliveryManFailDeliveringOrder(event) {
     setTimeout(function () {
       deliveryMan.displayOrders();
 
-      const PACKAGED_ORDERS = deliveryMan.orders.filter(
-        (order) => order.status == "PACKAGED"
-      );
+      deliveryManDeliverAllOrdersBtnAct();
 
-      if (PACKAGED_ORDERS.length >= 1) deliveryManDeliverOrderBtnsAct();
-
-      if (PACKAGED_ORDERS.length >= 2) {
-        const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
-        BTN_DELIVER_ORDERS.addEventListener(
-          "click",
-          deliveryManDeliverAllOrders
-        );
-      }
+      if (deliveryMan.orders.some((order) => order.status == "PACKAGED"))
+        deliveryManDeliverOrderBtnsAct();
 
       if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
         deliveryManOnTheWayBtnsAct();
