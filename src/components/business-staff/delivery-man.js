@@ -3,8 +3,17 @@ import {
   generateDeliveryManOrdersFooter,
 } from "../../lib/helper.js";
 
+export class DeliveryMenStaff {
+  constructor(id, phoneNumber) {
+    this.id = id;
+    this.name = "Delivery man " + id;
+    this.phoneNumber = phoneNumber;
+    this.status = "READY";
+  }
+}
 export class DeliveryMan {
   constructor() {
+    this.staff = [];
     this.orders = [];
     this.deliveredOrders = 0;
     this.rejectedOrders = 0;
@@ -21,9 +30,14 @@ export class DeliveryMan {
     DELIVERY_MAN_ORDERS.innerHTML = "";
 
     let dynamicOrders = `<div>`;
-    this.orders.forEach((order) => {
-      dynamicOrders += generateDeliveryManOrder(order);
-    });
+
+    if (PACKAGED_ORDERS.length != 0) {
+      dynamicOrders += `<div class="delivery-men-staff-orders">`;
+      dynamicOrders += `<div> <h4> Order(s) <span class="blue-font-color"> not assigned </span> yet! </h4> </div>`;
+      this.orders.forEach((order) => {
+        dynamicOrders += generateDeliveryManOrder(order);
+      });
+    }
 
     if (PACKAGED_ORDERS.length >= 2) {
       dynamicOrders += generateDeliveryManOrdersFooter();

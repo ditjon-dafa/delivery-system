@@ -1,5 +1,8 @@
 import { Chef } from "./components/business-staff/chef.js";
-import { DeliveryMan } from "./components/business-staff/delivery-man.js";
+import {
+  DeliveryMenStaff,
+  DeliveryMan,
+} from "./components/business-staff/delivery-man.js";
 import { Receptionist } from "./components/business-staff/receptionist.js";
 import { Client } from "./components/client/client.js";
 import { MENU } from "./components/order/menu.js";
@@ -19,19 +22,26 @@ import {
 
 let client = null;
 
-let receptionist = new Receptionist("Receptionist", "00355691111111");
-
-let chef = new Chef();
-
-let deliveryMan = new DeliveryMan();
-
 let shoppingCart = new ShoppingCart();
-
-let generalOrderId = 0;
 
 let isShownCart = false;
 
 let isFirstClickCartBtn = false;
+
+let generalOrderId = 0;
+
+let receptionist = new Receptionist("Receptionist", "00355691111111");
+
+let chef = new Chef();
+
+//object, inside which is found an array of delivery men staff
+let deliveryMan = new DeliveryMan();
+
+//the id of an element (a delivery man) of the array of delivery men staff
+let deliveryManId = 1;
+
+//the phone number of an element (delivery man) of the array of delivery men staff
+let deliveryManPhoneNumber = "00355692222222";
 
 function createOrUpdateReceptionistDashboard() {
   const RECEPTIONIST_DASHBOARD = document.getElementById(
@@ -104,6 +114,59 @@ function deliveryManDeliverAllOrdersBtnAct() {
     const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
     BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
   }
+}
+
+function getIdOfDeliveryManWithAssignedOrder() {
+  let selectedDeliveryManId = -1;
+
+  if (deliveryMan.staff.length == 0) {
+    let deliveryManWithId = new DeliveryMenStaff(
+      deliveryManId,
+      deliveryManPhoneNumber
+    );
+    deliveryMan.staff.push(deliveryManWithId);
+    selectedDeliveryManId = deliveryManId;
+  } else if (
+    deliveryMan.staff.length >= 1 &&
+    deliveryMan.staff.every((delivery) => delivery.status == "READY")
+  ) {
+    selectedDeliveryManId = deliveryMan.staff[0].id;
+  } else if (
+    deliveryMan.staff.every((delivery) => delivery.status == "ON THE WAY")
+  ) {
+    deliveryManId++;
+    deliveryManPhoneNumber++;
+    let deliveryManWithId = new DeliveryMenStaff(
+      deliveryManId,
+      deliveryManPhoneNumber
+    );
+    deliveryMan.staff.push(deliveryManWithId);
+    selectedDeliveryManId = deliveryManId;
+  } else {
+    //deliveryMan.staff.length >= 2
+    let index = 1;
+
+    while (index < deliveryMan.staff.length) {
+      if (
+        deliveryMan.staff[index - 1].status == "ON THE WAY" &&
+        deliveryMan.staff[index].status == "READY"
+      ) {
+        selectedDeliveryManId = deliveryMan.staff[index].id;
+        break;
+      } else if (index == deliveryMan.staff.length - 1) {
+        if (
+          deliveryMan.staff[index].status == "ON THE WAY" &&
+          deliveryMan.staff[0].status == "READY"
+        ) {
+          selectedDeliveryManId = deliveryMan.staff[0].id;
+          break;
+        }
+      }
+      index++;
+    }
+  }
+
+  return selectedDeliveryManId;
 }
 
 function deliveryManOnTheWayBtnsAct() {

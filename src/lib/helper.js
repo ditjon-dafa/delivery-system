@@ -87,7 +87,7 @@ export function generateShoppingCart(shoppingCart) {
   cartTable += `</table></div>`;
 
   const ORDER_TOTAL = shoppingCart.orderTotal.toFixed(2);
-  const SHOPPING_CART_FOOTER = `<p> <b> Total: </b> <span class="money-font-color">$${ORDER_TOTAL}</span></p>`;
+  const SHOPPING_CART_FOOTER = `<p> <b> Total: </b> <span class="blue-font-color">$${ORDER_TOTAL}</span></p>`;
 
   return SHOPPING_CART_HEADER + cartTable + SHOPPING_CART_FOOTER;
 }
@@ -110,7 +110,7 @@ export function generateReceptionistDashboard(
     <div><h3>Receptionist</h3></div>
     <div><p>Successfully processed orders: <span style="color: green;"> ${successfulOrders} </span> </p></div>
     <div> <p>Failed  orders: <span style="color: red;" > ${failedOrders} </span> </p></div>
-    <div><p>Cash desk status: <span class="money-font-color"> $ ${cashDeskStatus.toFixed(
+    <div><p>Cash desk status: <span class="blue-font-color"> $ ${cashDeskStatus.toFixed(
       2
     )} </span> </p></div>`;
 }
@@ -333,19 +333,19 @@ export function generateDeliveryManDashboard(
       <div> <h3> Delivery man </h3> </div>
       <div> <p> Successfully delivered orders: <span style="color: green;"> ${deliveredOrders} </span> </p> </div>
       <div> <p> Rejected orders: <span style="color: red;"> ${rejectedOrders} </span> </p> </div>
-      <div> <p> Tips: <span class="money-font-color"> $${deliveryManTips.toFixed(
+      <div> <p> Tips: <span class="blue-font-color"> $${deliveryManTips.toFixed(
         2
       )} </span> </p> </div>
-      <div> <p> Income status: <span class="money-font-color"> $${deliveryManIncomeStatus.toFixed(
+      <div> <p> Income status: <span class="blue-font-color"> $${deliveryManIncomeStatus.toFixed(
         2
       )} </span> </p> </div>
       `;
 }
 
 export function generateDeliveryManOrder(order) {
-  const BEGIN_DELIVERY_MAN_ORDER = `<div class="order" id="${order.id}">`;
-
+  const BEGIN_ORDER_DIV = `<div class="order" id="${order.id}">`;
   const ORDER_DETAILS = `
+    
       <div class="business-staff-order-detail">
         <p> <b> Order id: </b> ${order.id} </p>
         <p> <b> Order total: </b> $${order.total.toFixed(2)} </p>
@@ -427,14 +427,14 @@ export function generateDeliveryManOrder(order) {
 
   cartItems += `</table></div>`;
 
-  const END_DELIVERY_MAN_ORDER = `</div>`;
+  const END_ORDER_DIV = `</div>`;
 
   return (
-    BEGIN_DELIVERY_MAN_ORDER +
+    BEGIN_ORDER_DIV +
     ORDER_DETAILS +
     deliveryManOrderStatus +
     cartItems +
-    END_DELIVERY_MAN_ORDER
+    END_ORDER_DIV
   );
 }
 
