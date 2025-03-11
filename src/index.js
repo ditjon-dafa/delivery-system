@@ -730,7 +730,9 @@ function deliveryManDeliverOrder(event) {
 
   const ORDER_ID = BTN.parentNode.parentNode.getAttribute("id");
 
-  deliveryMan.deliverOrder(ORDER_ID);
+  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrder();
+
+  deliveryMan.deliverOrder(DELIVERY_MAN_ID, ORDER_ID);
 
   deliveryMan.displayOrders();
 
@@ -743,7 +745,9 @@ function deliveryManDeliverOrder(event) {
 }
 
 function deliveryManDeliverAllOrders() {
-  deliveryMan.deliverAllOrders();
+  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrder();
+  deliveryMan.deliverAllOrders(DELIVERY_MAN_ID);
+
   deliveryMan.displayOrders();
   deliveryManOnTheWayBtnsAct();
 }

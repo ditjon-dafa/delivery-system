@@ -342,7 +342,7 @@ export function generateDeliveryManDashboard(
       `;
 }
 
-export function generateDeliveryManOrder(order) {
+export function generateDeliveryManOrder(deliveryManId, order) {
   const BEGIN_ORDER_DIV = `<div class="order" id="${order.id}">`;
   const ORDER_DETAILS = `
     
@@ -376,7 +376,7 @@ export function generateDeliveryManOrder(order) {
       </div>`;
   } else if (order.status == "ON THE WAY") {
     deliveryManOrderStatus = `
-      <div>
+      <div id="${deliveryManId}">
         <p style="color: ${color};"> ${order.status} </p>
         <div style="margin-bottom: 12px;">
           <button class="success-button succeed-delivering-order"> Delivered </button>
