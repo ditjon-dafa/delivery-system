@@ -93,6 +93,7 @@ export class DeliveryMan {
   succeedDeliveringOrder(ORDER_ID) {
     let order = this.orders.find((order) => order.id == ORDER_ID);
     order.status = "DELIVERED";
+
     return order;
   }
 
@@ -101,7 +102,17 @@ export class DeliveryMan {
     order.status = "REJECTED";
   }
 
-  removeOrder(ORDER_ID) {
+  removeOrder(DELIVERY_MAN_ID, ORDER_ID) {
     this.orders = this.orders.filter((order) => order.id != ORDER_ID);
+
+    let selectedDeliveryMan = this.staff.find(
+      (deliveryMan) => deliveryMan.id == DELIVERY_MAN_ID
+    );
+    selectedDeliveryMan.orders = selectedDeliveryMan.orders.filter(
+      (order) => order.id != ORDER_ID
+    );
+
+    if (selectedDeliveryMan.orders.length == 0)
+      selectedDeliveryMan.status = "READY";
   }
 }

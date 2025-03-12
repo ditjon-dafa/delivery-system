@@ -769,7 +769,8 @@ function deliveryManSucceedDeliveringOrder(event) {
 
   deliveryMan.displayOrders();
 
-  deliveryMan.removeOrder(ORDER_ID);
+  const DELIVERY_MAN_ID = BTN.parentNode.parentNode.getAttribute("id");
+  deliveryMan.removeOrder(DELIVERY_MAN_ID, ORDER_ID);
 
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
@@ -808,7 +809,8 @@ function deliveryManFailDeliveringOrder(event) {
 
   deliveryMan.displayOrders();
 
-  deliveryMan.removeOrder(ORDER_ID);
+  const DELIVERY_MAN_ID = BTN.parentNode.parentNode.getAttribute("id");
+  deliveryMan.removeOrder(DELIVERY_MAN_ID, ORDER_ID);
 
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
