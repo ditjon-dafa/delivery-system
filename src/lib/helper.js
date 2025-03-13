@@ -343,7 +343,7 @@ export function generateDeliveryManDashboard(
 }
 
 export function generateDeliveryManOrder(deliveryManId, order) {
-  const BEGIN_ORDER_DIV = `<div class="order" id="${order.id}">`;
+  const BEGIN_ORDER_DIV = `<div class="order order-to-deliver" id="${order.id}">`;
   const ORDER_DETAILS = `
     
       <div class="business-staff-order-detail">
