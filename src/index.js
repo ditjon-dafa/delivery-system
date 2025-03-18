@@ -670,6 +670,14 @@ function packageChefOrder(event) {
   deliveryMan.orders.push(order);
   deliveryMan.displayOrders();
 
+  const unSelectedOrders = document.querySelectorAll(
+    ".delivery-men-staff-selected-orders > input"
+  );
+
+  unSelectedOrders.forEach((button) =>
+    button.addEventListener("click", chooseDeliveryManOrder)
+  );
+
   deliveryManDeliverOrderBtnsAct();
 
   deliveryManDeliverAllOrdersBtnAct();
@@ -723,6 +731,43 @@ function failChefOrder(event) {
       CHEF_ORDER.innerHTML = "";
     }, 3000);
   }
+}
+
+function chooseDeliveryManOrder(event) {
+  const BTN = event.currentTarget;
+  const ORDER_ID = BTN.value;
+  const ACTION = BTN.getAttribute("id");
+
+  switch (ACTION) {
+    case "+":
+      let order = deliveryMan.orders.find((order) => order.id == ORDER_ID);
+      order.status = "SELECTED";
+      deliveryMan.selectedOrders.push(order);
+      console.log("selected orders: ", deliveryMan.selectedOrders);
+      break;
+
+    case "x":
+      deliveryMan.removeSelectedOrder(ORDER_ID);
+      console.log("selected orders: ", deliveryMan.selectedOrders);
+      break;
+  }
+
+  deliveryMan.displayOrders();
+  const unSelectedOrders = document.querySelectorAll(
+    ".delivery-men-staff-selected-orders > input"
+  );
+
+  unSelectedOrders.forEach((button) =>
+    button.addEventListener("click", chooseDeliveryManOrder)
+  );
+
+  const selectedOrders = document.querySelectorAll(
+    ".delivery-men-staff-selected-orders > input:checked"
+  );
+
+  selectedOrders.forEach((button) =>
+    button.addEventListener("click", chooseDeliveryManOrder)
+  );
 }
 
 function deliveryManDeliverOrder(event) {

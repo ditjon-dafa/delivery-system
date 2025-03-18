@@ -344,6 +344,34 @@ export function generateDeliveryManDashboard(
 
 export function generateDeliveryManOrder(deliveryManId, order) {
   const BEGIN_ORDER_DIV = `<div class="order order-to-deliver" id="${order.id}">`;
+
+  let selectedOrder = ``;
+
+  if (order.status == "PACKAGED") {
+    selectedOrder = `
+    <div class="delivery-men-staff-selected-orders" >
+      <input
+            type="checkbox"
+            id="+"
+            name="selected-orders"   
+            value="${order.id}"           
+            />
+    </div>`;
+  } else if (order.status == "SELECTED") {
+    selectedOrder = `
+    <div class="delivery-men-staff-selected-orders" >
+      <input
+            type="checkbox"
+            id="x"
+            name="selected-orders"   
+            value="${order.id}"  
+            checked         
+            />
+      </div>`;
+  } else {
+    selectedOrder = `<div></div>`;
+  }
+
   const ORDER_DETAILS = `
     
       <div class="business-staff-order-detail">
@@ -431,6 +459,7 @@ export function generateDeliveryManOrder(deliveryManId, order) {
 
   return (
     BEGIN_ORDER_DIV +
+    selectedOrder +
     ORDER_DETAILS +
     deliveryManOrderStatus +
     cartItems +

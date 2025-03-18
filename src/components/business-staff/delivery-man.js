@@ -16,6 +16,7 @@ export class DeliveryMan {
   constructor() {
     this.staff = [];
     this.orders = [];
+    this.selectedOrders = [];
     this.deliveredOrders = 0;
     this.rejectedOrders = 0;
     this.tips = 0;
@@ -45,14 +46,15 @@ export class DeliveryMan {
       dynamicOrders += `</div>`;
     });
 
-    if (PACKAGED_ORDERS.length != 0) {
+    // if (PACKAGED_ORDERS.length != 0) {
+    // PACKAGED_ORDERS.forEach((order) => {
+    this.orders.forEach((order) => {
       dynamicOrders += `<div class="delivery-men-staff-orders">`;
-      dynamicOrders += `<div> <h4> Order(s) <span class="blue-font-color"> not assigned </span> yet! </h4> </div>`;
-      PACKAGED_ORDERS.forEach((order) => {
-        dynamicOrders += generateDeliveryManOrder(-1, order);
-      });
+      dynamicOrders += `<div> <h4> Order <span class="blue-font-color"> not assigned </span>! </h4> </div>`;
+      dynamicOrders += generateDeliveryManOrder(-1, order);
       dynamicOrders += `</div>`;
-    }
+    });
+    // }
 
     dynamicOrders += `</div>`;
 
@@ -114,5 +116,14 @@ export class DeliveryMan {
 
     if (selectedDeliveryMan.orders.length == 0)
       selectedDeliveryMan.status = "READY";
+  }
+
+  removeSelectedOrder(SELECTED_ORDER_ID) {
+    let order = this.orders.find((order) => order.id == SELECTED_ORDER_ID);
+    order.status = "PACKAGED";
+
+    this.selectedOrders = this.selectedOrders.filter(
+      (order) => order.id != SELECTED_ORDER_ID
+    );
   }
 }
