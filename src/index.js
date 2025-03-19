@@ -743,12 +743,10 @@ function chooseDeliveryManOrder(event) {
       let order = deliveryMan.orders.find((order) => order.id == ORDER_ID);
       order.status = "SELECTED";
       deliveryMan.selectedOrders.push(order);
-      console.log("selected orders: ", deliveryMan.selectedOrders);
       break;
 
     case "x":
       deliveryMan.removeSelectedOrder(ORDER_ID);
-      console.log("selected orders: ", deliveryMan.selectedOrders);
       break;
   }
 

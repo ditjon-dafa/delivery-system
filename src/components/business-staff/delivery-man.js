@@ -1,6 +1,7 @@
 import {
   generateDeliveryManOrder,
-  generateDeliveryManOrdersFooter,
+  generateDeliveryManOrdersBtn,
+  generateDeliveryManSelectedOrdersBtn,
 } from "../../lib/helper.js";
 
 export class DeliveryMenStaff {
@@ -41,25 +42,43 @@ export class DeliveryMan {
       dynamicOrders += `<div class="delivery-men-staff-orders">`;
       dynamicOrders += `<div> <h4> Order(s) <span class="blue-font-color"> assigned </span> to <span class="blue-font-color"> ${deliveryMan.name} </span>! </h4> </div>`;
       deliveryMan.orders.forEach((order) => {
-        dynamicOrders += generateDeliveryManOrder(deliveryMan.id, order);
+        dynamicOrders += generateDeliveryManOrder(
+          deliveryMan.id,
+          order,
+          this.selectedOrders
+        );
       });
       dynamicOrders += `</div>`;
     });
 
-    // if (PACKAGED_ORDERS.length != 0) {
-    // PACKAGED_ORDERS.forEach((order) => {
     this.orders.forEach((order) => {
-      dynamicOrders += `<div class="delivery-men-staff-orders">`;
-      dynamicOrders += `<div> <h4> Order <span class="blue-font-color"> not assigned </span>! </h4> </div>`;
-      dynamicOrders += generateDeliveryManOrder(-1, order);
-      dynamicOrders += `</div>`;
+      if (order.status == "PACKAGED") {
+        dynamicOrders += `<div class="delivery-men-staff-orders">`;
+        dynamicOrders += `<div> <h4> Order <span class="blue-font-color"> not assigned </span>! </h4> </div>`;
+        dynamicOrders += generateDeliveryManOrder(
+          0,
+          order,
+          this.selectedOrders
+        );
+        dynamicOrders += `</div>`;
+      } else if (order.status == "SELECTED") {
+        dynamicOrders += `<div class="delivery-men-staff-orders">`;
+        dynamicOrders += `<div> <h4 style="color: red;"> Order selected! </h4> </div>`;
+        dynamicOrders += generateDeliveryManOrder(
+          0,
+          order,
+          this.selectedOrders
+        );
+        dynamicOrders += `</div>`;
+      }
     });
-    // }
 
     dynamicOrders += `</div>`;
 
-    if (PACKAGED_ORDERS.length >= 2) {
-      dynamicOrders += generateDeliveryManOrdersFooter();
+    if (this.selectedOrders.length == 0 && PACKAGED_ORDERS.length >= 2) {
+      dynamicOrders += generateDeliveryManOrdersBtn();
+    } else if (this.selectedOrders.length >= 1) {
+      dynamicOrders += generateDeliveryManSelectedOrdersBtn();
     }
 
     DELIVERY_MAN_ORDERS.innerHTML = dynamicOrders;

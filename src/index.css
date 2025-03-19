@@ -59,7 +59,7 @@ input[type="tel"] {
 
 .button,
 .success-button,
-.fail-button {
+.red-button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -73,7 +73,7 @@ input[type="tel"] {
   background-color: green;
 }
 
-.fail-button {
+.red-button {
   background-color: red;
 }
 
@@ -244,4 +244,8 @@ tbody tr:hover {
 
 .order-to-deliver {
   border: 1px solid rgb(240, 240, 240);
+}
+
+.order-selected {
+  border: 1px solid red;
 }

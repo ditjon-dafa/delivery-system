@@ -258,7 +258,7 @@ export function generateChefOrder(chefOrders, chefOrderPosition) {
     <div id="${chefOrders[chefOrderPosition].id}">
      <p style="color: ${color};"> ${chefOrders[chefOrderPosition].status} </p>
      <button class="success-button" id="package-chef-order"> Package </button>
-     <button class="fail-button" id="fail-chef-order"> Burned out </button>
+     <button class="red-button" id="fail-chef-order"> Burned out </button>
     </div>
     `;
   } else {
@@ -342,8 +342,15 @@ export function generateDeliveryManDashboard(
       `;
 }
 
-export function generateDeliveryManOrder(deliveryManId, order) {
-  const BEGIN_ORDER_DIV = `<div class="order order-to-deliver" id="${order.id}">`;
+export function generateDeliveryManOrder(deliveryManId, order, selectedOrders) {
+  let deliveringOrderClass = "";
+  if (order.status == "SELECTED") {
+    deliveringOrderClass = "order-selected";
+  } else {
+    deliveringOrderClass = "order-to-deliver";
+  }
+
+  const BEGIN_ORDER_DIV = `<div class="order ${deliveringOrderClass}" id="${order.id}">`;
 
   let selectedOrder = ``;
 
@@ -388,6 +395,8 @@ export function generateDeliveryManOrder(deliveryManId, order) {
 
   if (order.status == "PACKAGED" || order.status == "DELIVERED") {
     color = "green";
+  } else if (order.status == "SELECTED") {
+    color = "#007bff";
   } else if (order.status == "ON THE WAY") {
     color = "rgb(45, 166, 241)";
   } else if (order.status == "REJECTED") {
@@ -396,7 +405,7 @@ export function generateDeliveryManOrder(deliveryManId, order) {
 
   let deliveryManOrderStatus = ``;
 
-  if (order.status == "PACKAGED") {
+  if (selectedOrders == 0 && order.status == "PACKAGED") {
     deliveryManOrderStatus = `
       <div>
         <p style="color: ${color};"> ${order.status} </p>
@@ -410,7 +419,7 @@ export function generateDeliveryManOrder(deliveryManId, order) {
           <button class="success-button succeed-delivering-order"> Delivered </button>
         </div>
         <div>
-          <button class="fail-button fail-delivering-order"> Rejected </button>
+          <button class="red-button fail-delivering-order"> Rejected </button>
         </div>
       </div>`;
   } else {
@@ -479,7 +488,14 @@ function generateCartItem(item, articleNumber) {
   </tr>`;
 }
 
-export function generateDeliveryManOrdersFooter() {
+export function generateDeliveryManSelectedOrdersBtn() {
+  return `
+      <div>
+        <button class="red-button">Deliver selected orders </button>
+      </div>`;
+}
+
+export function generateDeliveryManOrdersBtn() {
   return `
       <div>
         <button id="deliver-orders" class="button">Deliver all orders </button>
