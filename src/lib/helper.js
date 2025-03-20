@@ -342,7 +342,12 @@ export function generateDeliveryManDashboard(
       `;
 }
 
-export function generateDeliveryManOrder(deliveryManId, order, selectedOrders) {
+export function generateDeliveryManOrder(
+  deliveryManId,
+  order,
+  PACKAGED_OR_SELECTED_ORDERS,
+  selectedOrders
+) {
   let deliveringOrderClass = "";
   if (order.status == "SELECTED") {
     deliveringOrderClass = "order-selected";
@@ -354,7 +359,7 @@ export function generateDeliveryManOrder(deliveryManId, order, selectedOrders) {
 
   let selectedOrder = ``;
 
-  if (order.status == "PACKAGED") {
+  if (PACKAGED_OR_SELECTED_ORDERS >= 3 && order.status == "PACKAGED") {
     selectedOrder = `
     <div class="delivery-men-staff-selected-orders" >
       <input
@@ -491,7 +496,7 @@ function generateCartItem(item, articleNumber) {
 export function generateDeliveryManSelectedOrdersBtn() {
   return `
       <div>
-        <button class="red-button">Deliver selected orders </button>
+        <button id="deliver-selected-orders" class="red-button">Deliver selected orders </button>
       </div>`;
 }
 

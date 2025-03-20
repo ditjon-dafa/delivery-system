@@ -29,6 +29,9 @@ export class DeliveryMan {
       (order) => order.status == "PACKAGED"
     );
 
+    const PACKAGED_OR_SELECTED_ORDERS =
+      PACKAGED_ORDERS.length + this.selectedOrders.length;
+
     const DELIVERY_MAN_ORDERS = document.getElementById("delivery-man-orders");
     DELIVERY_MAN_ORDERS.innerHTML = "";
 
@@ -45,6 +48,7 @@ export class DeliveryMan {
         dynamicOrders += generateDeliveryManOrder(
           deliveryMan.id,
           order,
+          PACKAGED_OR_SELECTED_ORDERS,
           this.selectedOrders
         );
       });
@@ -58,6 +62,7 @@ export class DeliveryMan {
         dynamicOrders += generateDeliveryManOrder(
           0,
           order,
+          PACKAGED_OR_SELECTED_ORDERS,
           this.selectedOrders
         );
         dynamicOrders += `</div>`;
@@ -67,6 +72,7 @@ export class DeliveryMan {
         dynamicOrders += generateDeliveryManOrder(
           0,
           order,
+          PACKAGED_OR_SELECTED_ORDERS,
           this.selectedOrders
         );
         dynamicOrders += `</div>`;
@@ -94,6 +100,19 @@ export class DeliveryMan {
     orderToDeliver.status = "ON THE WAY";
 
     selectedDeliveryMan.orders.push(orderToDeliver);
+  }
+
+  deliverSelectedOrders(DELIVERY_MAN_ID) {
+    let selectedDeliveryMan = this.staff.find(
+      (deliveryMan) => deliveryMan.id == DELIVERY_MAN_ID
+    );
+    selectedDeliveryMan.status = "ON THE WAY";
+
+    this.selectedOrders.forEach((order) => {
+      order.status = "ON THE WAY";
+      selectedDeliveryMan.orders.push(order);
+    });
+    this.selectedOrders = [];
   }
 
   deliverAllOrders(DELIVERY_MAN_ID) {

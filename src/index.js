@@ -116,7 +116,7 @@ function deliveryManDeliverAllOrdersBtnAct() {
   }
 }
 
-function getIdOfDeliveryManWithAssignedOrder() {
+function getIdOfDeliveryManWithAssignedOrders() {
   let selectedDeliveryManId = -1;
 
   if (deliveryMan.staff.length == 0) {
@@ -670,14 +670,19 @@ function packageChefOrder(event) {
   deliveryMan.orders.push(order);
   deliveryMan.displayOrders();
 
-  const unSelectedOrders = document.querySelectorAll(
-    ".delivery-men-staff-selected-orders > input"
+  const PACKAGED_ORDERS = deliveryMan.orders.filter(
+    (order) => order.status == "PACKAGED"
   );
 
-  unSelectedOrders.forEach((button) =>
-    button.addEventListener("click", chooseDeliveryManOrder)
-  );
+  if (PACKAGED_ORDERS.length >= 3) {
+    const UN_SELECTED_ORDERS = document.querySelectorAll(
+      ".delivery-men-staff-selected-orders > input"
+    );
 
+    UN_SELECTED_ORDERS.forEach((button) =>
+      button.addEventListener("click", chooseDeliveryManOrder)
+    );
+  }
   deliveryManDeliverOrderBtnsAct();
 
   deliveryManDeliverAllOrdersBtnAct();
@@ -751,21 +756,38 @@ function chooseDeliveryManOrder(event) {
   }
 
   deliveryMan.displayOrders();
-  const unSelectedOrders = document.querySelectorAll(
-    ".delivery-men-staff-selected-orders > input"
+
+  if (deliveryMan.selectedOrders.length >= 1) {
+    const BTN_DELIVER_SELECTED_ORDERS = document.getElementById(
+      "deliver-selected-orders"
+    );
+    BTN_DELIVER_SELECTED_ORDERS.addEventListener(
+      "click",
+      deliveryManDeliverSelectedOrders
+    );
+
+    const SELECTED_ORDERS = document.querySelectorAll(
+      ".delivery-men-staff-selected-orders > input:checked"
+    );
+
+    SELECTED_ORDERS.forEach((button) =>
+      button.addEventListener("click", chooseDeliveryManOrder)
+    );
+  }
+
+  const PACKAGED_ORDERS = deliveryMan.orders.filter(
+    (order) => order.status == "PACKAGED"
   );
 
-  unSelectedOrders.forEach((button) =>
-    button.addEventListener("click", chooseDeliveryManOrder)
-  );
+  if (PACKAGED_ORDERS.length + deliveryMan.selectedOrders.length >= 3) {
+    const UN_SELECTED_ORDERS = document.querySelectorAll(
+      ".delivery-men-staff-selected-orders > input"
+    );
 
-  const selectedOrders = document.querySelectorAll(
-    ".delivery-men-staff-selected-orders > input:checked"
-  );
-
-  selectedOrders.forEach((button) =>
-    button.addEventListener("click", chooseDeliveryManOrder)
-  );
+    UN_SELECTED_ORDERS.forEach((button) =>
+      button.addEventListener("click", chooseDeliveryManOrder)
+    );
+  }
 }
 
 function deliveryManDeliverOrder(event) {
@@ -773,7 +795,7 @@ function deliveryManDeliverOrder(event) {
 
   const ORDER_ID = BTN.parentNode.parentNode.getAttribute("id");
 
-  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrder();
+  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrders();
 
   deliveryMan.deliverOrder(DELIVERY_MAN_ID, ORDER_ID);
 
@@ -787,8 +809,33 @@ function deliveryManDeliverOrder(event) {
     deliveryManDeliverOrderBtnsAct();
 }
 
+function deliveryManDeliverSelectedOrders() {
+  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrders();
+  deliveryMan.deliverSelectedOrders(DELIVERY_MAN_ID);
+
+  deliveryMan.displayOrders();
+
+  deliveryManOnTheWayBtnsAct();
+
+  if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
+    deliveryManDeliverOrderBtnsAct();
+  }
+
+  deliveryManDeliverAllOrdersBtnAct();
+
+  if (PACKAGED_ORDERS.length >= 3) {
+    const UN_SELECTED_ORDERS = document.querySelectorAll(
+      ".delivery-men-staff-selected-orders > input"
+    );
+
+    UN_SELECTED_ORDERS.forEach((button) =>
+      button.addEventListener("click", chooseDeliveryManOrder)
+    );
+  }
+}
+
 function deliveryManDeliverAllOrders() {
-  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrder();
+  const DELIVERY_MAN_ID = getIdOfDeliveryManWithAssignedOrders();
   deliveryMan.deliverAllOrders(DELIVERY_MAN_ID);
 
   deliveryMan.displayOrders();
