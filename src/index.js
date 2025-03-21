@@ -98,21 +98,51 @@ function currentChefOrderBtnsAct() {
   BTN_NEXT_CHEF_ORDER.addEventListener("click", goToNextChefOrder);
 }
 
-function deliveryManDeliverOrderBtnsAct() {
-  const BTNS_DELIVER_ORDER = document.querySelectorAll(".deliver-order");
-  BTNS_DELIVER_ORDER.forEach((button) => {
-    button.addEventListener("click", deliveryManDeliverOrder);
-  });
-}
-
-function deliveryManDeliverAllOrdersBtnAct() {
+function deliveryManDeliver() {
   const PACKAGED_ORDERS = deliveryMan.orders.filter(
     (order) => order.status == "PACKAGED"
   );
 
+  if (PACKAGED_ORDERS.length >= 1) {
+    const BTNS_DELIVER_ORDER = document.querySelectorAll(".deliver-order");
+    BTNS_DELIVER_ORDER.forEach((button) => {
+      button.addEventListener("click", deliveryManDeliverOrder);
+    });
+  }
+
+  if (PACKAGED_ORDERS.length >= 3) {
+    const UN_SELECTED_ORDERS = document.querySelectorAll(
+      ".delivery-men-staff-selected-orders > input"
+    );
+
+    UN_SELECTED_ORDERS.forEach((button) =>
+      button.addEventListener("click", chooseDeliveryManOrder)
+    );
+  }
+
   if (PACKAGED_ORDERS.length >= 2) {
     const BTN_DELIVER_ORDERS = document.getElementById("deliver-orders");
     BTN_DELIVER_ORDERS.addEventListener("click", deliveryManDeliverAllOrders);
+  }
+
+  deliveryManOnTheWayBtnsAct();
+}
+
+function deliveryManOnTheWayBtnsAct() {
+  if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
+    const BTNS_SUCCEED_DELIVERING_ORDER = document.querySelectorAll(
+      ".succeed-delivering-order"
+    );
+    BTNS_SUCCEED_DELIVERING_ORDER.forEach((button) => {
+      button.addEventListener("click", deliveryManSucceedDeliveringOrder);
+    });
+
+    const BTNS_FAIL_DELIVERING_ORDER = document.querySelectorAll(
+      ".fail-delivering-order"
+    );
+    BTNS_FAIL_DELIVERING_ORDER.forEach((button) => {
+      button.addEventListener("click", deliveryManFailDeliveringOrder);
+    });
   }
 }
 
@@ -167,22 +197,6 @@ function getIdOfDeliveryManWithAssignedOrders() {
   }
 
   return selectedDeliveryManId;
-}
-
-function deliveryManOnTheWayBtnsAct() {
-  const BTNS_SUCCEED_DELIVERING_ORDER = document.querySelectorAll(
-    ".succeed-delivering-order"
-  );
-  BTNS_SUCCEED_DELIVERING_ORDER.forEach((button) => {
-    button.addEventListener("click", deliveryManSucceedDeliveringOrder);
-  });
-
-  const BTNS_FAIL_DELIVERING_ORDER = document.querySelectorAll(
-    ".fail-delivering-order"
-  );
-  BTNS_FAIL_DELIVERING_ORDER.forEach((button) => {
-    button.addEventListener("click", deliveryManFailDeliveringOrder);
-  });
 }
 
 const TAB_LINKS = document.getElementsByClassName("tab-links");
@@ -670,26 +684,7 @@ function packageChefOrder(event) {
   deliveryMan.orders.push(order);
   deliveryMan.displayOrders();
 
-  const PACKAGED_ORDERS = deliveryMan.orders.filter(
-    (order) => order.status == "PACKAGED"
-  );
-
-  if (PACKAGED_ORDERS.length >= 3) {
-    const UN_SELECTED_ORDERS = document.querySelectorAll(
-      ".delivery-men-staff-selected-orders > input"
-    );
-
-    UN_SELECTED_ORDERS.forEach((button) =>
-      button.addEventListener("click", chooseDeliveryManOrder)
-    );
-  }
-  deliveryManDeliverOrderBtnsAct();
-
-  deliveryManDeliverAllOrdersBtnAct();
-
-  if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
-    deliveryManOnTheWayBtnsAct();
-  }
+  deliveryManDeliver();
 
   if (chef.orders.length >= 1) {
     setTimeout(function () {
@@ -801,12 +796,7 @@ function deliveryManDeliverOrder(event) {
 
   deliveryMan.displayOrders();
 
-  deliveryManOnTheWayBtnsAct();
-
-  deliveryManDeliverAllOrdersBtnAct();
-
-  if (deliveryMan.orders.some((order) => order.status == "PACKAGED"))
-    deliveryManDeliverOrderBtnsAct();
+  deliveryManDeliver();
 }
 
 function deliveryManDeliverSelectedOrders() {
@@ -814,24 +804,7 @@ function deliveryManDeliverSelectedOrders() {
   deliveryMan.deliverSelectedOrders(DELIVERY_MAN_ID);
 
   deliveryMan.displayOrders();
-
-  deliveryManOnTheWayBtnsAct();
-
-  if (deliveryMan.orders.some((order) => order.status == "PACKAGED")) {
-    deliveryManDeliverOrderBtnsAct();
-  }
-
-  deliveryManDeliverAllOrdersBtnAct();
-
-  if (PACKAGED_ORDERS.length >= 3) {
-    const UN_SELECTED_ORDERS = document.querySelectorAll(
-      ".delivery-men-staff-selected-orders > input"
-    );
-
-    UN_SELECTED_ORDERS.forEach((button) =>
-      button.addEventListener("click", chooseDeliveryManOrder)
-    );
-  }
+  deliveryManDeliver();
 }
 
 function deliveryManDeliverAllOrders() {
@@ -865,15 +838,7 @@ function deliveryManSucceedDeliveringOrder(event) {
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
       deliveryMan.displayOrders();
-
-      deliveryManDeliverAllOrdersBtnAct();
-
-      if (deliveryMan.orders.some((order) => order.status == "PACKAGED"))
-        deliveryManDeliverOrderBtnsAct();
-
-      if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
-        deliveryManOnTheWayBtnsAct();
-      }
+      deliveryManDeliver();
     }, 3000);
   } else {
     setTimeout(function () {
@@ -905,15 +870,7 @@ function deliveryManFailDeliveringOrder(event) {
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
       deliveryMan.displayOrders();
-
-      deliveryManDeliverAllOrdersBtnAct();
-
-      if (deliveryMan.orders.some((order) => order.status == "PACKAGED"))
-        deliveryManDeliverOrderBtnsAct();
-
-      if (deliveryMan.orders.some((order) => order.status == "ON THE WAY")) {
-        deliveryManOnTheWayBtnsAct();
-      }
+      deliveryManDeliver();
     }, 3000);
   } else {
     setTimeout(function () {
