@@ -26,15 +26,32 @@ export function findMenuItem(MENU, ID) {
   return MENU.find((item) => item.id == ID);
 }
 
-export function generateCartButton(isShownCart, articlesQuantity) {
-  if (isShownCart === false)
+export function generateMyOrdersButton(isShownMenu, isShownCart) {
+  if (isShownMenu === false && isShownCart === false) {
     return `
-  <button id="cart-button" class="button">  Cart <span id="articles-quantity" >${articlesQuantity}</span></button>
-  `;
-  else
+            <button class="button"> Menu </button>
+            `;
+  } else {
     return `
-  <button id="cart-button" class="button">  Menu </button>
-  `;
+            <button class="button"> My Orders </button>
+            `;
+  }
+}
+
+export function generateCartButton(
+  isShownMenu,
+  isShownMyOrders,
+  articlesQuantity
+) {
+  if (isShownMenu === false && isShownMyOrders === false) {
+    return `
+            <button id="cart-button" class="button">  Menu </button>
+          `;
+  } else {
+    return `
+            <button id="cart-button" class="button">  Cart <span id="articles-quantity" >${articlesQuantity}</span></button>
+           `;
+  }
 }
 
 export function generateShoppingCart(shoppingCart) {

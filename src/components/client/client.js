@@ -13,5 +13,6 @@ export class Client {
     this.phoneNumber = phoneNumber;
     this.location = new Location(address, latitudePosition, longitudePosition);
     this.paymentMethod = paymentMethod;
+    this.orders = [];
   }
 }

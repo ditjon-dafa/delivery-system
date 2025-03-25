@@ -18,12 +18,15 @@ import {
   generateReceptionistDashboard,
   generateChefDashboard,
   generateDeliveryManDashboard,
+  generateMyOrdersButton,
 } from "./lib/helper.js";
 
 let client = null;
 
 let shoppingCart = new ShoppingCart();
 
+let isShownMenu = false;
+let isShownMyOrders = false;
 let isShownCart = false;
 
 let isFirstClickCartBtn = false;
@@ -74,10 +77,19 @@ function createOrUpdateDeliveryManDashboard() {
   );
 }
 
+function displayMyOrdersButton() {
+  const MY_ORDERS_BUTTON_DIV = document.getElementById("my-orders-button-div");
+  MY_ORDERS_BUTTON_DIV.innerHTML = generateMyOrdersButton(
+    isShownMenu,
+    isShownCart
+  );
+}
+
 function displayCartButton() {
   const CART_BUTTON_DIV = document.getElementById("cart-button-div");
   CART_BUTTON_DIV.innerHTML = generateCartButton(
-    isShownCart,
+    isShownMenu,
+    isShownMyOrders,
     shoppingCart.itemsQuantity
   );
 }
@@ -353,20 +365,21 @@ function registerClient() {
   const CLIENT_SESSION = document.getElementById("client-session");
   CLIENT_SESSION.classList.remove("hide");
 
-  const CLIENT_WELCOME = document.getElementById("client-welcome");
-  CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
-
-  displayCartButton();
-
-  const BTN_LOG_OUT = document.getElementById("log-out");
-  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
-
   displayMenu(MENU);
 
   const BUTTONS = document.querySelectorAll(".order-now");
   BUTTONS.forEach((button) => {
     button.addEventListener("click", orderNow);
   });
+
+  const CLIENT_WELCOME = document.getElementById("client-welcome");
+  CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
+
+  displayMyOrdersButton();
+  displayCartButton();
+
+  const BTN_LOG_OUT = document.getElementById("log-out");
+  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
 }
 
 function confirmLogOut() {
@@ -406,6 +419,8 @@ function displayMenu(MENU) {
   });
 
   MENU_CONTAINER.innerHTML = menuHTML;
+
+  isShownMenu = true;
 }
 
 function orderNow(event) {
@@ -783,6 +798,13 @@ function chooseDeliveryManOrder(event) {
       button.addEventListener("click", chooseDeliveryManOrder)
     );
   }
+
+  if (
+    deliveryMan.selectedOrders.length == 0 &&
+    (PACKAGED_ORDERS.length >= 1 ||
+      deliveryMan.orders.some((order) => order.status == "ON THE WAY"))
+  )
+    deliveryManDeliver();
 }
 
 function deliveryManDeliverOrder(event) {
