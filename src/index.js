@@ -79,24 +79,20 @@ function createOrUpdateDeliveryManDashboard() {
 
 function displayMyOrdersButton() {
   const MY_ORDERS_BUTTON_DIV = document.getElementById("my-orders-button-div");
-  MY_ORDERS_BUTTON_DIV.innerHTML = generateMyOrdersButton(
-    isShownMenu,
-    isShownCart
-  );
+  MY_ORDERS_BUTTON_DIV.innerHTML = generateMyOrdersButton(isShownMyOrders);
 }
 
 function displayCartButton() {
   const CART_BUTTON_DIV = document.getElementById("cart-button-div");
   CART_BUTTON_DIV.innerHTML = generateCartButton(
-    isShownMenu,
-    isShownMyOrders,
+    isShownCart,
     shoppingCart.itemsQuantity
   );
 }
 
 function showHideMenu() {
   const MENU_CONTAINER = document.getElementById("menu");
-  MENU_CONTAINER.classList.toggle("hide", isShownCart === true);
+  MENU_CONTAINER.classList.toggle("hide", isShownMenu === false);
 }
 
 function currentChefOrderBtnsAct() {
@@ -365,13 +361,6 @@ function registerClient() {
   const CLIENT_SESSION = document.getElementById("client-session");
   CLIENT_SESSION.classList.remove("hide");
 
-  displayMenu(MENU);
-
-  const BUTTONS = document.querySelectorAll(".order-now");
-  BUTTONS.forEach((button) => {
-    button.addEventListener("click", orderNow);
-  });
-
   const CLIENT_WELCOME = document.getElementById("client-welcome");
   CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
 
@@ -380,6 +369,13 @@ function registerClient() {
 
   const BTN_LOG_OUT = document.getElementById("log-out");
   BTN_LOG_OUT.addEventListener("click", confirmLogOut);
+
+  displayMenu(MENU);
+
+  const BUTTONS = document.querySelectorAll(".order-now");
+  BUTTONS.forEach((button) => {
+    button.addEventListener("click", orderNow);
+  });
 }
 
 function confirmLogOut() {
@@ -469,6 +465,7 @@ function cartBtnAct() {
 
   if (shoppingCart.items.length >= 1) {
     isShownCart = !isShownCart;
+    isShownMenu = !isShownMenu;
   }
 
   shoppingCartContainer.classList.toggle("hide", isShownCart === false);
@@ -527,6 +524,7 @@ function modifyItemQuantity(event) {
 
     isShownCart = false;
     displayCartButton();
+    isShownMenu = true;
     showHideMenu();
   } else {
     const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
@@ -583,6 +581,7 @@ function registerOrder() {
     isShownCart = false;
     isFirstClickCartBtn = false;
     displayCartButton();
+    isShownMenu = true;
     showHideMenu();
   }, 1000);
 }

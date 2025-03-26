@@ -26,8 +26,8 @@ export function findMenuItem(MENU, ID) {
   return MENU.find((item) => item.id == ID);
 }
 
-export function generateMyOrdersButton(isShownMenu, isShownCart) {
-  if (isShownMenu === false && isShownCart === false) {
+export function generateMyOrdersButton(isShownMyOrders) {
+  if (isShownMyOrders === true) {
     return `
             <button class="button"> Menu </button>
             `;
@@ -38,12 +38,8 @@ export function generateMyOrdersButton(isShownMenu, isShownCart) {
   }
 }
 
-export function generateCartButton(
-  isShownMenu,
-  isShownMyOrders,
-  articlesQuantity
-) {
-  if (isShownMenu === false && isShownMyOrders === false) {
+export function generateCartButton(isShownCart, articlesQuantity) {
+  if (isShownCart === true) {
     return `
             <button id="cart-button" class="button">  Menu </button>
           `;
