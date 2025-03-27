@@ -29,11 +29,11 @@ export function findMenuItem(MENU, ID) {
 export function generateMyOrdersButton(isShownMyOrders) {
   if (isShownMyOrders === true) {
     return `
-            <button class="button"> Menu </button>
+            <button id="client-orders" class="button"> Menu </button>
             `;
   } else {
     return `
-            <button class="button"> My Orders </button>
+            <button id="client-orders" class="button"> My Orders </button>
             `;
   }
 }

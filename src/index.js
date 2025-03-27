@@ -361,21 +361,21 @@ function registerClient() {
   const CLIENT_SESSION = document.getElementById("client-session");
   CLIENT_SESSION.classList.remove("hide");
 
-  const CLIENT_WELCOME = document.getElementById("client-welcome");
-  CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
-
-  displayMyOrdersButton();
-  displayCartButton();
-
-  const BTN_LOG_OUT = document.getElementById("log-out");
-  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
-
   displayMenu(MENU);
 
   const BUTTONS = document.querySelectorAll(".order-now");
   BUTTONS.forEach((button) => {
     button.addEventListener("click", orderNow);
   });
+
+  const CLIENT_WELCOME = document.getElementById("client-welcome");
+  CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
+
+  generateAndClickMyOrdersBtn();
+  displayCartButton();
+
+  const BTN_LOG_OUT = document.getElementById("log-out");
+  BTN_LOG_OUT.addEventListener("click", confirmLogOut);
 }
 
 function confirmLogOut() {
@@ -405,6 +405,7 @@ function logOut() {
 
   isShownCart = false;
   isFirstClickCartBtn = false;
+  isShownMenu = false;
 }
 
 function displayMenu(MENU) {
@@ -445,10 +446,19 @@ function generateAndClickCartBtn() {
 }
 
 function cartBtnAct() {
+  if (isShownMyOrders === false && shoppingCart.items.length >= 1) {
+    isShownCart = !isShownCart;
+    isShownMenu = !isShownMenu;
+  } else if (isShownMyOrders === true && shoppingCart.items.length >= 1) {
+    showHideMyOrders();
+    displayMyOrdersButton();
+    isShownCart = !isShownCart;
+  }
+
   let shoppingCartContainer = document.getElementById("shopping-cart");
   const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
 
-  if (isShownCart === false) {
+  if (isShownCart === true) {
     shoppingCartContainer.innerHTML = "";
     const DYNAMIC_PRODUCTS = generateShoppingCart(shoppingCart);
     shoppingCartContainer.innerHTML = DYNAMIC_PRODUCTS;
@@ -461,11 +471,6 @@ function cartBtnAct() {
       isFirstClickCartBtn = true;
     }
     itemBtnsAct();
-  }
-
-  if (shoppingCart.items.length >= 1) {
-    isShownCart = !isShownCart;
-    isShownMenu = !isShownMenu;
   }
 
   shoppingCartContainer.classList.toggle("hide", isShownCart === false);
@@ -584,6 +589,30 @@ function registerOrder() {
     isShownMenu = true;
     showHideMenu();
   }, 1000);
+}
+
+function generateAndClickMyOrdersBtn() {
+  displayMyOrdersButton();
+
+  const MY_ORDERS_BTN = document.getElementById("client-orders");
+  MY_ORDERS_BTN.addEventListener("click", myOrdersBtnAct);
+}
+
+function myOrdersBtnAct() {
+  isShownMenu = !isShownMenu;
+  showHideMenu();
+
+  showHideMyOrders();
+
+  generateAndClickMyOrdersBtn();
+}
+
+function showHideMyOrders() {
+  isShownMyOrders = !isShownMyOrders;
+  const CLIENT_ORDERS_CONTAINER = document.getElementById(
+    "client-orders-container"
+  );
+  CLIENT_ORDERS_CONTAINER.classList.toggle("hide", isShownMyOrders === false);
 }
 
 function proceedHighPriorityOrder(event) {
