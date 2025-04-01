@@ -371,7 +371,8 @@ function registerClient() {
   const CLIENT_WELCOME = document.getElementById("client-welcome");
   CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
 
-  generateAndClickMyOrdersBtn();
+  displayMyOrdersButton();
+  clickMyOrdersBtn();
   displayCartButton();
 
   const BTN_LOG_OUT = document.getElementById("log-out");
@@ -449,6 +450,7 @@ function cartBtnAct() {
   if (isShownMyOrders === false && shoppingCart.items.length >= 1) {
     isShownCart = !isShownCart;
     isShownMenu = !isShownMenu;
+    showHideMenu();
   } else if (isShownMyOrders === true && shoppingCart.items.length >= 1) {
     showHideMyOrders();
     displayMyOrdersButton();
@@ -475,9 +477,9 @@ function cartBtnAct() {
 
   shoppingCartContainer.classList.toggle("hide", isShownCart === false);
   CHECKOUT_CONTAINER.classList.toggle("hide", isShownCart === false);
-  showHideMenu();
 
   generateAndClickCartBtn();
+  clickMyOrdersBtn();
 }
 
 function itemBtnsAct() {
@@ -591,20 +593,29 @@ function registerOrder() {
   }, 1000);
 }
 
-function generateAndClickMyOrdersBtn() {
-  displayMyOrdersButton();
-
+function clickMyOrdersBtn() {
   const MY_ORDERS_BTN = document.getElementById("client-orders");
   MY_ORDERS_BTN.addEventListener("click", myOrdersBtnAct);
 }
 
 function myOrdersBtnAct() {
-  isShownMenu = !isShownMenu;
-  showHideMenu();
+  if (isShownCart === true) {
+    isShownCart = !isShownCart;
 
+    const SHOPPING_CART_CONTAINER = document.getElementById("shopping-cart");
+    const CHECKOUT_CONTAINER = document.getElementById("checkout-container");
+    SHOPPING_CART_CONTAINER.classList.toggle("hide", isShownCart === false);
+    CHECKOUT_CONTAINER.classList.toggle("hide", isShownCart === false);
+
+    generateAndClickCartBtn();
+  } else {
+    isShownMenu = !isShownMenu;
+    showHideMenu();
+  }
   showHideMyOrders();
+  displayMyOrdersButton();
 
-  generateAndClickMyOrdersBtn();
+  clickMyOrdersBtn();
 }
 
 function showHideMyOrders() {
