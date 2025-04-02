@@ -369,7 +369,7 @@ function registerClient() {
   });
 
   const CLIENT_WELCOME = document.getElementById("client-welcome");
-  CLIENT_WELCOME.innerHTML = `Welcome, <b>${CLIENT_NAME}</b>`;
+  CLIENT_WELCOME.innerHTML = `<h3>Welcome, <span class="blue-font-color">${CLIENT_NAME}</span></h3>`;
 
   displayMyOrdersButton();
   clickMyOrdersBtn();
@@ -612,6 +612,7 @@ function myOrdersBtnAct() {
     isShownMenu = !isShownMenu;
     showHideMenu();
   }
+  client.displayOrders();
   showHideMyOrders();
   displayMyOrdersButton();
 
