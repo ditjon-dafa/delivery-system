@@ -215,11 +215,11 @@ tbody tr:hover {
   background-color: rgb(103, 199, 107);
 }
 
-.business-staff-order-item-quantity {
+.order-item-quantity {
   text-align: center;
 }
 
-.business-staff-order-detail p {
+.order-details p {
   text-align: left;
 }
 

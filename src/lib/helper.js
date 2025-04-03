@@ -38,6 +38,63 @@ export function generateMyOrdersButton(isShownMyOrders) {
   }
 }
 
+export function generateClientOrder(order) {
+  const ORDER_BEGIN = `<div class="order">`;
+
+  const ORDER_DETAILS = `
+  <div>
+    <p> Order id: ${order.id} </p>
+    <p> Order total: ${order.total.toFixed(2)} </p>
+  </div>
+   `;
+
+  const ORDER_STATUS = `<div> ${order.status}</div>`;
+
+  let cartItems = `
+  <div>
+  <table>
+		<thead>
+        <tr> 
+            <th> No. </th>
+            <th> Name </th> 
+            <th>Type</th>
+            <th> Unit price </th>
+            <th> Quantity </th>
+            <th> Total price </th>
+        </tr>
+      </thead>`;
+  cartItems += `<tbody>`;
+  let articleNumber = 1;
+  order.shoppingCart.items.forEach((item) => {
+    cartItems += generateCartItem(item, articleNumber);
+    articleNumber += 1;
+  });
+
+  cartItems += `</tbody>`;
+
+  const DELIVERY_MAN_TIP = order.shoppingCart.deliveryManTipTotal.toFixed(2);
+  const TRANSPORT_FEE = order.shoppingCart.transportFee;
+  cartItems += `<tfoot>
+                  <tr>
+                    <td colspan="4"> <b> Delivery man tip (7%): </b> $${DELIVERY_MAN_TIP} </td>
+                    <td colspan= "2"> <b> Transport fee: </b> $${TRANSPORT_FEE}</td>
+                </tfoot> `;
+  cartItems += `</table></div>`;
+
+  const BTN_REMOVE_ORDER = `<div> <button> Remove order </button></div>`;
+
+  const ORDER_END = `</div>`;
+
+  return (
+    ORDER_BEGIN +
+    ORDER_DETAILS +
+    ORDER_STATUS +
+    cartItems +
+    BTN_REMOVE_ORDER +
+    ORDER_END
+  );
+}
+
 export function generateCartButton(isShownCart, articlesQuantity) {
   if (isShownCart === true) {
     return `
@@ -138,7 +195,7 @@ export function generateReceptionistOrder(order) {
   `;
 
   const ORDER_DETAILS = `
-  <div class="business-staff-order-detail">
+  <div class="order-details">
     <p>  <b> Order id: </b> ${order.id} </p>
     <p>  <b> Order total:</b> $${order.total.toFixed(2)} </p>
     <p>  <b> Client name:</b> ${order.clientName} </p>
@@ -176,12 +233,12 @@ export function generateReceptionistOrder(order) {
                 </tfoot> `;
   cartItems += `</table></div>`;
 
+  const ORDER_END = `</div>`;
+
   const ALERT_ORDER = `
                 <div id="receptionist-order-${order.id}-alert" class="alert-pending hide" style="margin: 0 16px;">
                   <p> Order is queued up to be prepared! </p>
                 </div>`;
-
-  const ORDER_END = `</div>`;
 
   return (
     ORDER_BEGIN +
@@ -332,7 +389,7 @@ function generateChefOrderItem(item, articleNumber) {
             <td> ${articleNumber} </td>
             <td> ${item.name} </td>
             <td> ${item.type} </td>
-            <td class="business-staff-order-item-quantity"> ${item.quantity} </td>
+            <td class="order-item-quantity"> ${item.quantity} </td>
           </tr>`;
 }
 
@@ -399,7 +456,7 @@ export function generateDeliveryManOrder(
 
   const ORDER_DETAILS = `
     
-      <div class="business-staff-order-detail">
+      <div class="order-details">
         <p> <b> Order id: </b> ${order.id} </p>
         <p> <b> Order total: </b> $${order.total.toFixed(2)} </p>
         <p> <b> Client name: </b> ${order.clientName} </p>
@@ -501,7 +558,7 @@ function generateCartItem(item, articleNumber) {
       <td> ${item.name} </td> 
       <td> ${item.type} </td>
       <td> $${item.price.toFixed(2)} </td>
-      <td class="business-staff-order-item-quantity"> ${item.quantity} </td>
+      <td class="order-item-quantity"> ${item.quantity} </td>
       <td>$${item.total.toFixed(2)}  </td>
   </tr>`;
 }
