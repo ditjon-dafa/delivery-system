@@ -570,6 +570,7 @@ function registerOrder() {
   );
 
   receptionist.registerNewOrder(order);
+  client.addSentOrderToMyOrders(order);
   receptionist.displayOrders();
 
   const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(

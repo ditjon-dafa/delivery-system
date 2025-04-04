@@ -42,9 +42,9 @@ export function generateClientOrder(order) {
   const ORDER_BEGIN = `<div class="order">`;
 
   const ORDER_DETAILS = `
-  <div>
-    <p> Order id: ${order.id} </p>
-    <p> Order total: ${order.total.toFixed(2)} </p>
+  <div class="order-details">
+    <p> <b> Order id: </b> ${order.id} </p>
+    <p> <b> Order total: </b> $${order.total.toFixed(2)} </p>
   </div>
    `;
 
