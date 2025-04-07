@@ -48,7 +48,23 @@ export function generateClientOrder(order) {
   </div>
    `;
 
-  const ORDER_STATUS = `<div> ${order.status}</div>`;
+  let color = "";
+
+  if (
+    order.status == "RECEIVED" ||
+    order.status == "PACKAGED" ||
+    order.status == "DELIVERED"
+  ) {
+    color = "green";
+  } else if (order.status == "PENDING" || order.status == "ON THE WAY") {
+    color = "rgb(45, 166, 241)";
+  } else if (order.status == "PREPARING") {
+    color = "orange";
+  } else {
+    color = "red";
+  }
+
+  const ORDER_STATUS = `<div style="color: ${color};"> ${order.status}</div>`;
 
   let cartItems = `
   <div>
@@ -81,7 +97,14 @@ export function generateClientOrder(order) {
                 </tfoot> `;
   cartItems += `</table></div>`;
 
-  const BTN_REMOVE_ORDER = `<div> <button> Remove order </button></div>`;
+  let btnRemoveOrder = ``;
+  if (
+    order.status == "BURNED OUT" ||
+    order.status == "DELIVERED" ||
+    order.status == "REJECTED"
+  )
+    btnRemoveOrder = `<div> <button class="red-button"> Remove order </button></div>`;
+  else btnRemoveOrder = `<div></div>`;
 
   const ORDER_END = `</div>`;
 
@@ -90,7 +113,7 @@ export function generateClientOrder(order) {
     ORDER_DETAILS +
     ORDER_STATUS +
     cartItems +
-    BTN_REMOVE_ORDER +
+    btnRemoveOrder +
     ORDER_END
   );
 }
