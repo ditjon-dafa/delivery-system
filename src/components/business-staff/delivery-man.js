@@ -140,6 +140,8 @@ export class DeliveryMan {
   failDeliveringOrder(ORDER_ID) {
     let order = this.orders.find((order) => order.id == ORDER_ID);
     order.status = "REJECTED";
+
+    return order;
   }
 
   removeOrder(DELIVERY_MAN_ID, ORDER_ID) {

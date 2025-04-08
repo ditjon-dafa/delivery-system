@@ -570,7 +570,7 @@ function registerOrder() {
   );
 
   receptionist.registerNewOrder(order);
-  client.addSentOrderToMyOrders(order);
+  client.addSentOrderToOnProcessOrders(order);
   receptionist.displayOrders();
 
   const BTNS_HIGH_PRIORITY_ORDER = document.querySelectorAll(
@@ -614,10 +614,37 @@ function myOrdersBtnAct() {
     showHideMenu();
   }
   client.displayOrders();
+
+  if (client.finishedOrders.length >= 1) {
+    const BTNS_CLIENT_FINISHED_ORDER = document.querySelectorAll(
+      ".remove-client-order"
+    );
+    BTNS_CLIENT_FINISHED_ORDER.forEach((button) => {
+      button.addEventListener("click", removeClientFinishedOrder);
+    });
+  }
   showHideMyOrders();
   displayMyOrdersButton();
 
   clickMyOrdersBtn();
+}
+
+function removeClientFinishedOrder(event) {
+  const BTN = event.currentTarget;
+
+  const ORDER_ID = BTN.parentNode.getAttribute("id");
+
+  client.removeFinishedOrder(ORDER_ID);
+
+  client.displayOrders();
+  if (client.finishedOrders.length >= 1) {
+    const BTNS_CLIENT_FINISHED_ORDER = document.querySelectorAll(
+      ".remove-client-order"
+    );
+    BTNS_CLIENT_FINISHED_ORDER.forEach((button) => {
+      button.addEventListener("click", removeClientFinishedOrder);
+    });
+  }
 }
 
 function showHideMyOrders() {
@@ -774,6 +801,8 @@ function failChefOrder(event) {
   chef.displayOrders(chef.orders, 0);
   chef.removeOrder(order);
 
+  client.moveOnProcessOrderToFinishedOrders(order);
+
   if (chef.orders.length >= 1) {
     setTimeout(function () {
       chef.prepareOrder(chef.orders[0]);
@@ -898,6 +927,8 @@ function deliveryManSucceedDeliveringOrder(event) {
   const DELIVERY_MAN_ID = BTN.parentNode.parentNode.getAttribute("id");
   deliveryMan.removeOrder(DELIVERY_MAN_ID, ORDER_ID);
 
+  client.moveOnProcessOrderToFinishedOrders(order);
+
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
       deliveryMan.displayOrders();
@@ -918,7 +949,7 @@ function deliveryManFailDeliveringOrder(event) {
 
   const ORDER_ID = BTN.parentNode.parentNode.parentNode.getAttribute("id");
 
-  deliveryMan.failDeliveringOrder(ORDER_ID);
+  let order = deliveryMan.failDeliveringOrder(ORDER_ID);
   deliveryMan.rejectedOrders += 1;
   createOrUpdateDeliveryManDashboard();
 
@@ -930,6 +961,7 @@ function deliveryManFailDeliveringOrder(event) {
   const DELIVERY_MAN_ID = BTN.parentNode.parentNode.getAttribute("id");
   deliveryMan.removeOrder(DELIVERY_MAN_ID, ORDER_ID);
 
+  client.moveOnProcessOrderToFinishedOrders(order);
   if (deliveryMan.orders.length >= 1) {
     setTimeout(function () {
       deliveryMan.displayOrders();
