@@ -39,7 +39,15 @@ export function generateMyOrdersButton(isShownMyOrders) {
 }
 
 export function generateClientOrder(order) {
-  const ORDER_BEGIN = `<div class="order">`;
+  let orderToRemoveStyle = "";
+  if (
+    order.status == "BURNED OUT" ||
+    order.status == "DELIVERED" ||
+    order.status == "REJECTED"
+  )
+    orderToRemoveStyle = "client-order-to-remove";
+
+  const ORDER_BEGIN = `<div class="order ${orderToRemoveStyle}">`;
 
   const ORDER_DETAILS = `
   <div class="order-details">

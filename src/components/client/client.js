@@ -35,6 +35,9 @@ export class Client {
         dynamicOrders += `</div>`;
       }
 
+      if (this.finishedOrders.length >= 1 && this.onProcessOrders.length >= 1)
+        dynamicOrders += `<hr/>`;
+
       if (this.onProcessOrders.length > 0) {
         dynamicOrders += `<div> <h3> On process orders </h3>`;
         this.onProcessOrders.forEach((order) => {

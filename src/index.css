@@ -104,6 +104,14 @@ input[type="tel"] {
   justify-content: space-between;
 }
 
+.client-order-to-remove:hover {
+  border: 1px solid red;
+}
+
+hr {
+  border: 1px solid #007bff;
+  margin: 32px 16px;
+}
 #cart-button-div {
   margin: 0 16px;
 }
