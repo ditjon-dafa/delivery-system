@@ -1,4 +1,7 @@
-import { generateClientOrder } from "../../lib/helper.js";
+import {
+  generateClearClientFinishedOrders,
+  generateClientOrder,
+} from "../../lib/helper.js";
 import { Location } from "./location.js";
 
 export class Client {
@@ -35,6 +38,10 @@ export class Client {
         dynamicOrders += `</div>`;
       }
 
+      if (this.finishedOrders.length >= 2) {
+        dynamicOrders += generateClearClientFinishedOrders();
+      }
+
       if (this.finishedOrders.length >= 1 && this.onProcessOrders.length >= 1)
         dynamicOrders += `<hr/>`;
 
@@ -65,5 +72,9 @@ export class Client {
     this.finishedOrders = this.finishedOrders.filter(
       (order) => order.id != ORDER_ID
     );
+  }
+
+  clearClientFinishedOrders() {
+    this.finishedOrders = [];
   }
 }

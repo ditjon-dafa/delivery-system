@@ -82,6 +82,28 @@ function displayMyOrdersButton() {
   MY_ORDERS_BUTTON_DIV.innerHTML = generateMyOrdersButton(isShownMyOrders);
 }
 
+function clientManageFinishedOrders() {
+  if (client.finishedOrders.length >= 1) {
+    const BTNS_CLIENT_FINISHED_ORDER = document.querySelectorAll(
+      ".remove-client-order"
+    );
+    BTNS_CLIENT_FINISHED_ORDER.forEach((button) => {
+      button.addEventListener("click", removeClientFinishedOrder);
+    });
+  }
+
+  if (client.finishedOrders.length >= 2) {
+    const BTN_REMOVE_CLIENT_FINISHED_ORDERS = document.getElementById(
+      "clear-client-finished-orders"
+    );
+
+    BTN_REMOVE_CLIENT_FINISHED_ORDERS.addEventListener(
+      "click",
+      confirmClearClientFinishedOrders
+    );
+  }
+}
+
 function displayCartButton() {
   const CART_BUTTON_DIV = document.getElementById("cart-button-div");
   CART_BUTTON_DIV.innerHTML = generateCartButton(
@@ -614,19 +636,20 @@ function myOrdersBtnAct() {
     showHideMenu();
   }
   client.displayOrders();
+  clientManageFinishedOrders();
 
-  if (client.finishedOrders.length >= 1) {
-    const BTNS_CLIENT_FINISHED_ORDER = document.querySelectorAll(
-      ".remove-client-order"
-    );
-    BTNS_CLIENT_FINISHED_ORDER.forEach((button) => {
-      button.addEventListener("click", removeClientFinishedOrder);
-    });
-  }
   showHideMyOrders();
   displayMyOrdersButton();
 
   clickMyOrdersBtn();
+}
+
+function showHideMyOrders() {
+  isShownMyOrders = !isShownMyOrders;
+  const CLIENT_ORDERS_CONTAINER = document.getElementById(
+    "client-orders-container"
+  );
+  CLIENT_ORDERS_CONTAINER.classList.toggle("hide", isShownMyOrders === false);
 }
 
 function removeClientFinishedOrder(event) {
@@ -637,22 +660,17 @@ function removeClientFinishedOrder(event) {
   client.removeFinishedOrder(ORDER_ID);
 
   client.displayOrders();
-  if (client.finishedOrders.length >= 1) {
-    const BTNS_CLIENT_FINISHED_ORDER = document.querySelectorAll(
-      ".remove-client-order"
-    );
-    BTNS_CLIENT_FINISHED_ORDER.forEach((button) => {
-      button.addEventListener("click", removeClientFinishedOrder);
-    });
-  }
+  clientManageFinishedOrders();
 }
 
-function showHideMyOrders() {
-  isShownMyOrders = !isShownMyOrders;
-  const CLIENT_ORDERS_CONTAINER = document.getElementById(
-    "client-orders-container"
-  );
-  CLIENT_ORDERS_CONTAINER.classList.toggle("hide", isShownMyOrders === false);
+function confirmClearClientFinishedOrders() {
+  if (confirm("Clear history of finished orders?") == true)
+    clearClientFinishedOrders();
+}
+
+function clearClientFinishedOrders() {
+  client.clearClientFinishedOrders();
+  client.displayOrders();
 }
 
 function proceedHighPriorityOrder(event) {

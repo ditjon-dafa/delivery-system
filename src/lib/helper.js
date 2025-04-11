@@ -126,6 +126,14 @@ export function generateClientOrder(order) {
   );
 }
 
+export function generateClearClientFinishedOrders() {
+  return `
+  <div>
+    <button id="clear-client-finished-orders" class="red-button"> Clear history </button>
+  </div>
+  `;
+}
+
 export function generateCartButton(isShownCart, articlesQuantity) {
   if (isShownCart === true) {
     return `
