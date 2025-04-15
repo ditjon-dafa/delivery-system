@@ -19,7 +19,7 @@ body {
   background-color: inherit;
   border: none;
   cursor: pointer;
-  padding: 14px 16px;
+  padding: 16px 16px;
   transition: 0.3s;
   font-size: 1em;
 }
@@ -33,7 +33,7 @@ body {
 }
 
 .tab-content {
-  padding: 6px 12px;
+  padding: 6px 0;
   border: 1px solid #ccc;
   border-top: none;
   background-color: rgb(221, 221, 221);
@@ -83,16 +83,17 @@ input[type="tel"] {
   justify-content: space-between;
   align-items: center;
   margin: 16px;
-  padding: 14px;
 }
 
 .dashboard {
+  padding: 0 8px;
   background-color: #f1f1f1;
 }
 
 .order {
+  padding: 16px 8px;
   border: 2px solid white;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .order div {
@@ -119,8 +120,8 @@ hr {
 #articles-quantity {
   background-color: white;
   color: #007bff;
-  padding: 0 0.15em;
-  border-radius: 0.75em;
+  padding: 0 3px;
+  border-radius: 12px;
 }
 
 table {
@@ -128,18 +129,18 @@ table {
 }
 
 tr:first-child th:first-child {
-  border-top-left-radius: 10px;
+  border-top-left-radius: 8px;
 }
 
 tr:first-child th:last-child {
-  border-top-right-radius: 10px;
+  border-top-right-radius: 8px;
 }
 tfoot tr:last-child td:first-child {
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 8px;
 }
 
 tfoot tr:last-child td:last-child {
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 8px;
 }
 
 th {
@@ -169,7 +170,7 @@ tfoot tr td {
 }
 
 tbody tr:hover {
-  background-color: rgb(158, 238, 158);
+  background-color: rgb(207, 241, 207);
 }
 
 .cart-item-quantity {
@@ -179,7 +180,7 @@ tbody tr:hover {
 .decrease-quantity,
 .increase-quantity,
 .remove-item {
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 .decrease-quantity:hover,
@@ -199,8 +200,8 @@ tbody tr:hover {
 
 .menu-item {
   border: 1px solid #ddd;
-  padding: 16px;
-  margin: 16px;
+  padding: 16px 0;
+  margin: 16px 0;
   background-color: #f9f9f9;
 }
 
@@ -236,11 +237,11 @@ tbody tr:hover {
 }
 
 .chef-order-tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 8px;
 }
 
 .chef-order-tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 8px;
 }
 
 .delivery-men-staff-orders {

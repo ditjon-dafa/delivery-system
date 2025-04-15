@@ -112,7 +112,7 @@ export function generateClientOrder(order) {
     order.status == "REJECTED"
   )
     btnRemoveOrder = `<div id="${order.id}"> <button class="red-button remove-client-order"> Remove order </button></div>`;
-  else btnRemoveOrder = `<div></div>`;
+  else btnRemoveOrder = ``;
 
   const ORDER_END = `</div>`;
 
