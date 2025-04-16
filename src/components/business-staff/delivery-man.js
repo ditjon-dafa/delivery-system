@@ -68,7 +68,7 @@ export class DeliveryMan {
         dynamicOrders += `</div>`;
       } else if (order.status == "SELECTED") {
         dynamicOrders += `<div class="delivery-men-staff-orders">`;
-        dynamicOrders += `<div> <h4 style="color: red;"> Order selected! </h4> </div>`;
+        dynamicOrders += `<div> <h4 class="red-font-color"> Order selected! </h4> </div>`;
         dynamicOrders += generateDeliveryManOrder(
           0,
           order,

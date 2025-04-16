@@ -12,7 +12,7 @@ export function generateMenuItem(item) {
           <h2>${item.name}</h2>
           <p>Type: ${item.type}</p>
           <p>Price: $${item.price.toFixed(2)}</p>
-          <button class="button order-now"> Order Now </button>
+          <button class="button button-margin-bottom order-now"> Order Now </button>
           
           <div id="alert-${item.id}" class="alert-success hide">
             <p> Product added to cart! </p>
@@ -203,7 +203,7 @@ export function generateShoppingCart(shoppingCart) {
 
 export function generateCheckout() {
   return `
-          <button id="checkout" class="button"> Checkout </button> 
+          <button id="checkout" class="button button-margin-bottom"> Checkout </button> 
           <div id="alert-order" class="alert-success hide">
             <p> Order successfully sent! </p>
           </div>  
@@ -217,8 +217,8 @@ export function generateReceptionistDashboard(
 ) {
   return `
     <div><h3>Receptionist</h3></div>
-    <div><p>Successfully processed orders: <span style="color: green;"> ${successfulOrders} </span> </p></div>
-    <div> <p>Failed  orders: <span style="color: red;" > ${failedOrders} </span> </p></div>
+    <div><p>Successfully processed orders: <span class="green-font-color"> ${successfulOrders} </span> </p></div>
+    <div> <p>Failed  orders: <span class="red-font-color" > ${failedOrders} </span> </p></div>
     <div><p>Cash desk status: <span class="blue-font-color"> $ ${cashDeskStatus.toFixed(
       2
     )} </span> </p></div>`;
@@ -229,7 +229,7 @@ export function generateReceptionistOrder(order) {
 
   const PRIORITY_ORDER = `
   <div>
-    <button class="button high-priority-order" style="background-color:red;"> Proceed now </button>
+    <button class="red-button high-priority-order" > Proceed now </button>
   </div>
   `;
 
@@ -292,7 +292,7 @@ export function generateReceptionistOrder(order) {
 export function generateReceptionistOrdersFooter() {
   return `
   <div>
-   <button id="proceed-orders" class="button">Proceed all orders </button>
+   <button id="proceed-orders" class="button button-margin-bottom">Proceed all orders </button>
   </div>
   
   <div id="receptionist-orders-alert" class="alert-pending hide" style="margin: 0 16px;">
@@ -304,8 +304,8 @@ export function generateReceptionistOrdersFooter() {
 export function generateChefDashboard(packagedOrders, failedOrders) {
   return `
     <div><h3>Chef</h3></div>
-    <div><p> Packaged orders: <span style="color:green;"> ${packagedOrders} </span> </p> </div>
-    <div><p> Failed orders: <span style="color:red;"> ${failedOrders} </span> </p> </div>
+    <div><p> Packaged orders: <span class="green-font-color"> ${packagedOrders} </span> </p> </div>
+    <div><p> Failed orders: <span class="red-font-color"> ${failedOrders} </span> </p> </div>
   `;
 }
 
@@ -440,8 +440,8 @@ export function generateDeliveryManDashboard(
 ) {
   return `
       <div> <h3> Delivery man </h3> </div>
-      <div> <p> Successfully delivered orders: <span style="color: green;"> ${deliveredOrders} </span> </p> </div>
-      <div> <p> Rejected orders: <span style="color: red;"> ${rejectedOrders} </span> </p> </div>
+      <div> <p> Successfully delivered orders: <span class="green-font-color"> ${deliveredOrders} </span> </p> </div>
+      <div> <p> Rejected orders: <span class="red-font-color"> ${rejectedOrders} </span> </p> </div>
       <div> <p> Tips: <span class="blue-font-color"> $${deliveryManTips.toFixed(
         2
       )} </span> </p> </div>
@@ -612,6 +612,6 @@ export function generateDeliveryManSelectedOrdersBtn() {
 export function generateDeliveryManOrdersBtn() {
   return `
       <div>
-        <button id="deliver-orders" class="button">Deliver all orders </button>
+        <button id="deliver-orders" class="button button-margin-bottom">Deliver all orders </button>
       </div>`;
 }
