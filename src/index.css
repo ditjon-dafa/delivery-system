@@ -58,6 +58,7 @@ input[type="tel"] {
 }
 
 .button,
+.hoverable-button,
 .success-button,
 .red-button {
   background-color: #007bff;
@@ -69,8 +70,8 @@ input[type="tel"] {
   border-radius: 4px;
 }
 
-.button-margin-bottom {
-  margin-bottom: 16px;
+.hoverable-button:hover {
+  background-color: #0056b3;
 }
 
 .success-button {
@@ -79,6 +80,10 @@ input[type="tel"] {
 
 .red-button {
   background-color: red;
+}
+
+.button-margin-bottom {
+  margin-bottom: 16px;
 }
 
 .dashboard,
@@ -115,8 +120,9 @@ input[type="tel"] {
 
 hr {
   border: 1px solid #007bff;
-  margin: 32px 16px;
+  margin: 16px 16px 32px;
 }
+
 #cart-button-div {
   margin: 0 16px;
 }

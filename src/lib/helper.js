@@ -12,7 +12,7 @@ export function generateMenuItem(item) {
           <h2>${item.name}</h2>
           <p>Type: ${item.type}</p>
           <p>Price: $${item.price.toFixed(2)}</p>
-          <button class="button button-margin-bottom order-now"> Order Now </button>
+          <button class="hoverable-button button-margin-bottom order-now"> Order Now </button>
           
           <div id="alert-${item.id}" class="alert-success hide">
             <p> Product added to cart! </p>
@@ -129,7 +129,7 @@ export function generateClientOrder(order) {
 export function generateClearClientFinishedOrders() {
   return `
   <div>
-    <button id="clear-client-finished-orders" class="red-button"> Clear history </button>
+    <button id="clear-client-finished-orders" class="red-button button-margin-bottom"> Clear history </button>
   </div>
   `;
 }
@@ -203,7 +203,7 @@ export function generateShoppingCart(shoppingCart) {
 
 export function generateCheckout() {
   return `
-          <button id="checkout" class="button button-margin-bottom"> Checkout </button> 
+          <button id="checkout" class="hoverable-button button-margin-bottom"> Checkout </button> 
           <div id="alert-order" class="alert-success hide">
             <p> Order successfully sent! </p>
           </div>  
@@ -292,7 +292,7 @@ export function generateReceptionistOrder(order) {
 export function generateReceptionistOrdersFooter() {
   return `
   <div>
-   <button id="proceed-orders" class="button button-margin-bottom">Proceed all orders </button>
+   <button id="proceed-orders" class="hoverable-button button-margin-bottom">Proceed all orders </button>
   </div>
   
   <div id="receptionist-orders-alert" class="alert-pending hide" style="margin: 0 16px;">
@@ -523,7 +523,7 @@ export function generateDeliveryManOrder(
     deliveryManOrderStatus = `
       <div>
         <p style="color: ${color};"> ${order.status} </p>
-        <button class="button deliver-order"> Deliver order </button>
+        <button class="hoverable-button deliver-order"> Deliver order </button>
       </div>`;
   } else if (order.status == "ON THE WAY") {
     deliveryManOrderStatus = `
@@ -605,13 +605,13 @@ function generateCartItem(item, articleNumber) {
 export function generateDeliveryManSelectedOrdersBtn() {
   return `
       <div>
-        <button id="deliver-selected-orders" class="red-button">Deliver selected orders </button>
+        <button id="deliver-selected-orders" class="red-button button-margin-bottom">Deliver selected orders </button>
       </div>`;
 }
 
 export function generateDeliveryManOrdersBtn() {
   return `
       <div>
-        <button id="deliver-orders" class="button button-margin-bottom">Deliver all orders </button>
+        <button id="deliver-orders" class="hoverable-button button-margin-bottom">Deliver all orders </button>
       </div>`;
 }

@@ -391,7 +391,7 @@ function registerClient() {
   });
 
   const CLIENT_WELCOME = document.getElementById("client-welcome");
-  CLIENT_WELCOME.innerHTML = `<h3>Welcome, <span class="blue-font-color">${CLIENT_NAME}</span></h3>`;
+  CLIENT_WELCOME.innerHTML = `<p style="font-size: 1.3em;">Welcome, <span class="blue-font-color">${CLIENT_NAME}</span>!</p>`;
 
   displayMyOrdersButton();
   clickMyOrdersBtn();
