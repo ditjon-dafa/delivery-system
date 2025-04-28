@@ -21,6 +21,9 @@ import {
   generateMyOrdersButton,
 } from "./lib/helper.js";
 
+let clientLatitudePosition = 100;
+let clientLongitudePosition = 200;
+
 let client = null;
 
 let shoppingCart = new ShoppingCart();
@@ -286,11 +289,8 @@ function showLocation() {
 }
 
 function showPosition(position) {
-  const LATITUDE_INPUT = document.getElementById("lat");
-  LATITUDE_INPUT.value = position.coords.latitude;
-
-  const LONGITUDE_INPUT = document.getElementById("long");
-  LONGITUDE_INPUT.value = position.coords.longitude;
+  clientLatitudePosition = position.coords.latitude;
+  clientLongitudePosition = position.coords.longitude;
 }
 
 function showError(error) {
@@ -319,8 +319,6 @@ function registerClient() {
   const CLIENT_PHONE_NUMBER = document.getElementById("phoneNumber").value;
 
   const CLIENT_ADDRESS = document.getElementById("address").value;
-  const CLIENT_LATITUDE_POSITION = document.getElementById("lat").value;
-  const CLIENT_LONGITUDE_POSITION = document.getElementById("long").value;
 
   const CLIENT_PAYMENT_METHOD = document.querySelector(
     "#paymentMethods > input:checked"
@@ -351,20 +349,8 @@ function registerClient() {
     return;
   }
 
-  if (!CLIENT_LATITUDE_POSITION) {
-    alert("Fill the input with latitude number !");
-    return;
-  }
-  if (isNaN(CLIENT_LATITUDE_POSITION)) {
-    alert("Incorrect Lattitude input !");
-    return;
-  }
-  if (!CLIENT_LONGITUDE_POSITION) {
-    alert("Fill the input with longtitude number !");
-    return;
-  }
-  if (isNaN(CLIENT_LONGITUDE_POSITION)) {
-    alert("Incorrect longtitude number !");
+  if (clientLatitudePosition == 100 && clientLongitudePosition == 200) {
+    alert("Please give location through clicking the button 'Give location'!");
     return;
   }
 
@@ -372,8 +358,8 @@ function registerClient() {
     CLIENT_NAME,
     CLIENT_PHONE_NUMBER,
     CLIENT_ADDRESS,
-    CLIENT_LATITUDE_POSITION,
-    CLIENT_LONGITUDE_POSITION,
+    clientLatitudePosition,
+    clientLongitudePosition,
     CLIENT_PAYMENT_METHOD
   );
 
