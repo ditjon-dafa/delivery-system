@@ -980,3 +980,18 @@ function deliveryManFailDeliveringOrder(event) {
     }, 3000);
   }
 }
+
+const SCROLL_ON_TOP_BTN = document.getElementById("scroll-on-top-btn");
+SCROLL_ON_TOP_BTN.addEventListener("click", scrollOnTop);
+
+window.onscroll = () => {
+  if (window.scrollY > 20) {
+    SCROLL_ON_TOP_BTN.style.display = "block";
+  } else {
+    SCROLL_ON_TOP_BTN.style.display = "none";
+  }
+};
+
+function scrollOnTop() {
+  window.scrollTo(0, 0);
+}
