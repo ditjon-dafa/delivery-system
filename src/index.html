@@ -85,7 +85,7 @@
 
         <div id="menu"></div>
 
-        <button type="button" id="scroll-on-top-btn">
+        <button type="button" id="scroll-on-top-btn" class="hide">
           <span> ^ </span>
         </button>
       </div>
@@ -94,6 +94,13 @@
     <div id="receptionist" class="tab-content">
       <div id="receptionist-dashboard" class="dashboard"></div>
       <div id="receptionist-orders"></div>
+      <button
+        type="button"
+        class="scroll-to-bottom-btns hide"
+        id="scroll-to-bottom-receptionist-btn"
+      >
+        <span> v </span>
+      </button>
     </div>
 
     <div id="chef" class="tab-content">
@@ -104,6 +111,13 @@
     <div id="delivery-man" class="tab-content">
       <div id="delivery-man-dashboard" class="dashboard"></div>
       <div id="delivery-man-orders"></div>
+      <button
+        type="button"
+        class="scroll-to-bottom-btns hide"
+        id="scroll-to-bottom-delivery-man-btn"
+      >
+        <span> v </span>
+      </button>
     </div>
     <script type="module" src="./index.js"></script>
   </body>

@@ -60,6 +60,7 @@ input[type="tel"] {
 .button,
 .hoverable-button,
 #scroll-on-top-btn,
+.scroll-to-bottom-btns,
 .success-button,
 .red-button {
   background-color: #007bff;
@@ -71,8 +72,8 @@ input[type="tel"] {
   border-radius: 4px;
 }
 
-#scroll-on-top-btn {
-  display: none;
+#scroll-on-top-btn,
+.scroll-to-bottom-btns {
   position: fixed;
   font-size: 1.6em;
   bottom: 15%;
@@ -80,9 +81,18 @@ input[type="tel"] {
   z-index: 1;
 }
 
+.scroll-to-bottom-btns {
+  font-size: 1.3em;
+}
+
 #scroll-on-top-btn span:hover {
   position: relative;
   top: -0.2em;
+}
+
+.scroll-to-bottom-btns span:hover {
+  position: relative;
+  top: 0.2em;
 }
 .hoverable-button:hover {
   background-color: #0056b3;

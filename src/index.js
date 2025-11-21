@@ -246,13 +246,75 @@ Array.from(TAB_LINKS).forEach((tab) => {
   const TAB_CONTENT = document.getElementById(tab.getAttribute("tab-name"));
   if (tab.getAttribute("tab-name") != "client") {
     TAB_CONTENT.classList.add("hide");
+  } else {
+    const SCROLL_ON_TOP_BTN = document.getElementById("scroll-on-top-btn");
+    windowScroll("scroll-on-top-btn");
+    SCROLL_ON_TOP_BTN.addEventListener("click", scrollOnTop);
   }
 });
 
 const TABS = document.querySelectorAll(".tab-links");
 TABS.forEach((tab) => {
+  if (tab.getAttribute("tab-name") != "chef") {
+    tab.addEventListener("click", displayScrollButton);
+  }
   tab.addEventListener("click", showTabContent);
 });
+
+function displayScrollButton(event) {
+  const ACTIVE_TAB_NAME = event.currentTarget.getAttribute("tab-name");
+
+  switch (ACTIVE_TAB_NAME) {
+    case "client":
+      const SCROLL_ON_TOP_BTN = document.getElementById("scroll-on-top-btn");
+      windowScroll("scroll-on-top-btn");
+      SCROLL_ON_TOP_BTN.addEventListener("click", scrollOnTop);
+      break;
+    case "receptionist":
+      const SCROLL_TO_BOTTOM_BTN_RECEPTIONIST = document.getElementById(
+        "scroll-to-bottom-receptionist-btn"
+      );
+      windowScroll("scroll-to-bottom-receptionist-btn");
+      SCROLL_TO_BOTTOM_BTN_RECEPTIONIST.addEventListener(
+        "click",
+        scrollToBottom
+      );
+      break;
+    case "delivery-man":
+      const SCROLL_TO_BOTTOM_BTN_DELIVERY_MAN = document.getElementById(
+        "scroll-to-bottom-delivery-man-btn"
+      );
+      windowScroll("scroll-to-bottom-delivery-man-btn");
+      SCROLL_TO_BOTTOM_BTN_DELIVERY_MAN.addEventListener(
+        "click",
+        scrollToBottom
+      );
+      break;
+  }
+}
+
+function windowScroll(BTN_ID) {
+  window.addEventListener("scroll", () => {
+    switch (BTN_ID) {
+      case "scroll-on-top-btn":
+      case "scroll-to-bottom-receptionist-btn":
+      case "scroll-to-bottom-delivery-man-btn":
+        document
+          .getElementById(BTN_ID)
+          .classList.toggle("hide", window.scrollY < 20);
+
+        break;
+    }
+  });
+}
+
+function scrollOnTop() {
+  window.scrollTo(0, 0);
+}
+
+function scrollToBottom() {
+  window.scrollTo(0, screen.availHeight);
+}
 
 function showTabContent(event) {
   const TAB_TO_DEACTIVATE = Array.from(TAB_LINKS).find((tab) =>
@@ -979,19 +1041,4 @@ function deliveryManFailDeliveringOrder(event) {
       DELIVERY_MAN_ORDERS.innerHTML = "";
     }, 3000);
   }
-}
-
-const SCROLL_ON_TOP_BTN = document.getElementById("scroll-on-top-btn");
-SCROLL_ON_TOP_BTN.addEventListener("click", scrollOnTop);
-
-window.onscroll = () => {
-  if (window.scrollY > 20) {
-    SCROLL_ON_TOP_BTN.style.display = "block";
-  } else {
-    SCROLL_ON_TOP_BTN.style.display = "none";
-  }
-};
-
-function scrollOnTop() {
-  window.scrollTo(0, 0);
 }
